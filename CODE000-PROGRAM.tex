@@ -13,11 +13,13 @@
 
 
 \theoremstyle{plain}
-\newtheorem{definition}{Definition}[section]
-\newtheorem{example}{Example}[section]
 \newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{postulate}[theorem]{Postulate}
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{lemma}[theorem]{Lemma}
+
+\newtheorem*{example}{Example}
 
 \theoremstyle{definition}
 \newtheorem*{solution}{Solution}
