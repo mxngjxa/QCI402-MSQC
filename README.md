@@ -1,2 +1,3 @@
-# CODE000-PROGRAM
-Notes for CODE000: FULL_COURSE_NAME from the DEGREE_LEVEL in DEGREE_NAME.
+# QCI402-MSQC
+Notes for # QCI402-QCI402: Mathmatical Foundations for Quantum
+Computing from the Master of Science in Quantum Computing.
