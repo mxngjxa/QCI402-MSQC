@@ -1,0 +1,566 @@
+\documentclass[12pt]{article}
+\usepackage[legalpaper, portrait, margin=0.75in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{physics}
+\usepackage{mathtools}
+\usepackage{braket}
+\usepackage{tikz}
+\usepackage{quantikz}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{quantikz}
+\usepackage{tabularx}
+
+
+% Page setup
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Quantum Computing LaTeX Quick Reference}
+\fancyhead[R]{\thepage}
+\setlength{\headheight}{14.5pt}
+
+% Title formatting
+\titleformat{\section}{\large\bfseries\color{blue!70!black}}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries\color{blue!50!black}}{\thesubsection}{1em}{}
+
+\title{\textbf{\Large Quantum Computing LaTeX Quick Reference}}
+\author{Quick Command Sheet for Quantum Computing Lecture Notes}
+\date{}
+
+% =============================================================================
+% QUANTUM STATE NOTATION
+% =============================================================================
+
+% Basic quantum states
+% \newcommand{\ket}{|#1\rangle}
+% \newcommand{\bra}{\langle#1|}
+% \newcommand{\braket}{\langle#1|#2\rangle}
+% \newcommand{\ketbra}{|#1\rangle\langle#2|}
+\newcommand{\expectation}[1]{\langle#1\rangle}
+
+\newcommand{\ketphi}{\ket{\phi}}
+\newcommand{\braphi}{\bra{\phi}}
+\newcommand{\ketpsi}{\ket{\psi}}
+\newcommand{\brapsi}{\bra{\psi]}}
+
+% Common quantum states
+\newcommand{\qzero}{\ket{0}}
+\newcommand{\qone}{\ket{1}}
+\newcommand{\qplus}{\ket{+}}
+\newcommand{\qminus}{\ket{-}}
+\newcommand{\qpsi}{\ket{\psi}}
+\newcommand{\qphi}{\ket{\phi}}
+\newcommand{\qchi}{\ket{\chi}}
+
+% Bell states
+\newcommand{\bellphi}{\ket{\Phi^+}}
+\newcommand{\bellphim}{\ket{\Phi^-}}
+\newcommand{\bellpsi}{\ket{\Psi^+}}
+\newcommand{\bellpsim}{\ket{\Psi^-}}
+
+% GHZ and W states
+\newcommand{\GHZ}{\ket{\text{GHZ}}}
+\newcommand{\Wstate}{\ket{\text{W}}}
+
+% =============================================================================
+% QUANTUM OPERATORS AND GATES
+% =============================================================================
+
+% Pauli matrices
+\newcommand{\sx}{\sigma_x}
+\newcommand{\sy}{\sigma_y}
+\newcommand{\sz}{\sigma_z}
+\newcommand{\si}{\sigma_0}
+\newcommand{\pauliX}{\sigma_X}
+\newcommand{\pauliY}{\sigma_Y}
+\newcommand{\pauliZ}{\sigma_Z}
+
+% Common quantum gates
+\newcommand{\hadamard}{H}
+\newcommand{\cnot}{\text{CNOT}}
+\newcommand{\ccnot}{\text{CCNOT}}
+\newcommand{\toffoli}{\text{Toffoli}}
+\newcommand{\fredkin}{\text{Fredkin}}
+% \newcommand{\swap}{\text{SWAP}}
+
+% Rotation gates
+\newcommand{\rx}[1]{R_x(#1)}
+\newcommand{\ry}[1]{R_y(#1)}
+\newcommand{\rz}[1]{R_z(#1)}
+\newcommand{\rn}[2]{R_{\hat{n}}(#1, #2)}
+
+% Phase gates
+\newcommand{\phaseS}{S}
+\newcommand{\phaseT}{T}
+\newcommand{\phaseP}[1]{P(#1)}
+
+% Measurement
+% \newcommand{\measure}{\mathcal{M}}
+% \newcommand{\proj}[1]{P_{#1}}
+\newcommand{\projzero}{\proj{0}}
+\newcommand{\projone}{\proj{1}}
+
+% =============================================================================
+% QUANTUM OPERATIONS AND PROCESSES
+% =============================================================================
+
+% Unitary operations
+\newcommand{\unitary}{\mathcal{U}}
+\newcommand{\unitarydagger}{\mathcal{U}^\dagger}
+
+% Quantum channels
+\newcommand{\channel}{\mathcal{E}}
+\newcommand{\noise}{\mathcal{N}}
+\newcommand{\depolar}{\mathcal{D}}
+\newcommand{\bitflip}{\mathcal{B}}
+\newcommand{\phaseflip}{\mathcal{P}}
+
+% Tensor products
+\newcommand{\tensor}{\otimes}
+% \newcommand{\bigotimes}{\bigotimes}
+
+% Trace operations
+% \newcommand{\tr}{\text{Tr}}
+\newcommand{\ptr}[1]{\text{Tr}_{#1}}
+
+% =============================================================================
+% QUANTUM INFORMATION MEASURES
+% =============================================================================
+
+% Entropies
+\newcommand{\entropy}[1]{H(#1)}
+\newcommand{\condentropy}[2]{H(#1|#2)}
+\newcommand{\mutualinfo}[2]{I(#1:#2)}
+\newcommand{\vonneumann}[1]{S(#1)}
+
+% Distances and fidelities
+\newcommand{\fidelity}[2]{F(#1, #2)}
+\newcommand{\tracedist}[2]{D(#1, #2)}
+
+% =============================================================================
+% QUANTUM ALGORITHMS
+% =============================================================================
+
+% Algorithm names
+\newcommand{\QFT}{\text{QFT}}
+\newcommand{\iQFT}{\text{QFT}^{-1}}
+\newcommand{\grover}{\text{Grover}}
+\newcommand{\shor}{\text{Shor}}
+
+% Oracle notation
+\newcommand{\oracle}{O}
+\newcommand{\oraclef}{O_f}
+\newcommand{\oracleg}{O_g}
+
+% Amplitudes
+\newcommand{\amp}[1]{\alpha_{#1}}
+\newcommand{\betamp}[1]{\beta_{#1}}
+
+% =============================================================================
+% QUANTUM ERROR CORRECTION
+% =============================================================================
+
+% Stabilizers
+\newcommand{\stab}{\mathcal{S}}
+\newcommand{\stabgen}{g}
+\newcommand{\syndrome}{s}
+
+% Error operators
+\newcommand{\error}{E}
+\newcommand{\errorX}{X}
+\newcommand{\errorY}{Y}
+\newcommand{\errorZ}{Z}
+
+% Code spaces
+\newcommand{\codespace}{\mathcal{C}}
+\newcommand{\codeword}{\ket{\overline{\psi}}}
+
+% =============================================================================
+% QUANTUM COMPLEXITY
+% =============================================================================
+
+% Complexity classes
+\newcommand{\BQP}{\text{BQP}}
+\newcommand{\QMA}{\text{QMA}}
+\newcommand{\QPSPACE}{\text{QPSPACE}}
+
+% =============================================================================
+% QUANTUM CIRCUITS AND DIAGRAMS
+% =============================================================================
+
+% Circuit elements (for use with quantikz)
+% \newcommand{\qw}{\qw}
+% \newcommand{\gate}[1]{\gate{#1}}
+% \newcommand{\ctrl}{\ctrl{1}}
+% \newcommand{\targ}{\targ{}}
+% \newcommand{\meter}{\meter{}}
+
+% =============================================================================
+% MATHEMATICAL UTILITIES
+% =============================================================================
+
+% Complex numbers
+\newcommand{\ii}{\mathrm{i}}
+% \newcommand{\real}{\text{Re}}
+\newcommand{\imag}{\text{Im}}
+\newcommand{\conj}[1]{#1^*}
+
+% Matrix operations
+% \newcommand{\rank}{\text{rank}}
+\newcommand{\nullspace}{\text{null}}
+\newcommand{\colspace}{\text{col}}
+\newcommand{\rowspace}{\text{row}}
+
+% Probability
+\newcommand{\prob}[1]{\text{Pr}[#1]}
+\newcommand{\expect}[1]{\mathbb{E}[#1]}
+% \newcommand{\var}[1]{\text{Var}[#1]}
+
+% Sets
+\newcommand{\hilbert}{\mathcal{H}}
+\newcommand{\density}{\mathcal{D}}
+\newcommand{\positive}{\mathcal{P}}
+
+% =============================================================================
+% QUANTUM PHYSICS NOTATION
+% =============================================================================
+
+% Time evolution
+\newcommand{\hamiltonian}{\mathcal{H}}
+\newcommand{\timeevol}[1]{e^{-\ii #1 t/\hbar}}
+% \newcommand{\hbar}{\hbar}
+
+% Angular momentum
+\newcommand{\angmom}{\mathbf{J}}
+\newcommand{\spin}{\mathbf{S}}
+\newcommand{\orbital}{\mathbf{L}}
+
+% Commutators and anticommutators
+% \newcommand{\comm}[2]{[#1, #2]}
+\newcommand{\anticomm}[2]{\{#1, #2\}}
+
+% =============================================================================
+% ENVIRONMENTS FOR QUANTUM COMPUTING
+% =============================================================================
+
+% Theorem-like environments (already defined in main template)
+% Additional quantum-specific environments
+\theoremstyle{definition}
+\newtheorem{algorithm}{Algorithm}[section]
+\newtheorem{protocol}{Protocol}[section]
+\newtheorem{circuit}{Circuit}[section]
+
+\theoremstyle{remark}
+\newtheorem{quantum-note}{Quantum Note}[section]
+\newtheorem{classical-note}{Classical Note}[section]
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+\begin{multicols}{2}
+
+\section{Basic Quantum State Notation}
+
+\subsection{State Vectors}
+\begin{alignat}{2}
+\text{Ket:}          &\quad && \ket{\psi} \text{ or } \qpsi \\
+\text{Bra:}          &\quad && \bra{\psi} \\
+\text{Braket:}       &\quad && \braket{\psi | \phi} \\
+\text{Outer product:}&\quad && \ketbra{\psi}{\phi} \\
+\text{Expectation:}  &\quad && \expectation{A} = \braket{\psi}{A|\psi}
+\end{alignat}
+
+\subsection{Common States}
+\begin{alignat}{2}
+\text{Computational basis:} &\quad && \qzero, \qone \\
+\text{Superposition:}       &\quad && \qplus = \frac{1}{\sqrt{2}}(\qzero + \qone) \\
+                             &\quad && \qminus = \frac{1}{\sqrt{2}}(\qzero - \qone) \\
+\text{Bell states:}         &\quad && \bellphi, \bellphim, \bellpsi, \bellpsim \\
+\text{Multi-qubit:}         &\quad && \GHZ, \Wstate
+\end{alignat}
+
+
+\section{Quantum Gates and Operations}
+
+\subsection{Single-Qubit Gates}
+\begin{alignat}{2}
+\text{Pauli matrices:} &\quad && \pauliX, \pauliY, \pauliZ \\
+\text{Hadamard:}       &\quad && \hadamard \\
+\text{Phase gates:}    &\quad && \phaseS, \phaseT, \phaseP{\theta} \\
+\text{Rotations:}      &\quad && \rx{\theta}, \ry{\theta}, \rz{\theta}
+\end{alignat}
+
+\subsection{Multi-Qubit Gates}
+\begin{alignat}{2}
+\text{CNOT:}     &\quad && \cnot \\
+\text{Toffoli:}  &\quad && \toffoli \text{ or } \ccnot \\
+\text{Fredkin:}  &\quad && \fredkin \\
+\text{SWAP:}     &\quad && \text{SAWP}
+\end{alignat}
+
+\section{Quantum Measurements}
+
+\begin{alignat}{2}
+\text{Measurement operator:} &\quad && \mathcal{M} \\
+\text{Projectors:}           &\quad && \projzero, \projone, \P_{i} \\
+\text{Probability:}          &\quad && \prob{i} = \braket{\psi}{\proj{i}|\psi}
+\end{alignat}
+
+% \newcommand{\measure}{\mathcal{M}}
+% \newcommand{\proj}[1]{P_{#1}}
+
+
+\section{Quantum Channels and Noise}
+
+\begin{alignat}{2}
+\text{General channel:} &\quad && \channel(\rho) \\
+\text{Depolarizing:}    &\quad && \depolar_p(\rho) \\
+\text{Bit flip:}        &\quad && \bitflip_p(\rho) \\
+\text{Phase flip:}      &\quad && \phaseflip_p(\rho)
+\end{alignat}
+
+
+\section{Quantum Information Measures}
+
+\begin{alignat}{2}
+\text{Von Neumann entropy:} &\quad && \vonneumann{\rho} \\
+\text{Conditional entropy:} &\quad && \condentropy{A}{B} \\
+\text{Mutual information:}  &\quad && \mutualinfo{A}{B} \\
+\text{Fidelity:}             &\quad && \fidelity{\rho}{\sigma} \\
+\text{Trace distance:}       &\quad && \tracedist{\rho}{\sigma}
+\end{alignat}
+
+
+\section{Quantum Algorithms}
+
+\subsection{Fourier Transform}
+\begin{alignat}{2}
+\text{QFT:}         &\quad && \QFT\ket{x} = \frac{1}{\sqrt{N}} \sum_{k=0}^{N-1} e^{2\pi i xk/N}\ket{k} \\
+\text{Inverse QFT:} &\quad && \iQFT
+\end{alignat}
+
+\subsection{Oracles}
+\begin{alignat}{2}
+\text{Boolean oracle:} &\quad && \oraclef\ket{x}\ket{y} = \ket{x}\ket{y \oplus f(x)} \\
+\text{Phase oracle:}   &\quad && \oraclef\ket{x} = (-1)^{f(x)}\ket{x}
+\end{alignat}
+
+\section{Error Correction}
+
+\begin{alignat}{2}
+\text{Stabilizer group:}  &\quad && \stab = \langle g_1, g_2, \ldots, g_k \rangle \\
+\text{Syndrome:}          &\quad && \syndrome = (s_1, s_2, \ldots, s_k) \\
+\text{Code space:}        &\quad && \codespace \\
+\text{Logical codeword:}  &\quad && \codeword
+\end{alignat}
+
+
+\section{Mathematical Utilities}
+
+\subsection{Complex Numbers}
+\begin{alignat}{2}
+\text{Imaginary unit:}     &\quad && \ii \\
+\text{Real part:}          &\quad && \real(z) \\
+\text{Imaginary part:}     &\quad && \imag(z) \\
+\text{Complex conjugate:}  &\quad && \conj{z}
+\end{alignat}
+
+\subsection{Linear Algebra}
+\begin{alignat}{2}
+\text{Tensor product:}  &\quad && A \tensor B \\
+\text{Trace:}           &\quad && \tr(A) \\
+\text{Partial trace:}   &\quad && \ptr{B}(\rho_{AB}) \\
+\text{Rank:}            &\quad && \rank(A)
+\end{alignat}
+
+\subsection{Probability}
+\begin{alignat}{2}
+\text{Probability:}  &\quad && \prob{\text{event}} \\
+\text{Expectation:}  &\quad && \expect{X} \\
+\text{Variance:}     &\quad && \var{X}
+\end{alignat}
+
+\end{multicols}
+
+
+\section{Circuit Notation (with quantikz)}
+
+Basic circuit elements:
+\begin{verbatim}
+\begin{quantikz}
+\lstick{$\ket{0}$} & \gate{H} & \ctrl{1} & \meter{} \\
+\lstick{$\ket{0}$} & \qw & \targ{} & \qw
+\end{quantikz}
+\end{verbatim}
+
+\section{Complexity Classes}
+
+\begin{alignat}{2}
+\text{Bounded-error quantum polynomial:} &\quad && \BQP \\
+\text{Quantum Merlin-Arthur:}           &\quad && \QMA \\
+\text{Quantum polynomial space:}        &\quad && \QPSPACE
+\end{alignat}
+
+
+\section{Usage Examples}
+
+\subsection{Quantum Teleportation Protocol}
+The quantum teleportation protocol transfers the state $\qpsi = \alpha\qzero + \beta\qone$ using the following steps:
+
+\begin{protocol}
+\begin{enumerate}
+\item Alice and Bob share the Bell state $\bellphi = \frac{1}{\sqrt{2}}(\ket{00} + \ket{11})$
+\item Alice performs a Bell measurement on her qubit and the qubit to be teleported
+\item Alice sends the classical result to Bob
+\item Bob applies the appropriate correction based on Alice's measurement
+\end{enumerate}
+\end{protocol}
+
+\subsection{Grover's Algorithm}
+Grover's algorithm amplifies the amplitude of marked states:
+
+\begin{algorithm}
+\begin{enumerate}
+\item Initialize: $\ket{\psi_0} = \frac{1}{\sqrt{N}}\sum_{x=0}^{N-1}\ket{x}$
+\item Apply $G = -\hadamard^{\tensor n}\proj{0}^{\tensor n}\hadamard^{\tensor n}\oraclef$ for $O(\sqrt{N})$ iterations
+\item Measure to obtain the marked state with high probability
+\end{enumerate}
+\end{algorithm}
+
+\subsection{Quantum Error Correction Example}
+The 3-qubit bit flip code protects against single bit flip errors:
+
+\begin{circuit}
+Encoding: $\ket{0} \rightarrow \ket{000}$, $\ket{1} \rightarrow \ket{111}$
+
+Syndrome measurement: $s_1 = Z_1Z_2$, $s_2 = Z_2Z_3$
+\end{circuit}
+
+\section{Common Quantum Gates}
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.6}
+\begin{tabularx}{\textwidth}{X X}
+% --- Left column: Single-Qubit ---
+\begin{tabular}{cl}
+\toprule
+\textbf{Gate} & \textbf{Matrix} \\
+\midrule
+Hadamard ($H$) &
+$\dfrac{1}{\sqrt{2}} \begin{bmatrix}
+1 & 1 \\
+1 & -1
+\end{bmatrix}$ \\
+Identity ($I$) &
+$\begin{bmatrix}
+1 & 0 \\
+0 & 1
+\end{bmatrix}$ \\
+Phase ($S$) &
+$\begin{bmatrix}
+1 & 0 \\
+0 & i
+\end{bmatrix}$ \\
+T-gate ($T$) &
+$\begin{bmatrix}
+1 & 0 \\
+0 & e^{i\pi/4}
+\end{bmatrix}$ \\
+NOT ($X$) &
+$\begin{bmatrix}
+0 & 1 \\
+1 & 0
+\end{bmatrix}$ \\
+Y-gate ($Y$) &
+$\begin{bmatrix}
+0 & -i \\
+i & 0
+\end{bmatrix}$ \\
+Z-gate ($Z$) &
+$\begin{bmatrix}
+1 & 0 \\
+0 & -1
+\end{bmatrix}$ \\
+Rotation $R(\theta)$ / Phase $P(\theta)$ &
+$\begin{bmatrix}
+1 & 0 \\
+0 & e^{i\theta}
+\end{bmatrix}$ \\
+\bottomrule
+\end{tabular}
+&
+% --- Right column: Multi-Qubit ---
+\begin{tabular}{cl}
+\toprule
+\textbf{Gate} & \textbf{Matrix} \\
+\midrule
+CNOT ($CX$) &
+$\begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 0 & 1 & 0
+\end{bmatrix}$ \\
+Controlled-Z ($CZ$) &
+$\begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & -1
+\end{bmatrix}$ \\
+Controlled-$U$ ($CU$) &
+$\begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & U_{00} & U_{01} \\
+0 & 0 & U_{10} & U_{11}
+\end{bmatrix}$ \\
+SWAP &
+$\begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 1
+\end{bmatrix}$ \\
+Toffoli (CCNOT) &
+\scriptsize
+$\begin{bmatrix}
+1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
+0 & 0 & 0 & 0 & 0 & 0 & 1 & 0
+\end{bmatrix}$
+\normalsize \\
+\bottomrule
+\end{tabular}
+\end{tabularx}
+\end{table}
+
+
+
+
+\begin{figure}[h]
+\centering
+\begin{quantikz}
+\lstick{$\ket{0}$} & \gate{H} & \ctrl{1} & \meter{} \\
+\lstick{$\ket{0}$} & \qw    & \targ{}  & \meter{}
+\end{quantikz}
+\caption{Quantum circuit for preparing and measuring a Bell state}
+\end{figure}
+
+
+
+\end{document}
