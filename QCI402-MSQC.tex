@@ -9,7 +9,7 @@
 \usepackage{amsthm}
 \usepackage{mathtools}
 \usepackage{physics}
-\usepackage{braket}
+% \usepackage{braket}
 
 % Graphics and drawing
 \usepackage{graphicx}
@@ -38,7 +38,7 @@
 \newcommand{\Rlogo}{\protect\includegraphics[height=1.8ex,keepaspectratio]{Rlogo.png}}
 
 \input{config.tex}
-\input{quantum-commands.tex}
+% \input{quantum-commands.tex}
 
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
@@ -62,31 +62,97 @@
 
 \hfill
 
+The underpinnings of all scientific advancements is the ability to express natural phenomena with the art of Mathmatics; this is no different for the subject of Quantum Computing. While the boundaries of quantum computing have been pushed beyond limits in theoretical terms on university blackboards, it has become of great interest to realize the theoretical computational power with the advances of hardware and technology. 
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tellus risus, placerat non lorem quis, congue convallis metus. Curabitur aliquet arcu ut est porttitor, eget maximus mi facilisis. Duis semper, nunc quis volutpat ullamcorper, dolor justo commodo dui, vel pellentesque mauris arcu eu lorem. Donec arcu diam, porttitor id maximus non, congue in diam. Donec aliquet efficitur justo, sit amet ultrices arcu iaculis nec. Cras at eros at libero varius malesuada et eu lorem. Nulla bibendum scelerisque risus. Sed facilisis sapien sed massa porta, ac tempus augue euismod. In id libero eu est congue commodo non vitae libero. Maecenas in augue eu risus aliquet ultricies. Suspendisse potenti. Sed sodales lacinia varius. Proin dignissim vehicula nunc, ut tempus ex consequat in. Sed ac lobortis sapien, quis volutpat risus. Maecenas quis pulvinar purus.
-
-Aliquam nibh dolor, suscipit in tellus hendrerit, vehicula dictum nunc. Aenean non tincidunt ligula, pretium sollicitudin tellus. Aenean in tellus a sapien pellentesque maximus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Duis non dui in nibh posuere dictum at eget mauris. Fusce quis lobortis mi, vitae dapibus turpis. Duis dictum gravida elit non molestie. Aenean eu nisi felis. Nunc ut augue sit amet urna maximus vehicula at dignissim tellus. Phasellus consequat ex dolor, ut consequat risus volutpat sed. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer pulvinar arcu in lorem iaculis sodales quis ornare elit. Nunc elit dolor, dictum vel condimentum sed, condimentum nec erat.
-
-Sed tincidunt tortor eget dignissim tempor. Curabitur laoreet augue non posuere euismod. Morbi maximus convallis nisl dictum condimentum. Phasellus ullamcorper ut felis ac laoreet. Nullam placerat enim ac augue scelerisque facilisis. Nulla eget feugiat nisl. Integer cursus eget dolor et condimentum. Vestibulum pretium orci neque, sit amet sodales felis tincidunt sit amet. Vestibulum euismod, orci quis aliquet aliquam, metus lectus dapibus dolor, ac tincidunt magna ipsum eget quam. Integer maximus leo vitae neque lacinia ultrices. Donec volutpat vehicula faucibus. Integer commodo maximus magna, id aliquam nisl tempor sit amet. Suspendisse suscipit justo quis lorem semper, ut ultrices ipsum maximus. Vestibulum accumsan dolor sapien, a eleifend turpis dignissim in. Nullam sed enim ultricies, suscipit purus ut, dapibus turpis. Integer sem velit, luctus sed facilisis ac, consequat sit amet mauris.
+However, these notes mainly concerns itself with the mathmatical underpinnings of quantum computing that the course surrounds itself with. \FULLCOURSENAME takes a scaffolding approach designed to efficiently convey the required theoretical understanding of mathmatics in order to able to learn quantum computing. As of writing, we are basing the notes on verison one of the textbook published in March 2025. In this text, we will primarily be using dirac notation for the expression of vectors, operators, and their interactions. 
 
 \tableofcontents
 
 \break
 
 
-\section{Introduction?}
+\section{Summation and Product Notations}
 
-\begin{postulate}
-    Simplified: The state of a quantum system is completely described by a normalized complex vector.
-\end{postulate}
+This section primarily focuses on the common notations applied across mathmatics to denote and shorten addition and product notation. 
 
-\begin{example}
-    hello world
-\end{example}
+\subsection{Summation over a single Variable}
 
-\begin{postulate}
-    An
-\end{postulate}
+The sigma notation is defined as follows
+
+$$\sum_{i=1}^{n}f(i)$$
+
+where we use sigma $\sum$ to represent the sum of a series. For example, the sum of all numbers in a series beginning with $m$ and ending at index $n$ is written as:
+
+$$\sum_{i=m}^{n} a_i = a_m + a_{m+1} + a_{m+2} + \ldots + a_{n-1} + a_n$$
+
+Sums can also be infinite, commonly seen when Sigma looks as follows: $\sum^{\infty}_{i=m}$. Infinite sums are either convergent or divergent. A few of the most common converging infinite sums are as follows:
+
+$$\sum_{i=0}^{\infty} \frac{1}{2^i} = 1 + \frac{1}{2} + \frac{1}{4} + \ldots = 2$$
+$$\sum_{i=0}^{\infty}  \frac{1}{i^2} = \frac{1}{1^2} + \frac{1}{2^2} + \frac{1}{3^2} + \ldots = \frac{\pi^2}{6}$$
+
+The first example is an infinite geometric series, and the sum of the first $n$ terms is given by:
+
+$$S_n = \sum_{i=0}^{n} \frac{1}{2^i} = \frac{1 - \frac{1}{2^n}}{1 - \frac{1}{2}}$$
+
+As $n \rightarrow \infty, \frac{1}{2^n} \rightarrow 0$. Consequently, $S_n \rightarrow \frac{1}{1 - \frac{1}{2}} = 2$. A rigorous proof of the second example requires extensive calculus and is not immediately obvious. While any mathmatical symbol can be used for the index of a summation, it is more practical to use something other than $i$ as in the context of complex numbers, $i$ commonly denotes the complex number$\sqrt{-1}$. moreover, sume can also be specified using descriptions. For example, 
+
+$$\sum_{p \in P} f(p) \qquad P \in \mathbb{N^\prime}$$
+
+where $\mathbb{N^\prime}$ is the set of all prime numbers. Summations can also contain parameters other than the index, which results in functions of those parameters. For example the discrete Fourier transform (DFT) is given by
+
+$$\tilde{x}_k = \frac{1}{\sqrt{N}} \sum_{n=0}^{N - 1} x_n e^{- \frac{2 \pi i}{N} kn}, \quad k = 0, 1, \ldots N-1$$
+
+where $x_n$ represents the $N$ values index by $n$ and $\tilde{x}_k$ are the Fourier coefficients. Here, $i$ is the imaginary numebr and $N$ is a positive integer representing the dimension fo the DFT, of which we will cover in greater depth in Chapter 3. The following are some useful summation forumae commonly encountered in quantum computing:
+
+\[
+\sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+\]
+
+\[
+\sum_{i=1}^{n} i^2 = \frac{n(n+1)(2n+1)}{6}
+\]
+
+\[
+\sum_{i=1}^{n} i^3 = \left(\frac{n(n+1)}{2}\right)^2
+\]
+
+\[
+\sum_{i=0}^{n} \left(a_0 + id\right) = (n+1)\left(a_0 + \frac{nd}{2}\right) \quad \text{(arithmetic series)}
+\]
+
+\[
+\sum_{i=0}^{n} a^i = \frac{1 - a^{n+1}}{1 - a} \quad \text{(geometric series)}
+\]
+
+\[
+(a + b)^n = \sum_{i=0}^{n} \binom{n}{i} a^{n-i} b^i \quad \text{(binomial theorem)}
+\]
+
+\[
+\frac{1}{1 - x} = \sum_{n=0}^{\infty} x^n = 1 + x + x^2 + x^3 + \cdots \quad (\lvert x \rvert < 1)
+\]
+
+\[
+\frac{1}{(1-x)^2} = \sum_{n=1}^{\infty} n x^{n-1} = 1 + 2x + 3x^2 + 4x^3 + \cdots \quad (\lvert x \rvert < 1)
+\]
+
+\[
+\ln(1 + x) = \sum_{n=1}^{\infty} \frac{(-1)^{n+1}}{n} x^n = x - \frac{x^2}{2} + \frac{x^3}{3} - \cdots \quad (\lvert x \rvert < 1)
+\]
+
+\[
+e^x = \sum_{n=0}^{\infty} \frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots
+\]
+
+\[
+\sin x = \sum_{n=0}^{\infty} \frac{(-1)^n}{(2n+1)!} x^{2n+1} = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \cdots
+\]
+
+\[
+\cos x = \sum_{n=0}^{\infty} \frac{(-1)^n}{(2n)!} x^{2n} = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \cdots
+\]
+
+ 
 
 
 \end{document}
