@@ -1,11 +1,38 @@
 \documentclass[12pt]{article}
-\usepackage{titling}
-\usepackage{amsmath}
-\usepackage{amsthm}
-\usepackage{amssymb}
+
+% Geometry
 \usepackage[legalpaper, portrait, margin=1in]{geometry}
+
+% Math packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage{braket}
+
+% Graphics and drawing
 \usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{quantikz} % For quantum circuit drawing
+
+% Code formatting
 \usepackage{minted}
+
+% Layout and formatting
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{multicol}
+\usepackage{xcolor}
+
+% Tables
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{tabularx}
+
+
 \usemintedstyle{manni}
 \graphicspath{ {./figures/} }
 \newcommand{\Rlogo}{\protect\includegraphics[height=1.8ex,keepaspectratio]{Rlogo.png}}
@@ -25,11 +52,9 @@
 \theoremstyle{definition}
 \newtheorem*{solution}{Solution}
 
-
 \title{\COURSECODE\ - \FULLCOURSENAME}
 \author{\PROFESSORNAME\ - \STUDENTNAME}
 \date{\SEMESTER\ Semester \YEAR}
-
 
 \begin{document}
 
