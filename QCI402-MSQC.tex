@@ -83,12 +83,12 @@ $$\sum_{i=1}^{n}f(i)$$
 
 where we use sigma $\sum$ to represent the sum of a series. For example, the sum of all numbers in a series beginning with $m$ and ending at index $n$ is written as:
 
-$$\sum_{i=m}^{n} a_i = a_m + a_{m+1} + a_{m+2} + \ldots + a_{n-1} + a_n$$
+$$\sum_{i=m}^{n} a_i = a_m + a_{m+1} + a_{m+2} + \cdots + a_{n-1} + a_n$$
 
 Sums can also be infinite, commonly seen when Sigma looks as follows: $\sum^{\infty}_{i=m}$. Infinite sums are either convergent or divergent. A few of the most common converging infinite sums are as follows:
 
-$$\sum_{i=0}^{\infty} \frac{1}{2^i} = 1 + \frac{1}{2} + \frac{1}{4} + \ldots = 2$$
-$$\sum_{i=0}^{\infty}  \frac{1}{i^2} = \frac{1}{1^2} + \frac{1}{2^2} + \frac{1}{3^2} + \ldots = \frac{\pi^2}{6}$$
+$$\sum_{i=0}^{\infty} \frac{1}{2^i} = 1 + \frac{1}{2} + \frac{1}{4} + \cdots = 2$$
+$$\sum_{i=0}^{\infty}  \frac{1}{i^2} = \frac{1}{1^2} + \frac{1}{2^2} + \frac{1}{3^2} + \cdots = \frac{\pi^2}{6}$$
 
 The first example is an infinite geometric series, and the sum of the first $n$ terms is given by:
 
@@ -100,7 +100,7 @@ $$\sum_{p \in P} f(p) \qquad P \in \mathbb{N^\prime}$$
 
 where $\mathbb{N^\prime}$ is the set of all prime numbers. Summations can also contain parameters other than the index, which results in functions of those parameters. For example the discrete Fourier transform (DFT) is given by
 
-$$\tilde{x}_k = \frac{1}{\sqrt{N}} \sum_{n=0}^{N - 1} x_n e^{- \frac{2 \pi i}{N} kn}, \quad k = 0, 1, \ldots N-1$$
+$$\tilde{x}_k = \frac{1}{\sqrt{N}} \sum_{n=0}^{N - 1} x_n e^{- \frac{2 \pi i}{N} kn}, \quad k = 0, 1, \cdots N-1$$
 
 where $x_n$ represents the $N$ values index by $n$ and $\tilde{x}_k$ are the Fourier coefficients. Here, $i$ is the imaginary numebr and $N$ is a positive integer representing the dimension fo the DFT, of which we will cover in greater depth in Chapter 3. The following are some useful summation forumae commonly encountered in quantum computing:
 
@@ -152,7 +152,120 @@ e^x = \sum_{n=0}^{\infty} \frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3
 \cos x = \sum_{n=0}^{\infty} \frac{(-1)^n}{(2n)!} x^{2n} = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \cdots
 \]
 
- 
+Below are also a list of the common summations rules and manupulations:
+
+\[
+\sum_{i=m}^{n} a_i = \sum_{j=m}^{n} a_j \quad \text{(change of index variable)}
+\]
+
+\[
+\sum_{i=s}^{t} f(i) = \sum_{n=s}^{t} f(n) \quad \text{(change of index variable)}
+\]
+
+\[
+\sum_{n=s}^{t} f(n) = \sum_{n=s}^{j} f(n) + \sum_{n=j+1}^{t} f(n) \quad \text{(splitting a sum)}
+\]
+
+\[
+\sum_{n=s}^{t} f(n) = \sum_{n=0}^{t-s} f(t-n) \quad \text{(reverse order)}
+\]
+
+\[
+\sum_{n=s}^{t} f(n) = \sum_{n=s+p}^{t+p} f(n-p) \quad \text{(index shift)}
+\]
+
+\[
+\sum_{n=s}^{t} a \cdot f(n) = a \cdot \sum_{n=s}^{t} f(n) \quad \text{(distributivity)}
+\]
+
+\[
+\sum_{n=s}^{t} f(n) \pm \sum_{n=s}^{t} g(n) = \sum_{n=s}^{t} \left(f(n) \pm g(n)\right) \quad \text{(commutativity)}
+\]
+
+
+\subsection{Products and other Notations}
+
+Similar to the $\sum$ notation for addition, the $\prod$ (Pi) symbol is also more commonly used to dentoe the product of a series of terms. In this 
+
+$$\prod_{i=m}^{n} a_i = a_m \cdot a_{m+1} \cdot a_{m+2} \cdot \cdots \cdot a_{n-1} \cdot a_n$$ 
+
+for example, the factorial of $n$ is expressed as 
+
+$$\prod_{i=0}^{n} i = n!$$
+
+and the relationship between $\sum$ and $\prod$, which are 
+
+$$b^{\sum_{n=s}^{t} f(n)} = \prod_{n=s}^{t} b^{f(n)}$$
+
+$$\sum_{n=s}^{t} \log_b f(n) = log_b \prod_{n=s}^{t} f(n)$$
+
+It is worth noting that in quantum computing and linear algebra, there are a few special notations such as the modulo-2 sum (bitwise XOR), or in other contexts the direct sum of linear spaces, represented by $\oplus$, and the tensor product represented by $\otimes$.
+
+\subsection{Summation over Multiple Variables}
+
+The double summation over a rectangular array is given by 
+
+\begin{align*}
+    \sum_{i=1,j=1}^{n_1, n_2} a_{i,j} &= \sum_{i=1}^{n_1} \sum_{j=1}^{n_2} a_{i, j} = \sum_{j=1}^{n_2} \sum_{i=1}^{n_1} a_{i, j} \\
+    &= a_{1, 1} + a_{1, 2} + a_{1, 3} + a_{1, 4} + \cdots + a_{1, n_2} \\
+    &+ a_{2, 1} + a_{2, 2} + a_{2, 3} + a_{2, 4} + \cdots + a_{2, n_2} \\
+    & + a_{3, 1} + a_{3, 2} + a_{3, 3} + a_{3, 4} + \cdots + a_{3, n_2} \\
+    & + a_{4, 1} + a_{4, 2} + a_{4, 3} + a_{4, 4} + \cdots + a_{4, n_2} \\
+    & + \cdots \\
+    & + a_{n_1, 1} + a_{n_1, 2} + a_{n_1, 3} + a_{n_1, 4} + \cdots + a_{n_1, n_2}
+\end{align*}
+
+Here, $\sum_{i=1}^{n_1} \sum_{j=1}^{n_2}$ represents summing over each row first and then summing the results, while $\sum_{j=1}^{n_2} \sum_{i=1}^{n_1}$ will represent summing over the columns and then summing those results. The term $\sum_{i=1,j=1}^{n_1, n_2} a_{i,j}$ represents the summation over the rectangular array, irrespecive of the order. The product of two sums can be expanded into a double sum as follows:
+
+\begin{align*}
+\left( \sum_{i=1}^{m} a_i \right) \left( \sum_{j=1}^{n} b_j \right)
+    &= (a_1 + a_2 + \cdots + a_m)(b_1 + b_2 + \cdots + b_n) \\
+    &=\; a_1b_1 + a_1b_2 + a_1b_3 + a_1b_4 + \cdots + a_1b_n \\
+    &+ a_2b_1 + a_2b_2 + a_2b_3 + a_2b_4 + \cdots + a_2b_n \\
+    &+ a_3b_1 + a_3b_2 + a_3b_3 + a_3b_4 + \cdots + a_3b_n \\
+    &+ \cdots \\
+    &+ a_mb_1 + a_mb_2 + a_mb_3 + a_mb_4 + \cdots + a_mb_n \\
+    &= \sum_{i=1}^{m} \sum_{j=1}^{n} a_i b_j = \sum_{i=1}^{m} a_i \sum_{j=1}^{n} b_j
+\end{align*}
+
+which is actually rather intuitive given how the expansion of the standard expansion of the term $(a+b)^2$ plays out, a more elementary application of the distributive property which the above equation generalizes over. For a triangular matrix, in this case the lower triangular matrix, the sum is given by
+
+\begin{align*}
+    \sum_{1 \leq j \leq n}^{} a_{i,j} &= \sum_{i=1}^{n} \sum_{j=1}^{i} a_{i, j} = 
+    \sum_{j=1}^{n} \sum_{i=j}^{n} a_{i, j} = 
+    \sum_{j=0}^{n-1} \sum_{j=1}^{n-j} a_{i+j, i} \\
+    &= a_{1, 1} \\
+    & + a_{2, 1} + a_{2, 2}  \\
+    & + a_{3, 1} + a_{3, 2} + a_{3, 3} \\
+    & + a_{4, 1} + a_{4, 2} + a_{4, 3} + a_{4, 4} \\
+    & + \cdots \\
+    & + a_{n, 1} + a_{n, 2} + a_{n, 3} + a_{n, 4} + \cdots + a_{n, n}
+\end{align*}
+
+where the term $\sum_{1 \leq j \leq n}^{} a_{i,j}$ denotes the summation over all elements in a lower triangular array including the diagonal. The first notation variation will sum up each row to the $i$th element then aggregate while the second notation sums each column starting from the $j$th element downwards then aggregate the sums. The final expression will sum along the diagonal where $j=0$ represents the main diagonal and $j=n-1$ is the first off-diagonal, which is a single term. 
+
+\begin{example}
+    Say we would like to expand the product of $\left(1 + x_i\right)$ from $1$ to $n$. We have 
+
+    $$\prod_{i=1}^{n} \left(1 + x_i\right) = 1 + \sum_{k=1}^{n} \left(\sum_{1 \leq i_1 < \cdots < i_k \leq n} \prod_{j=1}^{k} x_{i_j}\right)$$
+\end{example}
+
+This formula represents the \textit{multinomial expansion} of a product. When you expand the equation by hand, you get the product
+
+$$\prod_{i=1}^{n} \left(1 + x_i\right) = (1 + x_1)(1 + x_2)\cdots(1 + x_n)$$
+
+If we break this down, we see that the outer summation $\sum_{k=1}^{n}$ will go through each possible summation size in terms of the variables in question, and that the inner summation $\sum_{1 \leq i_1 < \cdots < i_k \leq n}$ will iterate through each possible unique product of the variables. while ensuring that they are unique. Not sure how this works, but if all $x_i$ are the same, then wesee that the equation actually simplifies to a subset of the binomial theorem 
+
+$$(1 + x)^n = \sum_{k=0}^{n} \binom{n}{k} x^k$$
+
+where $\binom{n}{k}$ is the binomial coefficient representing the numebr of ways to choose $k$ elements from a set of $n$ distinct elements.
+
+
+
+
+
+
+
 
 
 \end{document}
