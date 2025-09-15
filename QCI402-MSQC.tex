@@ -15,6 +15,7 @@
 \usepackage{graphicx}
 \usepackage{tikz}
 \usepackage{quantikz} % For quantum circuit drawing
+\usepackage{pgfplots}
 
 % Code formatting
 \usepackage{minted}
@@ -260,9 +261,229 @@ $$(1 + x)^n = \sum_{k=0}^{n} \binom{n}{k} x^k$$
 
 where $\binom{n}{k}$ is the binomial coefficient representing the numebr of ways to choose $k$ elements from a set of $n$ distinct elements.
 
+\break
 
+\section{Trigonometry}
 
+You can't escape this.
 
+\subsection{Definitions}
+
+I mean, where do I start? The basic trigonometric functions are defined as the ratios between the angles of a right triangle. I will not show how these ratios remain the same given the same angle, nor will I go into great mathmatical detail of how to prove these items. However, we still have to go over this. Don't ask me why. 
+
+\includegraphics[width=\textwidth]{2_trig0}
+
+The functions of trigonometric functions can also be plotted out as follows:
+
+\includegraphics[width=\textwidth]{2_trig1}
+
+\subsection{Basic Properties and Inverse Functions}
+
+\includegraphics[width=\textwidth]{2_trig2}
+
+% --- 1. Trig Functions ---
+\begin{center}
+\begin{tikzpicture}[scale=1.5]
+\begin{axis}[
+    axis lines=middle,
+    xlabel={}, ylabel={},
+    xmin=-pi, xmax=pi,
+    ymin=-5, ymax=5,
+    restrict y to domain=-5:5,
+    samples=300,
+    legend style={at={(1.05,1)}, anchor=north west},
+    domain=-2*pi:2*pi
+]
+\addplot[blue, thick] {sin(deg(x))};
+\addlegendentry{$\sin(x)$}
+
+\addplot[red, thick] {cos(deg(x))};
+\addlegendentry{$\cos(x)$}
+
+\addplot[green!70!black, thick] {tan(deg(x))};
+\addlegendentry{$\tan(x)$}
+
+\addplot[orange, thick, domain=-2*pi:-0.1] {1/sin(deg(x))};
+\addplot[orange, thick, domain=0.1:2*pi] {1/sin(deg(x))};
+\addlegendentry{$\csc(x)$}
+
+\addplot[yellow, thick, domain=-2*pi:-pi/2-0.1] {1/cos(deg(x))};
+\addplot[yellow, thick, domain=-pi/2+0.1:pi/2-0.1] {1/cos(deg(x))};
+\addplot[yellow, thick, domain=pi/2+0.1:2*pi] {1/cos(deg(x))};
+\addlegendentry{$\sec(x)$}
+
+\addplot[brown, thick, domain=-2*pi:-0.1] {cos(deg(x))/sin(deg(x))};
+\addplot[brown, thick, domain=0.1:2*pi] {cos(deg(x))/sin(deg(x))};
+\addlegendentry{$\cot(x)$}
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+We can also see that there are certain useful symmetric properties of the trigonometric functions
+
+\begin{align*}
+\sin(-\theta) &= - \sin(\theta)           &  \sin(\pi-\theta) &= \sin(\theta)              &  \sin(\pi+\theta) &= - \sin(\theta)\\
+\cos(-\theta) &= \cos(\theta)         &  \cos(\pi-\theta) &= - \cos(\theta)   &  \cos(\pi+\theta) &= - \cos(\theta)\\
+\tan(-\theta) &= - \tan(\theta)   &  \tan(\pi-\theta) &= - \tan(\theta)         &  \tan(\pi+\theta) &= \tan(\theta)
+\end{align*}
+
+There are also some common inverse functions associated with the functions.
+
+\includegraphics[width=\textwidth]{2_trig4}
+
+But also some interesting extensions of the commonly known inverse functions, with the example being $\mathrm{arctan2}$, a function that effectively doubles the domain of the function while preserving its properties for the purpose of, say, converting values from cartesian to spherical coordinates for the azimuthal angle $\phi$.
+
+\[
+\mathrm{arctan2}(y, x) = 
+\begin{cases}
+  \arctan\left(\dfrac{y}{x}\right) & \text{if } x > 0, \\[2ex]
+  \arctan\left(\dfrac{y}{x}\right) + \pi & \text{if } x < 0 \text{ and } y \geq 0, \\[2ex]
+  \arctan\left(\dfrac{y}{x}\right) - \pi & \text{if } x < 0 \text{ and } y < 0, \\[2ex]
+  +\dfrac{\pi}{2} & \text{if } x = 0 \text{ and } y > 0, \\[2ex]
+  -\dfrac{\pi}{2} & \text{if } x = 0 \text{ and } y < 0, \\[2ex]
+  0 & \text{if } x = 0 \text{ and } y = 0.
+\end{cases}
+\]
+
+\includegraphics[width=\textwidth]{Arctangent2}
+
+\subsection{Special Angles and Function Values}
+
+There are a few special angles that are worth remembering for the trigonometric functions mentioned above, given by the wheel below.
+
+\includegraphics[width=\textwidth]{2_trig6}
+
+\subsection{Trigonometric Identities}
+
+\subsubsection{Reciprocal and Quotient Identities}
+
+\begin{align*}
+\csc \theta &= \frac{1}{\sin \theta} &
+\sec \theta &= \frac{1}{\cos \theta} &
+\cot \theta &= \frac{1}{\tan \theta} \\
+\end{align*}
+
+\begin{align*}
+    \tan \theta &= \frac{\sin \theta}{\cos \theta}, &
+\cot \theta &= \frac{\cos \theta}{\sin \theta}
+\end{align*}
+
+\subsubsection{Cofunction Identities}
+\begin{align*}
+\sin\!\left(\frac{\pi}{2} - \theta \right) &= \cos \theta, &
+\cos\!\left(\frac{\pi}{2} - \theta \right) &= \sin \theta \\
+\tan\!\left(\frac{\pi}{2} - \theta \right) &= \cot \theta, &
+\cot\!\left(\frac{\pi}{2} - \theta \right) &= \tan \theta \\
+\sec\!\left(\frac{\pi}{2} - \theta \right) &= \csc \theta, &
+\csc\!\left(\frac{\pi}{2} - \theta \right) &= \sec \theta
+\end{align*}
+
+\subsubsection{Pythagorean Identities}
+\begin{align*}
+\sin^2 \theta + \cos^2 \theta &= 1 \\
+1 + \tan^2 \theta &= \sec^2 \theta \\
+1 + \cot^2 \theta &= \csc^2 \theta
+\end{align*}
+
+\subsubsection{Even–Odd Symmetry}
+\begin{align*}
+\sin(-\theta) &= -\sin \theta, &
+\cos(-\theta) &= \cos \theta, &
+\tan(-\theta) &= -\tan \theta \\
+\csc(-\theta) &= -\csc \theta, &
+\sec(-\theta) &= \sec \theta, &
+\cot(-\theta) &= -\cot \theta
+\end{align*}
+
+\subsubsection{Sum and Difference Formulas}
+\begin{align*}
+\sin(\alpha \pm \beta) &= \sin \alpha \cos \beta \pm \cos \alpha \sin \beta \\
+\cos(\alpha \pm \beta) &= \cos \alpha \cos \beta \mp \sin \alpha \sin \beta \\
+\tan(\alpha \pm \beta) &= \frac{\tan \alpha \pm \tan \beta}{1 \mp \tan \alpha \tan \beta}
+\end{align*}
+
+\subsubsection{Double Angle Formulas}
+\begin{align*}
+\sin(2\theta) &= 2\sin \theta \cos \theta \\
+\cos(2\theta) &= \cos^2 \theta - \sin^2 \theta \\
+&= 2\cos^2 \theta - 1 \\
+&= 1 - 2\sin^2 \theta \\
+\tan(2\theta) &= \frac{2\tan \theta}{1 - \tan^2 \theta}
+\end{align*}
+
+\subsubsection{Half Angle Formulas}
+\begin{align*}
+\sin^2\!\left(\frac{\theta}{2}\right) &= \frac{1 - \cos \theta}{2} \\
+\cos^2\!\left(\frac{\theta}{2}\right) &= \frac{1 + \cos \theta}{2} \\
+\tan\!\left(\frac{\theta}{2}\right) &= \frac{\sin \theta}{1 + \cos \theta} 
+= \frac{1 - \cos \theta}{\sin \theta}
+\end{align*}
+
+\subsubsection{Product-to-Sum Identities}
+\begin{align*}
+\sin \alpha \sin \beta &= \frac{1}{2}\big[\cos(\alpha - \beta) - \cos(\alpha + \beta)\big] \\
+\cos \alpha \cos \beta &= \frac{1}{2}\big[\cos(\alpha - \beta) + \cos(\alpha + \beta)\big] \\
+\sin \alpha \cos \beta &= \frac{1}{2}\big[\sin(\alpha + \beta) + \sin(\alpha - \beta)\big]
+\end{align*}
+
+\subsubsection{Sum-to-Product Identities}
+\begin{align*}
+\sin \alpha + \sin \beta &= 2 \sin\!\left(\frac{\alpha + \beta}{2}\right) 
+                           \cos\!\left(\frac{\alpha - \beta}{2}\right) \\
+\sin \alpha - \sin \beta &= 2 \cos\!\left(\frac{\alpha + \beta}{2}\right) 
+                           \sin\!\left(\frac{\alpha - \beta}{2}\right) \\
+\cos \alpha + \cos \beta &= 2 \cos\!\left(\frac{\alpha + \beta}{2}\right) 
+                           \cos\!\left(\frac{\alpha - \beta}{2}\right) \\
+\cos \alpha - \cos \beta &= -2 \sin\!\left(\frac{\alpha + \beta}{2}\right) 
+                           \sin\!\left(\frac{\alpha - \beta}{2}\right)
+\end{align*}
+
+A rather nice photo to sum the secion up is by relating the angles to each other using the following image
+
+\includegraphics[width=\textwidth]{2_trig7.png}
+
+\subsection{The Spherical Coordinate System}
+
+While the expansion of the cartesian coordinate system into three dimensions is the logical linear expansion to take, some interesting basis begin to form if we consider the angles as a unit of measurement in three dimensions
+
+\includegraphics[width=\textwidth]{2_trig8.png}
+
+The cylindrical coordinate system elevates the polar coordinate system into three dimensions with the addition of the $z$ axis, while the spherical system is a more organic translation of the polar coordinate system into three dimensions. While the former is best suited for describing not only cylinder-like structures yet also helices, while the latter is best suited for rotations in three-dimensional space, which is particularly potent in the field of quantum computing. 
+
+For example, the spherical coordinate system is commonly used to represent qubit states on the Bloch sphere, employing a radius $(r)$, a polar angle $(\theta)$, and an azimuthal angle $(\phi)$ to represent a point in three-dimensional space. The azimuthal angle $\phi$ is measured in the $xy$-plane from the positive $x$-axis with common values ranging from $(-\pi, \pi]$ or $(0, 2\pi]$. The polar angle is commonly measured from the positive $z$ axis towards the $xy$-plane, with values ranging from $[0, \pi]$. Note that $r \in \mathbb{R}$, meaning that we can cover the other half of the range simply by flipping the sign around. 
+
+Conversion is relatively simple, with conversion to and from spherical to cartesian being as follows
+
+\begin{align*}
+    x &= r \sin \theta \cos \phi &     r &= \sqrt{x^2 + y^2 + z^2} \\
+    y &= r \sin \theta \sin \phi &     \phi &= \mathrm{arctan2} (y, x) \\
+    z &= r \cos \theta &         \theta &= \arccos \frac{z}{r}
+\end{align*}
+
+where $\mathrm{arctan2}$ was previously defined as a optimal inverse mapping onto the range of $[- \pi, \pi]$. We also have a few definitions
+
+\begin{definition}
+    The Law of Sines is defined as 
+
+    $$\frac{\sin A}{a} = \frac{\sin B}{b} = \frac{\sin C}{c}$$
+\end{definition}
+
+\begin{definition}
+    The Law of Cosines is defined as 
+
+    $$a^2 = b^2 + c^2 - 2bc \cos A$$
+
+    which can be rewritten as 
+
+    $$\cos A = \frac{b^2 + c^2 - 2bc}{a^2}$$
+\end{definition}
+
+\begin{definition}
+    The Law of Tangents is defined as 
+
+    $$\frac{a - b}{a + b} = \frac{\tan \tfrac{1}{2}(A - B)}{\tan \tfrac{1}{2}(A + B)}$$
+\end{definition}
 
 
 
