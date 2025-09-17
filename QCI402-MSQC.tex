@@ -485,8 +485,104 @@ where $\mathrm{arctan2}$ was previously defined as a optimal inverse mapping ont
     $$\frac{a - b}{a + b} = \frac{\tan \tfrac{1}{2}(A - B)}{\tan \tfrac{1}{2}(A + B)}$$
 \end{definition}
 
+\section{Complex Numbers}
+
+Very important and fundamental to the math and quantum computing. 
+
+\begin{definition}
+    A complex number $z$ is defined as 
+
+    $$
+        z = x + iy, \qquad x, y \in \mathbb{R}, \quad i^2 = -1
+    $$
+\end{definition}
+
+this is called the \textbf{Cartesian form} of the complex number $z$ and corresponds to a point in the two-dimensional complex plane. We commonly refer to $i$ as the imaginary unit. It may seem ironic that we need the imaginary number in quantum computing, or that we need the imaginary number to be real. Take it as you may. 
+
+this can be easily converted into the conjugate by inverting the sign of the second unit.
+
+Complex numbers not motivated by quantum computing. In the numbers system, we have the real numbers $\mathbb{N}$, the integer numbers $\mathbb{Z}$, the real numbers $\mathbb{R}$, and the complex numbers $\mathbb{C}$. the set incursions go this way $\mathbb{N} \subset \mathbb{Z} \subset \mathbb{R} \subset \mathbb{C}$. The set of all complex numbers $\mathbb{C}$ is closed over all algabraic operations, which include addition, substraction, multiplication, division, power, and root. 
+
+Later it was discovered that we need this. 
+
+\begin{definition}
+    The basic components of a complex number are defined as follows. 
+
+    $$Re(z) = x, Im(z) = y$$
+
+    which are the real and imaginary components of a complex number $z$. The complex conjugate is defined as 
+
+    $$  z^* = x - iy$$
+
+    defined as inverting the sign of the imaginary component. We can express the modulus and argument (which are $r$ and $\theta$ in polar coordinates), as follows:
+
+    $$r = \vert z \vert = \sqrt{zz^*} = \sqrt{x^2 + y^2}$$
+
+    A very convenient property derived from algebra is that $zz^* = x^2 + y^2$.
+
+    $$\theta = arg(z)$$
+
+    For the angle, we note that
+
+    $$\tan \frac{y}{x} \Longrightarrow \arctan2(x, y)$$
+
+    where $\arctan2$ has been defined in the previous section. 
+\end{definition}
 
 
+\begin{definition}
+    The exponential/euler forms of the complex numbers can be thought of as a circular form of the function $z = x + iy$. In polar coordinates, we can rewrite this number as 
 
+    $$
+        z = r \cos \theta + i \sin \theta, \qquad r \in \mathbb{R}
+    $$
+    Conversely, the conversion between cartesian and polar are 
+    
+    $$
+    x = r \cos \theta \qquad y = r \sin \theta
+    $$
+    
+    The formula for $z$ above can be rewritten as 
+
+    $$z = r e^{i\theta}$$
+\end{definition}
+
+
+\begin{theorem}
+    Euler's formula states that for any complex number $z = r \cos \theta + i \sin \theta$, we have:
+
+    $$
+    e^{i \theta} = \cos \theta + i \sin \theta
+    $$
+\end{theorem}
+
+\begin{proof}
+    Euler's formula can be proven using the Taylor series expansion for the functions:
+
+    \[
+    e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots
+    \]
+
+    \[
+    \sin x = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \cdots
+    \]
+
+    \[
+    \cos x = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \cdots
+    \]
+
+    if we replace $x$ in the formula for $e^x$ with $e^{ix}$, we then have 
+
+    \begin{align*}
+    e^{ix} &= 1 + (ix) + \frac{(ix)^2}{2!} + \frac{(ix)^3}{3!} + \frac{(ix)^4}{4!} + \frac{(ix)^5}{5!} + \frac{(ix)^6}{6!} + \frac{(ix)^7}{7!} + \cdots \\
+    &= 1 + i x - \frac{x^2}{2!} - i \frac{x^3}{3!} + \frac{x^4}{4!} + i \frac{x^5}{5!} - \frac{x^6}{6!} - i \frac{x^7}{7!} + \cdots \\
+    &= \left(1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \cdots \right) + \left(i x - i \frac{x^3}{3!} + i \frac{x^5}{5!}- i \frac{x^7}{7!} + \cdots\right) \\
+    &= \cos \theta + i \sin \theta
+    \end{align*}
+
+    which sums up essentially what mathmaticians call the most beautiful proof man has known. 
+\end{proof}
+
+As noted before, we know that the set of all algebraic operations is well defined and closed on the set of all complex numbers $\mathbb{C}$. Addition will be easier in cartesian form, while multiplication will be considerably simpler in exponential form. `'
 
 \end{document}
