@@ -346,7 +346,7 @@ But also some interesting extensions of the commonly known inverse functions, wi
 \end{cases}
 \]
 
-\includegraphics[width=\textwidth]{Arctangent2}
+\includegraphics[width=\textwidth]{2_Arctangent2}
 
 \subsection{Special Angles and Function Values}
 
@@ -482,12 +482,19 @@ where $\mathrm{arctan2}$ was previously defined as a optimal inverse mapping ont
 \begin{definition}
     The Law of Tangents is defined as 
 
-    $$\frac{a - b}{a + b} = \frac{\tan \tfrac{1}{2}(A - B)}{\tan \tfrac{1}{2}(A + B)}$$
+    $$\frac{a - b}{a + b} = \frac{\tan \frac{1}{2}(A - B)}{\tan \frac{1}{2}(A + B)}$$
 \end{definition}
+
+
+\break
+
 
 \section{Complex Numbers}
 
-Very important and fundamental to the math and quantum computing. 
+We consider numbers to be complex when they compose of a real and imaginary part, and they are not only fundamental to a complete understanding of algebra and mathmatics as a whole, but also form the backbone of quantum mechanics, and, by extension, quantum computing. Mastering complex numbers is like Rosie mastering the rivet gun, so we have to study it. 
+
+\subsection{Cartesian Form}
+
 
 \begin{definition}
     A complex number $z$ is defined as 
@@ -497,24 +504,22 @@ Very important and fundamental to the math and quantum computing.
     $$
 \end{definition}
 
-this is called the \textbf{Cartesian form} of the complex number $z$ and corresponds to a point in the two-dimensional complex plane. We commonly refer to $i$ as the imaginary unit. It may seem ironic that we need the imaginary number in quantum computing, or that we need the imaginary number to be real. Take it as you may. 
+This is called the \textbf{cartesian form} of the complex number $z$ and corresponds to a point in the two-dimensional complex plane. We commonly refer to $i$ as the imaginary unit. It may seem ironic that we need imaginary numbers in quantum computing, or that we really need the imaginary number. Take it as you may. 
 
-this can be easily converted into the conjugate by inverting the sign of the second unit.
+\includegraphics[width=\textwidth]{3_cn0.png}
 
-Complex numbers not motivated by quantum computing. In the numbers system, we have the real numbers $\mathbb{N}$, the integer numbers $\mathbb{Z}$, the real numbers $\mathbb{R}$, and the complex numbers $\mathbb{C}$. the set incursions go this way $\mathbb{N} \subset \mathbb{Z} \subset \mathbb{R} \subset \mathbb{C}$. The set of all complex numbers $\mathbb{C}$ is closed over all algabraic operations, which include addition, substraction, multiplication, division, power, and root. 
-
-Later it was discovered that we need this. 
+Complex numbers not motivated by quantum computing. In the numbers system, we have the real numbers $\mathbb{N}$, the integer numbers $\mathbb{Z}$, the real numbers $\mathbb{R}$, and the complex numbers $\mathbb{C}$. the set incursions go this way $\mathbb{N} \subset \mathbb{Z} \subset \mathbb{R} \subset \mathbb{C}$, all supersets of the preceeding set. The set of all complex numbers $\mathbb{C}$ is closed over all algabraic operations, which include addition, substraction, multiplication, division, power, and root, and is considered the superset of all numbers. 
 
 \begin{definition}
     The basic components of a complex number are defined as follows. 
 
     $$Re(z) = x, Im(z) = y$$
 
-    which are the real and imaginary components of a complex number $z$. The complex conjugate is defined as 
+    which are the real and imaginary components of a complex number $z$. Of course the complex number itself has a few interesting properties, such as $i^2 = -1$, $i^3 = -i$, and $i^4 = 1$. The complex conjugate of a complex number $z$ is defined as 
 
-    $$  z^* = x - iy$$
+    $$z^* = x - iy$$
 
-    defined as inverting the sign of the imaginary component. We can express the modulus and argument (which are $r$ and $\theta$ in polar coordinates), as follows:
+    defined as inverting the sign of the imaginary component. We can express the modulus (vector length) and argument (angle with respect to the real axis) (which are $r$ and $\theta$ in polar coordinates), as follows:
 
     $$r = \vert z \vert = \sqrt{zz^*} = \sqrt{x^2 + y^2}$$
 
@@ -524,10 +529,28 @@ Later it was discovered that we need this.
 
     For the angle, we note that
 
-    $$\tan \frac{y}{x} \Longrightarrow \arctan2(x, y)$$
+    $$\tan \frac{y}{x} \Longrightarrow \mathrm{arctan2}(x, y)$$
 
-    where $\arctan2$ has been defined in the previous section. 
+    where $\mathrm{arctan2}$ has been defined in the previous section. 
 \end{definition}
+
+\begin{example}
+    Given $z = 1 + \sqrt{3}i$, we have
+
+    $$z^* = 1-\sqrt{3}\,i.$$
+
+    $$|z|=\sqrt{1^2+(\sqrt{3})^2}=2.$$
+
+    $$zz^*=(1+\sqrt{3}\,i)(1-\sqrt{3}\,i)=1-(\sqrt{3}\,i)^2=1+3=4=|z|^2.$$
+
+    $$\theta=\arctan\!\left(\dfrac{\sqrt{3}}{1}\right)=\dfrac{\pi}{3}.$$
+
+\end{example}
+
+
+\subsection{Exponential Form}
+
+Now it is worth noting that while we commonly write $z = x + iy$ to represent a complex numnber, we like to use the following definitions of the complex number in polar form to represent a complex number itself, defined as $z = r (\cos \theta + i \sin \theta)$. However, multiplication and its inverse operation, division, becomes unnecessarily difficult givne the presence of another notation, namely \textbf{exponential form}. 
 
 
 \begin{definition}
@@ -580,9 +603,153 @@ Later it was discovered that we need this.
     &= \cos \theta + i \sin \theta
     \end{align*}
 
-    which sums up essentially what mathmaticians call the most beautiful proof man has known. 
+    which sums up essentially what mathmaticians call the most beautiful proof man has known. If this proof were a female robot, mathematicians would compose harmonic waves and produce digital flowers in \LaTeX to please Euler's genius. 
 \end{proof}
 
-As noted before, we know that the set of all algebraic operations is well defined and closed on the set of all complex numbers $\mathbb{C}$. Addition will be easier in cartesian form, while multiplication will be considerably simpler in exponential form.
+As noted before, we know that the set of all algebraic operations is well defined and closed on the set of all complex numbers $\mathbb{C}$. Addition will be easier in cartesian form, while multiplication will be considerably simpler in exponential form. Conversion between the two is also not difficult:
+
+\includegraphics[width=\textwidth]{3_cn2}
+
+\subsection{Basic Operations}
+
+As we touched upon earlier, the set of all complex numbers are closed on operations of addition and subtraction:
+
+$$z_1+z_2=(x_1+x_2)+i(y_1+y_2).$$
+
+$$z_1-z_2=(x_1-x_2)+i(y_1-y_2).$$
+
+As well on multiplication and division. For 
+
+$$z_1=r_1 e^{i\theta_1} \qquad z_2=r_2 e^{i\theta_2}$$ 
+
+We have:
+
+$$z_1\cdot z_2=r_1 r_2 e^{i(\theta_1+\theta_2)}.$$
+
+$$\displaystyle \frac{z_1}{z_2}=\frac{r_1 e^{i\theta_1}}{r_2 e^{i\theta_2}}=\frac{r_1}{r_2}e^{i(\theta_1-\theta_2)}.$$
+
+We also have the following properties for the conjugates of complex numbers
+
+\begin{align*}
+    \vert z \vert &= \vert z^* \vert \\
+    (z_1 \pm z_2)^* &= z_1^* \pm z_2^* \\
+    (z_1 \cdot z_2)^* &= z_1^* \cdot z_2^* \\
+    (z_1 / z_2)^* &= z_1^* / z_2^* \\
+    (z^x)^* &= (z^*)^x \quad x \in \mathbb{R}\\
+    (x^z)^* &= x^{z^*} \quad x \in \mathbb{R}
+\end{align*}
+
+As for powers and roots of complex numbers, we have 
+
+\begin{theorem}
+    De Moivre's theorem states that
+
+    $$(\cos \theta + i \sin \theta)^s = \cos{s \theta} + i \sin{s \theta}$$
+
+    which is conveniently derived from the fact that $z^s = r^s e^{is\theta}$.
+\end{theorem}
+
+In particular, an application of this theorem is that the $n$-th roots of unity ($n \in \mathbb{N}$) are given by
+
+$$
+\omega_k = e^{\frac{2k\pi i}{n}} = w_1^k \qquad k = 1, 2, \ldots, n-1, \omega_1 = e^{\frac{2 \pi i}{n}}
+$$
+
+which essentially says that there are $n$ roots to the complex number that satisfies the equation $\omega^n = 1$. From this, we can generalize this as 
+
+$$\sum_{k=0}^{n-1} \omega^k = 0$$
+
+where $\omega$ is any $n$-th root of unity except for $\omega = 1$.
+
+\begin{example}
+    The DFT Orthonormality condition depends on two parameters $k$ and $l$, and is stated as follows
+
+    $$
+    \frac{1}{N} \sum_{n=0}^{N-1}e^{- \frac{2 \pi i}{N}kn} e^{\frac{2 \pi i}{N} ln} = \delta_{k-l \bmod N}
+    $$
+\end{example}
+
+where $\delta_{k-l} \pmod{N} = 1$ if and only if $k \equiv l \pmod{N}$, else $0$. It is saying that when $k$ is congruent to $l$, equivalent to $k - l = mN$, where the difference between $k$ and $l$ is divisible by some integer $m$. The $\delta_{k-l \bmod N}$ term is a Kronecker delta of $k \equiv l \pmod{N}$, where the result is $1$ if $k \equiv l \pmod{N}$ holds and $0$ in the case of $k \ncong l \pmod{N}$. If we define $\omega = \displaystyle  e^{i \frac{2 \pi}{N}}$ as a primitive $N$th root of unity (satisfying $\omega^N = 1$), we have the derivation
+
+$$
+\begin{aligned}
+\frac{1}{N}\sum_{n=0}^{N-1} e^{-\frac{2\pi i}{N}kn}\, e^{\frac{2\pi i}{N}ln}
+&= \frac{1}{N}\sum_{n=0}^{N-1} \omega^{-kn}\omega^{ln} \\
+&= \frac{1}{N}\sum_{n=0}^{N-1} \omega^{n(l-k)} \\
+&=
+\begin{cases}
+\displaystyle \frac{1}{N}\sum_{n=0}^{N-1} 1 = 1, & \text{if } l \equiv k \pmod N,\\
+\displaystyle \frac{1}{N}\,\frac{1-\omega^{(l-k)N}}{1-\omega^{(l-k)}} = 0, & \text{if } l \not\equiv k \pmod N
+\end{cases}
+\\
+&= \delta_{k-l \bmod N},
+\end{aligned}
+$$
+
+where we used the fact that $\omega^{n^N} = \left(\omega^N\right)^n = 1^n = 1$ for $n \in \mathbb{N}$.
+
+\subsection{Advanced Operations}
+
+It's probably best to illustrate more advanced operations on complex numbers with the help of some examples
+
+\begin{example}
+    Evaluating $\sqrt{i}$ or $\sqrt{\sqrt{1}}$ gives:
+
+    $$\sqrt{i} = \left(e^{\frac{\pi i}{2}}\right)^{\frac{1}{2}} = e^{\frac{\pi i }{4}} = \cos \frac{\pi}{4} + i \sin \frac{\pi}{4} = \frac{1}{\sqrt{2}} (1 + i)$$
+
+    The inverse is given by
+
+    $$\left(\frac{1}{\sqrt{2}} (1 + i)\right)^2 = \frac{1}{2}(1 + 2i + i^2) = \frac{(2i)}{2} = i$$
+\end{example}
+
+
+\begin{example}
+    Evaluating $$ \left(\frac{1}{2}+\frac{\sqrt{3}}{2}i\right)^{50} $$ gives
+
+    $$
+    \left(\frac{1}{2}+\frac{\sqrt{3}}{2}i\right)^{50}
+    =\left(e^{\frac{\pi i}{3}}\right)^{50}
+    =e^{\frac{50\pi i}{3}}
+    =e^{\left(16+\frac{2}{3}\right)\pi i}
+    =e^{\frac{2\pi i}{3}}
+    =-\frac{1}{2}+\frac{\sqrt{3}}{2}i.
+    $$
+\end{example}
+
+
+\begin{example}
+    Evaluating $$2^{3+4i}$$ gives us
+    $$
+    2^{3+4i}=2^3\cdot 2^{4i}=8\cdot e^{4\ln(2)\,i}
+    =8\cos\!\big(4\ln 2\big)+i\,8\sin\!\big(4\ln 2\big).
+    $$
+
+\end{example}
+
+\begin{example}
+    Evaluating $$\cos(3+4i)$$
+    gives us
+    \begin{align*}
+        \cos(3+4i) &= \frac{1}{2}\!\left(e^{i(3+4i)}+e^{-i(3+4i)}\right) \\
+        &= \frac{1}{2}\!\left(e^{-4+3i}+e^{4-3i}\right) \\
+        &= \frac{1}{2}e^{-4}(\cos 3+i\sin 3)+\frac{1}{2}e^{4}(\cos 3-i\sin 3) \\
+        &= \frac{1}{2}(e^{-4}+e^{4})\cos 3+i\,\frac{1}{2}(e^{-4}-e^{4})\sin 3 \\     
+    \end{align*}
+
+\end{example}
+
+\begin{example}
+    If we have the equation $z^5=\frac{1}{2}+\frac{\sqrt{3}}{2}i$, solving for $z$ gives
+
+    $$
+    z_k = e^{\frac{\pi i}{15}} e^{\frac{2k\pi i}{5}}
+    \quad k=0,1,2,3,4.
+    $$
+\end{example}
+
+\break
+
+\section{Sets, Groups, and Functions}
+
 
 \end{document}
