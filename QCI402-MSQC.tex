@@ -649,17 +649,25 @@ As for powers and roots of complex numbers, we have
     which is conveniently derived from the fact that $z^s = r^s e^{is\theta}$.
 \end{theorem}
 
-In particular, an application of this theorem is that the $n$-th roots of unity ($n \in \mathbb{N}$) are given by
+In particular, an application of this theorem is where we describe the roots of unity. Any root of unity can be descibed by a power of the first root of unity, 
+
+$$\omega_1 = e^\frac{2 \pi i}{n}$$
+
+the $n$-th roots of unity ($n \in \mathbb{N}$) are given by
 
 $$
-\omega_k = e^{\frac{2k\pi i}{n}} = w_1^k \qquad k = 1, 2, \ldots, n-1, \omega_1 = e^{\frac{2 \pi i}{n}}
+\omega_k = e^{\frac{2\pi i}{n} k} = w_1^k \qquad k = 1, 2, \ldots, n-1
 $$
 
-which essentially says that there are $n$ roots to the complex number that satisfies the equation $\omega^n = 1$. From this, we can generalize this as 
+which essentially says that there are $n$ roots to the complex polynomial. For $n=5$, we have the 5 roots of unity given by
+
+\includegraphics[width=\textwidth]{3_roots_unity}
+
+In general, we say that there are $n$ values of $k$ that satisfy the equation $\displaystyle \omega_1^n = e^{(\frac{2 \pi i}{n})^n} = 1$. From this, we can generalize what we know into the summations over $\omega_k$, which is any $k$-th root of unity except for $\omega = 1$. 
 
 $$\sum_{k=0}^{n-1} \omega_k = \sum_{k=0}^{n-1} \omega^k_1 = 0$$
 
-where $\omega$ is any $n$-th root of unity except for $\omega = 1$.
+From this, we can conviniently derive a useful mathmatical condition, being
 
 \begin{example}
     The DFT Orthonormality condition depends on two parameters $k$ and $l$, and is stated as follows
