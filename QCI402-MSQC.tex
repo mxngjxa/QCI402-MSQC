@@ -356,7 +356,7 @@ There are a few special angles that are worth remembering for the trigonometric 
 
 \subsection{Trigonometric Identities}
 
-\subsubsection{Reciprocal and Quotient Identities}
+\subsubsection*{Reciprocal and Quotient Identities}
 
 \begin{align*}
 \csc \theta &= \frac{1}{\sin \theta} &
@@ -369,7 +369,7 @@ There are a few special angles that are worth remembering for the trigonometric 
 \cot \theta &= \frac{\cos \theta}{\sin \theta}
 \end{align*}
 
-\subsubsection{Cofunction Identities}
+\subsubsection*{Cofunction Identities}
 \begin{align*}
 \sin\!\left(\frac{\pi}{2} - \theta \right) &= \cos \theta, &
 \cos\!\left(\frac{\pi}{2} - \theta \right) &= \sin \theta \\
@@ -379,14 +379,14 @@ There are a few special angles that are worth remembering for the trigonometric 
 \csc\!\left(\frac{\pi}{2} - \theta \right) &= \sec \theta
 \end{align*}
 
-\subsubsection{Pythagorean Identities}
+\subsubsection*{Pythagorean Identities}
 \begin{align*}
 \sin^2 \theta + \cos^2 \theta &= 1 \\
 1 + \tan^2 \theta &= \sec^2 \theta \\
 1 + \cot^2 \theta &= \csc^2 \theta
 \end{align*}
 
-\subsubsection{Even–Odd Symmetry}
+\subsubsection*{Even–Odd Symmetry}
 \begin{align*}
 \sin(-\theta) &= -\sin \theta, &
 \cos(-\theta) &= \cos \theta, &
@@ -396,14 +396,14 @@ There are a few special angles that are worth remembering for the trigonometric 
 \cot(-\theta) &= -\cot \theta
 \end{align*}
 
-\subsubsection{Sum and Difference Formulas}
+\subsubsection*{Sum and Difference Formulas}
 \begin{align*}
 \sin(\alpha \pm \beta) &= \sin \alpha \cos \beta \pm \cos \alpha \sin \beta \\
 \cos(\alpha \pm \beta) &= \cos \alpha \cos \beta \mp \sin \alpha \sin \beta \\
 \tan(\alpha \pm \beta) &= \frac{\tan \alpha \pm \tan \beta}{1 \mp \tan \alpha \tan \beta}
 \end{align*}
 
-\subsubsection{Double Angle Formulas}
+\subsubsection*{Double Angle Formulas}
 \begin{align*}
 \sin(2\theta) &= 2\sin \theta \cos \theta \\
 \cos(2\theta) &= \cos^2 \theta - \sin^2 \theta \\
@@ -412,7 +412,7 @@ There are a few special angles that are worth remembering for the trigonometric 
 \tan(2\theta) &= \frac{2\tan \theta}{1 - \tan^2 \theta}
 \end{align*}
 
-\subsubsection{Half Angle Formulas}
+\subsubsection*{Half Angle Formulas}
 \begin{align*}
 \sin^2\!\left(\frac{\theta}{2}\right) &= \frac{1 - \cos \theta}{2} \\
 \cos^2\!\left(\frac{\theta}{2}\right) &= \frac{1 + \cos \theta}{2} \\
@@ -420,14 +420,14 @@ There are a few special angles that are worth remembering for the trigonometric 
 = \frac{1 - \cos \theta}{\sin \theta}
 \end{align*}
 
-\subsubsection{Product-to-Sum Identities}
+\subsubsection*{Product-to-Sum Identities}
 \begin{align*}
 \sin \alpha \sin \beta &= \frac{1}{2}\big[\cos(\alpha - \beta) - \cos(\alpha + \beta)\big] \\
 \cos \alpha \cos \beta &= \frac{1}{2}\big[\cos(\alpha - \beta) + \cos(\alpha + \beta)\big] \\
 \sin \alpha \cos \beta &= \frac{1}{2}\big[\sin(\alpha + \beta) + \sin(\alpha - \beta)\big]
 \end{align*}
 
-\subsubsection{Sum-to-Product Identities}
+\subsubsection*{Sum-to-Product Identities}
 \begin{align*}
 \sin \alpha + \sin \beta &= 2 \sin\!\left(\frac{\alpha + \beta}{2}\right) 
                            \cos\!\left(\frac{\alpha - \beta}{2}\right) \\
@@ -513,7 +513,7 @@ Complex numbers not motivated by quantum computing. In the numbers system, we ha
 \begin{definition}
     The basic components of a complex number are defined as follows. 
 
-    $$Re(z) = x, Im(z) = y$$
+    $$\real(z) = x, \imaginary(z) = y$$
 
     which are the real and imaginary components of a complex number $z$. Of course the complex number itself has a few interesting properties, such as $i^2 = -1$, $i^3 = -i$, and $i^4 = 1$. The complex conjugate of a complex number $z$ is defined as 
 
@@ -754,6 +754,37 @@ It's probably best to illustrate more advanced operations on complex numbers wit
     \quad k=0,1,2,3,4.
     $$
 \end{example}
+
+It is worth noting that there exists a way to express the trigonometric functions $\sin$ and $\cos$ as a function of euler's number. We know that 
+
+$$
+e^{i\theta} = \cos \theta + i \sin \theta \qquad e^{-i\theta} = \cos \theta - i \sin \theta
+$$
+
+from this, we can derive that 
+
+\begin{align*}
+    e^{i\theta} + e^{-i\theta} &= \cos \theta + i \sin \theta + \cos \theta - i \sin \theta \\
+    e^{i\theta} + e^{-i\theta} &= \cos \theta + \cos \theta\\
+    \cos \theta &= \frac{1}{2}\left(e^{i\theta} + e^{-i\theta}\right)\\
+\end{align*}
+
+and that 
+
+\begin{align*}
+    e^{i\theta} + e^{-i\theta} &= \cos \theta + i \sin \theta - (\cos \theta - i \sin \theta) \\
+    e^{i\theta} - e^{-i\theta} &= i \sin \theta - \left(i \sin \theta\right)\\
+    \sin \theta &= \frac{1}{2i}\left(e^{i\theta} - e^{-i\theta}\right)\\
+\end{align*}
+
+Another way of expressing this is by saying
+
+$$
+\cos x = \real(e^{i\theta}) = \frac{e^{ix} + e^{-ix}}{2}
+$$
+$$
+\sin x = \imaginary(e^{i\theta}) = \frac{e^{ix} - e^{-ix}}{2i}
+$$
 
 \break
 
