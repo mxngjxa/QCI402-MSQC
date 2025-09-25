@@ -639,7 +639,7 @@ We also have the following properties for the conjugates of complex numbers
     (x^z)^* &= x^{z^*} \quad x \in \mathbb{R}
 \end{align*}
 
-As for powers and roots of complex numbers, we have 
+Where the last two are not immediately obvious. To prove that $(z^x)^* = (z^*)^x$, it is useful to write out $z$ using the complex notation $r e^{i\theta}$, and the last property is best proven using the identity $a^b = e^{b \ln a}$. As for powers and roots of complex numbers, we have 
 
 \begin{theorem}
     De Moivre's theorem states that
@@ -667,7 +667,7 @@ In general, we say that there are $n$ values of $k$ that satisfy the equation $\
 
 $$\sum_{k=0}^{n-1} \omega_k = \sum_{k=0}^{n-1} \omega^k_1 = 0$$
 
-From this, we can conviniently derive a useful mathmatical condition, being
+This formula can be conviniently proven by applying the formula for summing a geometric sequence to the summation. From this, we can conviniently derive a useful mathmatical condition, being
 
 \begin{example}
     The DFT Orthonormality condition depends on two parameters $k$ and $l$, and is stated as follows
@@ -785,6 +785,9 @@ $$
 $$
 \sin x = \imaginary(e^{i\theta}) = \frac{e^{ix} - e^{-ix}}{2i}
 $$
+
+
+One final yet very important item to rememebr throughout the curriculum is that powers for complex numbers are \textbf{rotations}.
 
 \break
 
