@@ -41,16 +41,28 @@
 \input{config.tex}
 % \input{quantum-commands.tex}
 
-\theoremstyle{plain}
+\theoremstyle{definition}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{postulate}[theorem]{Postulate}
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{lemma}[theorem]{Lemma}
 
+% % alt styling: theorem is separate from rest
+% % Theorem: its own counter, resets each section
+% \newtheorem{theorem}{Theorem}[section]
+
+% % Create an independent base counter for the "definition group"
+% \newtheorem{fact}{\!\!}[section] % invisible title; serves only as a counter
+
+% % Make these share the "fact" counter (not the theorem counter)
+% \newtheorem{definition}[fact]{Definition}
+% \newtheorem{postulate}[fact]{Postulate}
+% \newtheorem{corollary}[fact]{Corollary}
+% \newtheorem{lemma}[fact]{Lemma}
+
 \newtheorem*{example}{Example}
 
-\theoremstyle{definition}
 \newtheorem*{solution}{Solution}
 
 \title{\COURSECODE\ - \FULLCOURSENAME}
@@ -508,6 +520,45 @@ This is called the \textbf{cartesian form} of the complex number $z$ and corresp
 
 \includegraphics[width=\textwidth]{3_cn0.png}
 
+% \[
+% \begin{tikzpicture}[scale=1.2]
+%   % Axes
+%   \draw[->] (-0.2,0) -- (6,0) node[below right] {$\mathrm{Re}$};
+%   \draw[->] (0,-3.2) -- (0,3.2) node[above left] {$\mathrm{Im}$};
+
+%   % Points and projections
+%   \coordinate (O) at (0,0);
+%   \coordinate (Z) at (5,2.4);
+%   \coordinate (Zc) at (5,-2.4);
+
+%   \draw[dashed] (Z) -- (5,0) node[below] {$x$};
+%   \draw[dashed] (Z) -- (0,2.4) node[left] {$y$};
+
+%   \draw[dashed] (Zc) -- (5,0);
+%   \draw[dashed] (Zc) -- (0,-2.4) node[left] {$-y$};
+
+%   % Vectors
+%   \draw[line width=1.6pt,orange] (O) -- (Z) node[midway,above right] {$r$};
+%   \draw[line width=1.6pt,orange,dashed] (O) -- (Zc) node[midway,below right] {$r$};
+
+%   % Angles
+%   \draw (0.9,0) arc (0:25:0.9);
+%   \node at (1.2,0.35) {$\theta$};
+
+%   \draw (0.9,0) arc (0:-25:0.9);
+%   \node at (1.3,-0.35) {$-\theta$};
+
+%   % Dots
+%   \fill (Z) circle (2pt);
+%   \fill (Zc) circle (2pt);
+
+%   % Labels near points
+%   \node[above right] at (Z) {$z=x+iy=e^{i\theta}$};
+%   \node[below right] at (Zc) {$z^*=x-iy=e^{-i\theta}$};
+% \end{tikzpicture}
+% \]
+
+
 Complex numbers not motivated by quantum computing. In the numbers system, we have the real numbers $\mathbb{N}$, the integer numbers $\mathbb{Z}$, the real numbers $\mathbb{R}$, and the complex numbers $\mathbb{C}$. the set incursions go this way $\mathbb{N} \subset \mathbb{Z} \subset \mathbb{R} \subset \mathbb{C}$, all supersets of the preceeding set. The set of all complex numbers $\mathbb{C}$ is closed over all algabraic operations, which include addition, substraction, multiplication, division, power, and root, and is considered the superset of all numbers. 
 
 \begin{definition}
@@ -609,6 +660,18 @@ Now it is worth noting that while we commonly write $z = x + iy$ to represent a 
 As noted before, we know that the set of all algebraic operations is well defined and closed on the set of all complex numbers $\mathbb{C}$. Addition will be easier in cartesian form, while multiplication will be considerably simpler in exponential form. Conversion between the two is also not difficult:
 
 \includegraphics[width=\textwidth]{3_cn2}
+
+% $$
+% \begin{array}{l|l|l}
+%  & \text{Cartesian} & \text{Exponential} \\
+% \hline
+% \text{} & z = x + iy & z = r e^{i\theta} \\
+% \text{Conjugate} & z^{*} = x - iy & z^{*} = r e^{-i\theta} \\
+% \text{Modulus} & |z| = \sqrt{x^{2}+y^{2}} & |z| = r \\
+% \text{Conversion} & x = r\cos\theta,\; y = r\sin\theta & r = \sqrt{x^{2}+y^{2}},\; \theta=\operatorname{arctan2}(y,x) \\
+% \end{array}
+% $$
+
 
 \subsection{Basic Operations}
 
@@ -793,5 +856,381 @@ One final yet very important item to rememebr throughout the curriculum is that 
 
 \section{Sets, Groups, and Functions}
 
+This chapter is mainly going to fly over the various mathmatical concepts that make up the backbone of many mathmatical fields, including those relevant to quantum computing. 
+
+\subsection{Sets}
+
+The concepts of sets are fundamental to many areas of mathmatics. A set is a well-defined collection of distinct objects, which is also an object in its own right. 
+
+\begin{definition}[Set]
+    A set is an (unordered) collection of objects, which are said to be elements or members of the set.
+\end{definition}
+
+Let $A = \{2, 4, 6, 8\}$ be the set of even numbers less than 10. The elements of this set are 2, 4, 6, and 8. We can also write sets using set-builder notation, such as $B = \{x \mid x \text{ is a vowel in the English alphabet}\} = \{a, e, i, o, u\}$.
+
+\vspace{12pt}
+
+
+\begin{definition}[Tuple]
+    A tuple (or sequence) is an ordered list of elements. 
+\end{definition}
+
+Consider the tuple $T = (3, 1, 4, 1, 5)$. This is an ordered sequence where the first element is 3, the second is 1, the third is 4, the fourth is 1, and the fifth is 5. Note that the order matters and repetition is allowed, so $(3, 1, 4, 1, 5) \neq (1, 1, 3, 4, 5)$.
+
+
+\vspace{12pt}
+
+
+\begin{definition}[Cardinality]
+    The cardinality of a set $A$, denoted $\vert A \vert$, is the number of elements in $A$.
+\end{definition}
+
+For the set $A = \{2, 4, 6, 8\}$, the cardinality is $|A| = 4$ since there are 4 elements. For the set $B = \{x, y, z\}$, we have $|B| = 3$. The empty set has cardinality $|\emptyset| = 0$.
+
+
+We can categorize sets based on their cardinality into finite, countably infinite, or uncountably infinite. A set is said to be countably infinite if it can be bijectively mapped to the set of natural numbers $\mathbb{N}$ such as the set of integers $\mathbb{Z}$, while the set is said to be uncountably infinite if there is no one-to-one to the set of natural numbers, such as the set of real numbers $\mathbb{R}$.
+
+\begin{example}
+    Finite set: $A = \{1, 2, 3, 4, 5\}$ has $|A| = 5$.
+    Countably infinite set: The set of integers $\mathbb{Z} = \{\ldots, -2, -1, 0, 1, 2, \ldots\}$ can be put in one-to-one correspondence with the natural numbers $\mathbb{N}$, so $|\mathbb{Z}| = |\mathbb{N}| = \aleph_0$.
+    Uncountably infinite set: The set of real numbers $\mathbb{R}$ cannot be put in one-to-one correspondence with $\mathbb{N}$, so $|\mathbb{R}| > \aleph_0$.
+\end{example}
+
+
+
+\vspace{12pt}
+
+
+\begin{definition}[Subset and Superset]
+    We call $B$ a subset of $A$, denoted $B \subseteq A$ if $\forall b \in B, b \in A$. In this case, $A$ is a superset of $B$, denoted $B \supseteq A$. If $B$ is a subset of $A$ but not equal to $A$, then $B$ is called a proper subset of $A$, denoted $B \subset A$.
+\end{definition}
+
+
+Let $A = \{1, 2, 3, 4, 5\}$ and $B = \{2, 4\}$. Then $B \subseteq A$ since every element of $B$ is also in $A$. We can also say $A \supseteq B$. Since $B \neq A$, we have $B \subset A$ (B is a proper subset of A). Additionally, $A \subseteq A$ since every set is a subset of itself.
+
+
+\vspace{12pt}
+
+
+\begin{definition}[Union]
+    The union of two sets $A$ and $B$, denoted by $A \cup B$, is the set containing all the elements in $A$, $B$, or both. 
+\end{definition}
+
+Let $A = \{1, 3, 5, 7\}$ and $B = \{2, 3, 6, 7, 8\}$. Then $A \cup B = \{1, 2, 3, 5, 6, 7, 8\}$, which contains all elements that appear in either set A or set B (or both).
+
+
+
+\vspace{12pt}
+
+
+\begin{definition}[Intersection]
+    The intersection of two sets $A$ and $B$, denoted by $A \cap B$, is the set containing all the elements in both $A$ and $B$.
+\end{definition}
+
+
+Using the same sets $A = \{1, 3, 5, 7\}$ and $B = \{2, 3, 6, 7, 8\}$, we have $A \cap B = \{3, 7\}$, which contains only the elements that appear in both sets.
+
+
+
+\vspace{12pt}
+
+
+\begin{corollary}[Disjoint Sets]
+    Two or more sets are said to be disjoint if they have no elements in common, that is, their intersection is the empty set: $A \cap B = \emptyset$
+\end{corollary}
+
+
+Let $A = \{1, 3, 5\}$ and $B = \{2, 4, 6\}$. These sets are disjoint because $A \cap B = \emptyset$ - they share no common elements.
+
+
+
+\vspace{12pt}
+
+
+\begin{definition}[Difference]
+    The difference of two sets $A$ and $B$, denoted by $A - B$ or $A \ B$, is the set containing all the elements in $A$ but not in $B$.
+\end{definition}
+
+
+Let $A = \{1, 2, 3, 4, 5\}$ and $B = \{3, 4, 6, 7\}$. Then $A - B = \{1, 2, 5\}$, which contains the elements in A that are not in B. Similarly, $B - A = \{6, 7\}$.
+
+
+\vspace{12pt}
+
+
+
+\begin{definition}[Universal Set]
+    The universal set, denoted by $U$, is the set that contains all elements under consideration, usually in relation to a particular problem or discussion. Every other set in that context is a subset of the universal set $U$.
+\end{definition}
+
+In a problem about students at a university, the universal set might be $U = $ all students at the university. If we're discussing card games, the universal set could be $U = $ all 52 cards in a standard deck.
+
+
+
+\vspace{12pt}
+
+
+
+\begin{definition}[Complement]
+    The complement of a set $A$, denoted by $\overline{A}$ or $A^{c}$, is the set of all elements in the universal set $U$ that are not in set $A$. 
+\end{definition}
+
+Let $U = \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}$ be the universal set and $A = \{2, 4, 6, 8, 10\}$. Then the complement of A is $\overline{A} = \{1, 3, 5, 7, 9\}$, containing all elements in U that are not in A.
+
+
+
+\vspace{12pt}
+
+
+\begin{definition}[Cartesian Product]
+    The cartesian product of two sets $A$ and $B$, denoted $A \cross B$, is the set of all ordered pairs $(a, b), a \in A, b \in B$. 
+\end{definition}
+
+
+Let $A = \{1, 2\}$ and $B = \{x, y, z\}$. Then $A \times B = \{(1,x), (1,y), (1,z), (2,x), (2,y), (2,z)\}$. The Cartesian product contains all possible ordered pairs where the first element comes from A and the second from B. Note that $|A \times B| = |A| \cdot |B| = 2 \cdot 3 = 6$.
+
+
+
+\vspace{12pt}
+
+
+\begin{definition}[Set Partitions]
+    A partition of a set $A$ is a collection of disjoint subsets of $A$ such that every element in $A$ is included in exactly one subset. These subsets are called blocks of the partition. 
+\end{definition}
+
+Let $A = \{1, 2, 3, 4, 5, 6\}$. One partition of A could be $\{A_1, A_2, A_3\}$ where $A_1 = \{1, 2\}$, $A_2 = \{3, 5\}$, and $A_3 = \{4, 6\}$. These subsets are disjoint ($A_i \cap A_j = \emptyset$ for $i \neq j$) and their union gives the original set ($A_1 \cup A_2 \cup A_3 = A$).
+
+
+
+
+\vspace{12pt}
+
+\begin{theorem}[Set Partition]
+    If $\{A_1, A_2, \ldots, A_n\}$ is a partition of set $A$, and $B \subseteq A$, then  $\{A_1 \cap B, A_2 \cap B, \ldots, A_n \cap B\}$ is a partition of set $B$.
+\end{theorem}
+
+Let $A = \{1, 2, 3, 4, 5, 6\}$ with partition $\{A_1, A_2, A_3\}$ where $A_1 = \{1, 2\}$, $A_2 = \{3, 5\}$, and $A_3 = \{4, 6\}$. If $B = \{2, 3, 4, 5\} \subseteq A$, then $\{A_1 \cap B, A_2 \cap B, A_3 \cap B\} = \{\{2\}, \{3, 5\}, \{4\}\}$ forms a partition of B.
+
+
+
+
+
+\begin{definition}[Power Set]
+    The power set of $A$ is the set of all subsets of $A$, denoted by $\mathcal{P}(A)$ is the set of all subsets of $A$.
+\end{definition}
+
+
+Let $A = \{1, 2\}$. The power set $\mathcal{P}(A)$ contains all possible subsets of A:
+$\mathcal{P}(A) = \{\emptyset, \{1\}, \{2\}, \{1, 2\}\}$
+Note that $|\mathcal{P}(A)| = 2^{|A|} = 2^2 = 4$. For any set with n elements, its power set has $2^n$ elements. For set operations in general, there are a few laws worth noting.
+
+Identity Laws:
+$$
+A \cup \varnothing = A$$$$ A \cap U = A.
+$$
+
+Domination Laws:
+
+$$
+A \cup U = U$$$$ A \cap \varnothing = \varnothing.
+$$
+
+Idempotent Laws:
+$$
+A \cup A = A$$$$ A \cap A = A.
+$$
+
+Absorption Laws:
+$$
+A \cup (A \cap B) = A$$$$ A \cap (A \cup B) = A.
+$$
+
+Complement Laws:
+$$
+A \cup \overline{A} = U$$$$ A \cap \overline{A} = \varnothing$$$$ \overline{\overline{A}} = A.
+$$
+
+Commutative Laws:
+$$
+A \cup B = B \cup A$$$$ A \cap B = B \cap A.
+$$
+
+Associative Laws:
+$$
+A \cup (B \cup C) = (A \cup B)\cup C$$$$ A \cap (B \cap C) = (A \cap B)\cap C.
+$$
+
+Distributive Laws:
+$$
+A \cup (B \cap C) = (A \cup B)\cap (A \cup C)$$$$
+A \cap (B \cup C) = (A \cap B)\cup (A \cap C).
+$$
+
+De Morgan's Laws:
+$$
+\overline{A \cap B}=\overline{A}\,\cup\,\overline{B}$$$$
+\overline{A \cup B}=\overline{A}\,\cap\,\overline{B}.
+$$
+
+
+\begin{definition}[Totally Ordered Set]
+A totally ordered set is a set in which every pair of elements is comparable; for any two elements $a$ and $b$, either $a \le b$ or $b \le a$ holds. 
+\end{definition}
+
+Examples include the real numbers and the integers with their usual orders.
+
+\vspace{12pt}
+
+
+\begin{definition}[Partially Ordered Set (Poset)]
+A partially ordered set (poset) is a set equipped with a relation $\le$ that is reflexive, antisymmetric, and transitive; in a poset, not every pair of elements must be comparable, so some pairs may be incomparable. For example, the power set $\mathcal{P}(\mathbb{Z})$ ordered by inclusion $(\subseteq)$ contains subsets such as $\{1,2\}$ and $\{2,3\}$ that are not comparable, and the positive integers ordered by divisibility have incomparable primes like $5$ and $7$.
+\end{definition}
+\vspace{12pt}
+
+
+\begin{definition}[Supremum]
+Let $S$ be a nonempty subset of a partially ordered set $P$. An element $u \in P$ is the supremum of $S$, denoted by $u=\sup S$, if:
+\begin{enumerate}
+\item \textbf{Upper bound:} every $s\in S$ satisfies $s \le u$.
+\item \textbf{Least upper bound:} if $v$ is any upper bound of $S$, then $u \le v$.
+\end{enumerate}
+For instance, $\sup\{-1,-2,-3,\dots\}=-1$, and $\sup\{\sin x: x\in[0,\pi]\}=1$.
+\end{definition}
+\vspace{12pt}
+
+\begin{definition}[Infimum]
+Let $S$ be a nonempty subset of a partially ordered set $P$. An element $\ell \in P$ is the infimum of $S$, denoted by $\ell=\inf S$, if:
+\begin{enumerate}
+\item \textbf{Lower bound:} every $s\in S$ satisfies $\ell \le s$.
+\item \textbf{Greatest lower bound:} if $v$ is any lower bound of $S$, then $v \le \ell$.
+\end{enumerate}
+For example, $\inf\{e^{-x}: x>0\}=0$, even though $0$ is not an element of the set.
+\end{definition}
+
+
+\subsection{Groups}
+
+Groups, rings, and fields lay the foundation in mathmatics that build upon sets with additional operations in algebra. These strucutres are ubiquitous in mathmatics and physics and lay the foundation for quantum computing as well. 
+
+A group is a set equipped with a single binary operation that exhibits certain properties, much like addition and multiplication. A ring expands on this by incorporating two operations, typically referred to as multiplication and addition. A field is a more stringent structure where the set is a group under both operations, with multiplication also being commutative, and every non-zero element having a multiplicative inverse. 
+
+\begin{definition}
+    A group is a set $G$ which is \textit{closed} under an operation $\cdot$ (that is $\forall x, y \in G, x \cdot y \in G$) and satisfies the following properties:
+
+    \begin{enumerate}
+        \item \textbf{Identity:} $\exists e \in G$ where $\forall x \in G, x \cdot e = x = e \cdot x$. We define $e$ to be the identity element.
+        \item \textbf{Inverse:} $\forall x \in G, \exists y \in G$ such that $x \cdot y = e = y \cdot x$, where $e$ is the identity element identified above. 
+        \item \textbf{Associativity:} The operation $\cdot$ is associative for every $x, y, z \in G$, i.e. $$x\cdot(y\cdot z) = (x \cdot y)\cdot z$$
+    \end{enumerate}
+\end{definition}
+
+In mathmatical contexts, it is common to omit the symbol $\cdot$ or $*$ for the group operation and simply write $x \cdot y$ as $xy$. Some common exmaples include the gorup of integers $\mathbb{Z}$ under addition, denoted by $(\mathbb{Z}, +)$, with $e = 0$, and the inverse of $x$ being $-x$. Another example would be the group of integers module $n$, denoted $\mathbb{Z}/n\mathbb{Z}$, with closure (the sum of any two integers modulo $n$ also forming a group under modulo $n$), identity, inverse, and associativity all holding under the subspace of $\mathbb{Z}/n\mathbb{Z}$.
+
+\begin{definition}[Abelian Group]
+   A group is said to be \textit{abelian} if the operation $\cdot$ is commutative $\forall x, y \in G$, that is, $$x \cdot y = y \cdot x$$ 
+\end{definition}
+
+
+While the examples so fare are all abelian groups, there are some of groups that are not abelian. For exmaple, the set of all symmetries of an equilateral triangle, known as the dihedral group $D_3$ is not abelian. As you can see, the table of operations is not symmetrical, rendering the group as a non-abelian group. However, the identity, inverse, and associative elements/properties are all present upon verification. 
+
+
+\[
+\begin{array}{c|cccccc}
+   & e & a & b & c & r & s \\
+\hline
+e & e & a & b & c & r & s \\
+a & a & e & r & s & b & c \\
+b & b & s & e & r & c & a \\
+c & c & r & s & e & a & b \\
+r & r & c & a & b & s & e \\
+s & s & b & c & a & e & r \\
+\end{array}
+\]
+
+
+
+However, in the context of quantum computing, there are a few symmetry groups worth noting. They are
+
+\begin{enumerate}
+    \item $\mathbf{SO}(N):$ The orthogonal group in $N$ dimensions consists of all $N \cross N$ orthogonal matrices with determinant $1$, representing rotations in $\mathbb{R}^N$. These rotations preserver distance sand the orientation of objects in question. SO($2$) corresponds to a circle, and SO($3$) to a sphere. 
+    \item $\mathbf{SU}(2):$ The special unitary group of degree 2 comprises of all $2 \cross 2$ unitary matrices with determinant $1$. It is closely related to SO($3$) and is commonly used to describe spins and qubit states. Each rotation in SO($3$) corresponds to two points in SU($2$). 
+    \item $\mathbf{SU}(N):$ This represents the special unitary group of degree $N$, extending the concepts of SU($2$). These groups are useful in the study of quantum entanglement in quantum computing concerning $N$-level quantum systems. 
+\end{enumerate}
+
+\begin{definition}[Subgroups]
+    A subgroup $H$ of group $G$ is a subset of $G$ that is a group in by itself, with the same group operation in $G$. You can think of this as a reduced version of $G$ where still 
+    \begin{enumerate}
+        \item The identity element of $G$ is in $H$.
+        \item $\forall h_1, h_2 \in H, \quad h_1 \cdot h_2 \in H$.
+        \item $\forall h \in H, \quad h^{-1} \in H$
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}[Lagrange's Theorem]
+    For any finite group $G$ and any subgroup $H$ of $G$, the order of $H$ divides the order of $G$, i.e. $$\vert G \vert \equiv 0 \mod \vert H \vert$$
+\end{theorem}
+\vspace{12pt}
+
+
+\begin{definition}[Coset]
+    Given a group $G$ and a subgroup $H$ of $G$, the \textbf{left coset} of $H$ with representative $g \in G$ is the set $gH = \{gh \vert h \in H\}$. Similarly, the right coset is $Hg = \{hg \vert h \in H\}$.
+\end{definition}
+
+\begin{theorem}[Parition Theorem for Cosets]
+    The collection of all left cosets of a subgroup $H$ forms a partition of the group $G$. This means 
+    \begin{enumerate}
+        \item Every element of $G$ belongs to exactly one coset of $H$.
+        \item Cosets are disjoint and have no elements in common.
+    \end{enumerate}
+\end{theorem}
+
+\begin{definition}[Normal Subgroup]
+    A subgroup $N$ of a group $G$ is called a normal subgroup if it is invariant under conjugation by elements of $G$. This means that $\forall n \in N, \quad g \in G, \quad gng^{-1} \in N$. In notation, $N \triangleleft G$ if $$gNg^{-1} = \{gng^{-1} \vert n \in N\} \subseteq N \forall g \in G.$$
+\end{definition}
+
+Now, note that this is not the same as an abelian group. While the abelian group imples that every subgroup is a normal subgroup, the latter does not imply the former.
+
+\begin{example}[Quaternion Group $Q_8$]
+Let $$Q_8=\{\pm 1,\pm i,\pm j,\pm k\}$$ with relations $$i^2=j^2=k^2=ijk=-1.$$ This group is non-abelian since, for instance, $ij=k$ while $ji=-k$, so $ij\neq ji$. Nevertheless, every subgroup of $Q_8$ is normal; the subgroups are $\{1\}$, $\{\pm 1\}$, $\langle i\rangle=\{\pm 1,\pm i\}$, $\langle j\rangle=\{\pm 1,\pm j\}$, $\langle k\rangle=\{\pm 1,\pm k\}$, and $Q_8$ itself, and each is invariant under conjugation by any element of $Q_8$. Thus $Q_8$ is a non-abelian group in which all subgroups are normal (a Hamiltonian group).
+\end{example}
+
+
+
+Also, it is worth noting that the left and right cosets of a normal subgroup $N$ are the same, allowing the group operations on cosets to be well-defined, which brings us to quotient groups:
+
+\begin{definition}[Quotient Group]
+    Let $G$ be a group, and $N \triangleleft G$. The quotient group $G / N$ is the set of cosets of $N \in G$ with the group operations defined by: $$(gN) (hN) (gh)N \quad \forall g, h \in G$$
+\end{definition}
+
+\begin{example}
+    Consider the group $\mathbb{Z}$ of integers under addition and the subgroup $2\mathbb{Z}$ consisting of all even integers. The quotient group $\mathbb{Z}/2\mathbb{Z}$ is the set of cosets of $2\mathbb{Z}$ in $\mathbb{Z}$:
+
+\begin{itemize}
+\item The coset $0+2\mathbb{Z}=\{\ldots,-4,-2,0,2,4,\ldots\}$ represents the even integers.
+\item The coset $1+2\mathbb{Z}=\{\ldots,-3,-1,1,3,5,\ldots\}$ represents the odd integers.
+\end{itemize}
+
+Thus, $\mathbb{Z}/2\mathbb{Z}$ has two elements: $0+2\mathbb{Z}$ and $1+2\mathbb{Z}$, corresponding to the even and odd integers, respectively. The group operation is addition modulo $2$.
+\end{example}
+
+This quotient group is \emph{isomorphic} to $\mathbb{Z}_2=\{0,1\}$ under addition modulo $2$, denoted as $\mathbb{Z}/2\mathbb{Z}\cong \mathbb{Z}_2$. Two groups are isomorphic if they have the same structure, meaning there is a one-to-one correspondence between the elements of the two groups that preserves the group operation.
+
+\begin{definition}[Cyclic Group]
+    A group $G$ is cyclic if $\exists g \in G$ such that $\forall x \in G$, $x$ can be expressed as powers (repeated operations) of $g$. 
+\end{definition}
+
+A good example of this would be $D_3$, which also has multiple generators. 
+\vspace{12pt}
+
+\begin{definition}[Ring]
+    
+\end{definition}
+
+\begin{definition}[Field]
+    
+\end{definition}
+
+
+\subsection{Functions}
 
 \end{document}
