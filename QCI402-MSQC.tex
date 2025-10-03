@@ -1414,6 +1414,81 @@ Key Properties:
     \item Changing Bases: $\log_b(x) = \log_a(x) / \log_a(b)$
 \end{itemize}
 
+Scaling behavior, especially in the context of data structures and algorithm efficiency, is a significant topic for any computing related fields. It concerns itself with witht he evolution of function curves as the response becomes significantly large. We use the \emph{Big O notation} to describe the behavior of a function $f(x), \quad x \rightarrow \infty$. We say that $f(x)$ is $O(g(x))$ meaning that there is some positive constant $c$ such that the upper bound for complexity growth does not increase faster than $c \cdot g(x)$ for a sufficiently large $x$. 
+
+\begin{example}
+    For example, consider $$f(x) = 6x^3 + 2x + 1,$$ we say that $f(x)$ is $O(x^3)$ as $x \rightarrow \infty$, as $X^3$ is the dominant term.  
+\end{example}
+
+
+Most of the common limiting functions are illustrated in the following figure: 
+
+\includegraphics[width=\textwidth]{4_func3}
+
+\begin{enumerate}
+    \item Log-log: $g(x) = \log \log(x)$
+    \begin{itemize}
+        \item Exhibits extremely slow growth. Algorithms within this complexity class increase their running time at a negligible rate with input size escalation.
+        
+        \item Applications include specialized computational geometry problems.
+    \end{itemize}
+    
+    \item Log: $g(x) = \log(x)$
+    \begin{itemize}
+        \item Denotes high efficiency. The execution time grows much slower than the input size.
+        
+        \item Examples include binary search in sorted arrays and operations on certain balanced tree data structures.
+    \end{itemize}
+    
+    \item Sublinear: $g(x) = x^p, 0 < p < 1$
+    \begin{itemize}
+        \item Exhibits growth slower than linear but faster than logarithmic.
+        
+        \item Common examples include the Grover's search algorithm in quantum computing, which has a complexity of approximately $O(\sqrt{x})$, and some algorithms that utilize probabilistic methods to achieve faster-than-linear performance on average.
+    \end{itemize}
+    
+    \item Linear: $g(x) = x$
+    \begin{itemize}
+        \item Indicates direct proportionality. Doubling the input size doubles the running time.
+        
+        \item Common examples are searching in unsorted lists and identifying max/min elements in a list.
+    \end{itemize}
+    
+    \item Polynomial: $g(x) = x^p, p > 1$
+    \begin{itemize}
+        \item The growth rate is influenced by the exponent $p$. Higher values lead to rapid increases in running time with input size.
+        
+        \item Examples: Bubble sort and insertion sort (quadratic complexity), matrix multiplication algorithms (cubic complexity or better).
+    \end{itemize}
+    
+    \item Poly-log: $g(x) = x^p \log(x), p \geq 1$
+    \begin{itemize}
+        \item Less efficient than the corresponding poly (or linear for $p = 1$) but still considered scalable.
+        
+        \item Fast Fourier Transform (FFT) algorithms are a prime example of algorithms with linear-log complexity. Some fast sorting algorithms also approach this performance.
+    \end{itemize}
+    
+    \item Exponential: $g(x) = b^x, b > 1$
+    \begin{itemize}
+        \item Characterized by rapid growth. Algorithms in this class quickly become impractical for moderate input sizes.
+        
+        \item Examples: Brute-force approaches to the Traveling Salesman Problem. Currently known classical algorithms for integer factorization.
+    \end{itemize}
+    
+    \item Factorial: $g(x) = x!$
+    \begin{itemize}
+        \item Exhibits extremely rapid growth, surpassing even exponential functions in rate. Practical for only very small input sizes.
+        
+        \item Example: Generating all permutations of a set.
+    \end{itemize}
+    
+    \item Hyper-exponential: $g(x) = x^x, g(x) = b^{a^x}, g(x) = b^{x!}$, and $g(x) = b^{x^x}$, etc., where $a, b > 1$
+    \begin{itemize}
+        \item Exhibits growth that is even more rapid than factorial functions.
+        
+        \item Example: Modeling scenarios with extremely high growth rates, beyond combinatorial complexity.
+    \end{itemize}
+\end{enumerate}
 
 
 \end{document}
