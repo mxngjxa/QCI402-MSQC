@@ -1124,7 +1124,7 @@ A group is a set equipped with a single binary operation that exhibits certain p
     \end{enumerate}
 \end{definition}
 
-In mathmatical contexts, it is common to omit the symbol $\cdot$ or $*$ for the group operation and simply write $x \cdot y$ as $xy$. Some common exmaples include the gorup of integers $\mathbb{Z}$ under addition, denoted by $(\mathbb{Z}, +)$, with $e = 0$, and the inverse of $x$ being $-x$. Another example would be the group of integers module $n$, denoted $\mathbb{Z}/n\mathbb{Z}$, with closure (the sum of any two integers modulo $n$ also forming a group under modulo $n$), identity, inverse, and associativity all holding under the subspace of $\mathbb{Z}/n\mathbb{Z}$.
+In mathmatical contexts, it is common to omit the symbol $\cdot$ or $*$ for the group operation and simply write $x \cdot y$ as $xy$. Some common exmaples include the gorup of integers $\mathbb{Z}$ under addition, denoted by $(\mathbb{Z}, +)$, with $e = 0$, and the inverse of $x$ being $-x$. Another example would be the group of integers modulo $n$, denoted $\mathbb{Z}/n\mathbb{Z}$, with closure (the sum of any two integers modulo $n$ also forming a group under modulo $n$), identity, inverse, and associativity all holding under the subspace of $\mathbb{Z}/n\mathbb{Z}$.
 
 \begin{definition}[Abelian Group]
    A group is said to be \textit{abelian} if the operation $\cdot$ is commutative $\forall x, y \in G$, that is, $$x \cdot y = y \cdot x$$ 
@@ -1223,14 +1223,91 @@ A good example of this would be $D_3$, which also has multiple generators.
 \vspace{12pt}
 
 \begin{definition}[Ring]
-    
+    A ring is a set $R$ equipped with two operations $+$ and $\times$ satisfying the following properties:
+    \begin{enumerate}
+        \item $(R, +)$ forms an abelian group. 
+        \item $(R, \times)$ is associative, that is $\forall a, b, c \in R$, $$a \times (b \times c) = (a \times b) \times c$$ 
+        \item The distributive properties hold, that is $\forall a, b, c \in R$, $$a \times (b + c) = (a \times b) + (a \times c) $$$$ (b + c) \times a = (b \times a) + (c \times a)$$
+    \end{enumerate}
 \end{definition}
+
+For example, both the set of integers $\mathbb{Z}$ and the group of integers modulo $n$, $\mathbb{Z}/n\mathbb{Z}$, are both rings. However, multiplication notably does not have an inverse under most groups of integers. For this to hold, we need to have fields. 
 
 \begin{definition}[Field]
-    
+    A field is a set $F$ with two operations $+$ and $\times$, where
+    \begin{enumerate}
+        \item $(R, +)$ forms an abelian group. 
+        \item $(R - \{0\}, \times)$ forms an abelian group. 
+        \item The distributive properties holds as in rings. 
+    \end{enumerate}
+\end{definition}
+
+Some common examples include the set of rational numbers $\mathbb{Q}$, the set of real numbers $\mathbb{R}$, and the set of complex numbers $\mathbb{C}$. Interestingly, $\mathbb{Z}/p\mathbb{Z}$ where $p$ is a prime is also a field.
+
+\subsection{Functions}
+
+Functions serve as mappings from one set to another. They assign each element in the domain to exactly one element in the codomain, and are essential for describing relationships using math. 
+
+\begin{definition}[Function]
+Let $f$ be a function from set $A$ to set $B$. \textit{A function from $A$ to $B$}, denoted $f : A \to B$, is an assignment of exactly one element of $B$ to each element of $A$. 
+\end{definition}
+
+We write $f(a) = b$ to denote the assignment of $b$ to an element $a$ of $A$ by the function $f$.
+
+\begin{example}
+$f(x) = x^2$ is a function $f : \mathbb{R} \rightarrow \mathbb{R}$. \quad $r = \sqrt{x^2 + y^2}$ is a function $f : \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$.
+\end{example}
+
+\begin{definition}[Image, Range, and Domain]
+Let $f$ be a function from $A$ to $B$.
+    \begin{itemize}
+        \item We say that $A$ is the \textit{domain} of $f$ and $B$ is the \textit{codomain} of $f$.
+        \item If $f(a) = b$, $b$ is the \textit{image} of $a$ and $a$ is a \textit{pre-image} of $b$.
+        \item The \textit{range} of $f$ (a subset of $B$) is the set of all images of elements of $A$.
+        \item Let $S$ be a subset of $A$. The \textit{image of} $S$ is a subset of $B$ that consists of the images of the elements of $S$. We denote the image of $S$ by $f(S)$, so that $$f(S) = \{ f(s) \mid s \in S \}$$
+    \end{itemize}
+\end{definition}
+
+\begin{center}
+    \includegraphics[width=\textwidth/2]{4_func0}
+\end{center}
+
+
+There are also a few common function types that we will define:
+
+\begin{definition}[Injective]
+    A function $f: A \rightarrow B$ is injective if $\forall a_1, a_2 \in A$, we have $f(a_1) = f(a_2) \implies a_1 = a_2$.
 \end{definition}
 
 
-\subsection{Functions}
+\begin{definition}[Surjective]
+    A function $f: A \rightarrow B$ is surjective if the whole codomain is covered, meaning that $\forall b \in B, \quad \exists a \in A$ such that $f(a) = b$.
+\end{definition}
+
+Sometimes we call surjective functions \emph{onto} functions.
+
+\begin{definition}[Bijective]
+    A function is bijective if it is both \emph{injective} and \emph{surjective}.
+\end{definition}
+
+
+\includegraphics[width=\textwidth]{4_func1}
+
+
+Only with bijectivity established can we define the inverse of a function.
+
+\begin{definition}[Inverse Function]
+    If we take the function $f: A \rightarrow B$, it's domain $A$ and codomain $B$, we can define an inverse function $f^{-1}: B \rightarrow A$ such that $\forall b \in B, \quad f^{-1}(b) = a$ if and only if $f(a) = b$. 
+\end{definition}
+ 
+Put plainly, $\forall a \in A, \quad f^{-1}(f(a)) = a$ and $\forall b \in B, \quad f(f^{-1}(b)) = b$.
+
+
+
+
+
+
+
+
 
 \end{document}
