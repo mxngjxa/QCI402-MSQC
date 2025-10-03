@@ -1303,10 +1303,116 @@ Only with bijectivity established can we define the inverse of a function.
 Put plainly, $\forall a \in A, \quad f^{-1}(f(a)) = a$ and $\forall b \in B, \quad f(f^{-1}(b)) = b$.
 
 
+\subsection{Common Functions and Asymptotic Behavior}
+
+This section will be a brief review of real functions $(f: \mathbb{R} \rightarrow \mathbb{R})$ commonly used in quantum computing. 
+\subsubsection*{Power Functions}
+
+Power functions take the form $f(x) = x^p, \quad x \geq 0, p \in \mathbb{R}$. 
+
+The behavior of the function varies significantly with the exponent $p$:
+
+\begin{itemize}
+    \item For $p > 0$, $f(x)$ increases as $x$ increases. $f(x)$ exhibits a more rapid growth with a larger $p$.
+    
+    \item For $p < 0$, $f(x)$ decreases as $x$ increases.
+    
+    \item When $p = 0$, $f(x) = 1$, regardless of $x$ (excluding $x = 0$), which is a constant function.
+    
+    \item For $p = 1$, $f(x) = x$, representing a linear relationship.
+\end{itemize}
+
+Key properties of power functions include the rules for exponentiation:
+
+\begin{itemize}
+    \item Multiplying powers with the same base: $x^a \cdot x^b = x^{a+b}$.
+    
+    \item Dividing powers with the same base: $x^a / x^b = x^{a-b}$.
+\end{itemize}
+
+\subsubsection*{Polynomial Functions}
+
+A polynomial function is a sum of terms $a_i x^i$, where $i$ is a non-negative integer:
+
+\[
+f(x) = a_0 + a_1 x + a_2 x^2 + \cdots + a_n x^n.
+\]
+
+Its behavior for large $x$ values is predominantly determined by its highest power term, $x^n$, where $n$ is the degree of the polynomial.
+
+An $n$-th degree polynomial has $n$ complex roots (counting multiplicities), and according to Vieta's formulas, the sum of these roots is equal to $-a_{n-1}/a_n$ and their product $(-1)^n a_0/a_n$.
+
+\begin{example}
+Consider the polynomial function $f(x) = x^3 - 7x^2 + 14x - 8$. It can be factored as:
+\[
+f(x) = (x - 1)(x - 2)(x - 4).
+\]
+\end{example}
+
+The roots of this polynomial are $x = 1, x = 2$, and $x = 4$, which can be found by solving the equations $(x - 1) = 0, (x - 2) = 0$, and $(x - 4) = 0$. According to Vieta's formulas, the sum of the roots is:
+
+\[
+1 + 2 + 4 = 7 = -\frac{-7}{1},
+\]
+
+and the product is:
+
+\[
+1 \cdot 2 \cdot 4 = 8 = (-1)^3 \frac{-8}{1}.
+\]
+
+\subsubsection*{Exponential Functions}
+
+Exponential functions are defined as $f(x) = b^x$, where $b$ is a positive constant (called the base) and $b \neq 1$. The variable $x$ is the exponent. The key characteristic is that the variable is in the exponent. Some important notes:
+
+\begin{itemize}
+    \item Growth and Decay:
+    \begin{itemize}
+        \item If $b > 1$, $f(x)$ exhibits exponential growth -- increasing rapidly as $x$ increases. Larger bases lead to faster growth.
+        
+        \item If $0 < b < 1$, $f(x)$ shows exponential decay -- decreasing towards zero as $x$ increases.
+    \end{itemize}
+    
+    \item Always Positive: Exponential functions are always positive for any real-valued input $x$.
+    
+    \item Horizontal Asymptote: They approach zero for one direction of $x$ (negative infinity for growth, positive infinity for decay).
+    
+    \item Base $e$: The natural exponential function with $b = e$ (Euler's number, $\approx 2.718$), i.e, $e^x$, also denoted as $\exp(x)$, has special significance across mathematics.
+\end{itemize}
+
+\includegraphics[width=\textwidth]{4_func2}
 
 
+\subsubsection*{Logarithmic Functions}
 
+Logarithmic functions are the inverses of exponential functions. They are defined as $f(x) = \log_b(x)$, where $b$ is a positive constant $(b \neq 1)$ and $x > 0$. Some key points:
 
+\begin{itemize}
+    \item Reversing Exponentiation: If $b^y = x$ then $\log_b(x) = y$.
+    
+    \item Growth and Behavior
+    \begin{itemize}
+        \item For $b > 1$, $\log_b(x)$ increases as $x$ increases, but very slowly.
+        
+        \item For $0 < b < 1$, $\log_b(x)$ decreases as $x$ increases.
+    \end{itemize}
+    
+    \item Vertical Asymptote: Logarithmic functions have a vertical asymptote at $x = 0$.
+    
+    \item Logarithms of 1 and the Base: $\log_b(1) = 0$ and $\log_b(b) = 1$.
+    
+    \item The natural logarithm, written as $\ln(x)$ has the base $e$.
+\end{itemize}
+
+Key Properties:
+
+\begin{itemize}
+    \item The Product Rule: $\log_b(xy) = \log_b(x) + \log_b(y)$
+    
+    \item Logarithms "Break" Exponents: $\log_b(x^y) = y \cdot \log_b(x)$
+    
+    \item Changing Bases: $\log_b(x) = \log_a(x) / \log_a(b)$
+\end{itemize}
 
 
 
