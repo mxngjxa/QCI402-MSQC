@@ -1495,7 +1495,35 @@ Most of the common limiting functions are illustrated in the following figure:
 
 \section{Vectors and Vector Spaces}
 
+Vectors and the study of vector spaces are fundamental to the study of quantum computing, where they provide the mathmatical framework for representing and manipulating quantum states, commonly used to describe superpositions, entanglement, and other phenomena integral to quantum computing. This section serves as a systematic introduction to the realm of such concepets to lay the foundation for lies ahead. 
+
 \subsection{Real Vectors and Complex Vectors}
+
+A vector is an ordered sequence of numbers. For now, we will focus on vectors with numeric elements. 
+
+\begin{definition}[Ordered $n$-Tuple]
+    An ordered sequence of $n$ numbers $(v_1, v_2, \ldots, v_n)$ is called an ordered $n$-tuple. 
+\end{definition}
+
+\begin{definition}[Euclidean Space]
+    The set comprising all $n$-tuples is called $n$-space or Euclidean space, and denoted as $\mathbb{R}^n$ space. The complex Euclidean space is denoted by $\mathbb{C}^n$ and comprises of all complex $n$-tuples. 
+\end{definition}
+
+Now in the context of quantum computing, $n$ is typically finite as we are usually considering finite quantum systems. A real vector is in $\mathbb{R}^n$, while a complex vector is in $\mathbb{C}^n$. Much like $\{\mathbf{0}\}$, we will begin with the defiition of the zero vector.
+
+\begin{definition}[Zero Vector]
+    The zero vector, in either $\mathbb{R}^n$ or $\mathbb{C}^n$, denoted by $\{\mathbf{0}\}$, is defined as the vector where all components are zero. $$\{\mathbf{0}\} = (0, 0, \ldots, 0)$$
+\end{definition}
+
+While it is difficult to visually represent vectors in higher dimensions, vectors in $\mathbb{R}^2$ and $\mathbb{R}^3$ are easier to represent. Generally, vectors both posess magnitude and direction, conviniently representing force, velocity, and heat flow. They carry weight and direction. 
+
+In linear algebra, vectors with identical length and direction are considered equivalent, unlike vector fields which also consider position, which means that we generally don't draw a distinction between \emph{collinearity} and \emph{parallelism}.
+
+\includegraphics[width=\textwidth]{5_vec0}
+
+While seemingly simple, the intuition from representing vectors in $\mathbb{R}^2$ or $\mathbb{R}^3$ extends to $\mathbb{R}^n, \quad n > 3$ and even $\mathbb{C}^n$, for which geometric applications become exceedingly difficult or near impossible. 
+
+
 
 \subsection{Basic Vector Algebra}
 
