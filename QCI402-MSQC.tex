@@ -1527,6 +1527,63 @@ While seemingly simple, the intuition from representing vectors in $\mathbb{R}^2
 
 \subsection{Basic Vector Algebra}
 
+A few basic operations on vectors are defined in this subsection in order to establish the foundation of vector manipulation.
+
+\begin{definition}[Vector Equality]
+    Given two vectors $\mathbf{u}$ and $\mathbf{v}$ in $\Rn$ or $\Cn$, the two vectors are equal if and only if they are equal element wise. This is also denoted as $\mathbf{u} = \mathbf{v}$.
+\end{definition}
+
+For each complex vector, there exists a unique complex conjugate that is defined as follows:
+
+\begin{definition}[Complex Vector Conjugate]
+    The complex conjugate of a complex vector $\mathbf{v} = (v_1, v_2, \ldots, v_n)$ is denoted as $\mathbf{v}^*$ and is given by: 
+    $$\mathbf{v}^* = (\conj{v_1}, \conj{v_2}, \ldots, \conj{v_n})$$
+    Where each element is taken to its complex conjugate.
+\end{definition}
+
+Some other common operations also exist for vectors.
+
+\begin{definition}[Vector Sum]
+    The sum of two vectors $\mathbf{u}$ and $\mathbf{v}$ in $\Rn$ or $\Cn$ is given by element-wise addition:
+    $$\mathbf{u} + \mathbf{v} = (u_1 + v_1, u_2 + v_2, \ldots, u_n + v_n)$$
+\end{definition}
+
+While not immediately obvious why this requires a proof, we have 
+
+\begin{theorem}
+    Vector addition satisfies the commutative, associative, and identity properties. Mathmatically,
+    $$\mathbf{u} + \mathbf{v} = \mathbf{v} + \mathbf{u}$$
+    $$\mathbf{u} + (\mathbf{v} + \mathbf{w}) = (\mathbf{u} + \mathbf{v}) + \mathbf{w}$$
+    $$\mathbf{v} + \mathbf{0} = \mathbf{v}$$
+\end{theorem}
+
+
+\begin{definition}[Vector Negation]
+    The negation of a vector $\mathbf{u}$ in $\Rn$ or $\Cn$ is defined as the element wise negation of $\mathbf{u}$, denoted as $-\mathbf{u}$ and defined as:
+    $$-\mathbf{u} = (-v_1, -v_2, \ldots, -v_n)$$
+\end{definition}
+
+Which allows us to define vector subtraction. 
+
+\begin{definition}[Vector Subtraction]
+    Vector subtraction is defined as adding the negated version of the second vector, also defined as $$\mathbf{u} - \mathbf{v} = \mathbf{u}+ (-\mathbf{v})$$
+\end{definition}
+
+Scalar multiplication is also very intuitive, defined as
+
+\begin{definition}
+    Given $\mathbf{v}$ in $\Rn$ or $\Cn$ and a scalar $k$, the scalar product is denoted by $k\mathbf{u}$, is defined as:
+    $$k\mathbf{v} = (k v_1, k v_2, \ldots, k v_n)$$
+\end{definition}
+
+Note that the scalar in this case will usually be from the space in which the vector $\mathbf{v}$ resides. When we combine what we just defined, we have the linear combination. 
+
+\begin{definition}[Linear Combination]
+    Consider a vector $\mathbf{w}$ and a set of $r$ vectors $\{\mathbf{v_1}, \mathbf{v_2},$ $ \ldots, \mathbf{v_r}\}$ in $\Rn$ or $\Cn$, we say that $\mathbf{w}$ is a linear combination of $\{\mathbf{v_1}, \mathbf{v_2}, \ldots, \mathbf{v_r}\}$ if $\mathbf{w}$ can be expressed as:
+    $$\mathbf{w} = k_1 \mathbf{v_1} + k_2 \mathbf{v_2} + \ldots + k_r \mathbf{v_r} = \sum_{i = 1}^{r} k_i \mathbf{v_i}$$ 
+    where each $k_i$ is a scalar, referred to as the \textbf{coefficients} of the linear combination.
+\end{definition}
+
 \subsection{Vector Spaces, Subspaces, and Span}
 
 \subsection{Linear Independence, Basis, and Dimension}
