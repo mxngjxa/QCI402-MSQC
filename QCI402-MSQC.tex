@@ -1586,6 +1586,97 @@ Note that the scalar in this case will usually be from the space in which the ve
 
 \subsection{Vector Spaces, Subspaces, and Span}
 
+After laying the groundwork for basic vector operations, we're now focusing on vector spaces, which are a collection of vectors satisfying specific axioms. This forms a foundational concept in linear algebra, and provides a structured way to handle and manipulate dobjects in multiple dimensions. 
+
+\begin{definition}[Vector Space]
+    A vector space (or linear space) is the combination of a certain set $V$ combined with a scalar field $F$ (either in $\R$ or $\C$) such that the following two operations are defined
+    \begin{enumerate}
+        \item \emph{Vector Addition:} Vector addition in $V$ remain in $V$.
+        \item \emph{Scalar Multiplication:} Scalar multiplications remain in $V$ for scalars from $F$. 
+    \end{enumerate}
+    These operations must satisfy the following properties:
+    \begin{itemize}
+        \item Addition is associative and commutative as defined above. Addition also contains an identity element as well as an inverse.
+        \item Multiplication is distributive, both for the scalar and the vector. 
+        \item $(ab)\mathbf{v} = a(b\mathbf{v})$.
+        \item The multiplicative identity is $1 \in F$.    
+    \end{itemize}
+\end{definition}
+
+We define item 1 and 2 from the definition as \textbf{closure under addition} and \textbf{closure under multiplication}, which are two important properties to satisfy for the whole spiel to work. Unless otherwise specified, discussions over the vector space $\Rn$ assume field $\R$, discussions over vector space $\Cn$ assume field $\C$. It is evident that $\Cn$ is also a vector space over $\R$, depending on the choice of the scalar field. in the context of quantum computing, we consistently assume that $\Cn$ is treated as a complex vector space. 
+
+While most of these definitions may be redundant, they are nevertheless necessary in order for later definitions.
+
+\begin{example}
+    Let $V$ be a vector space over the field $F$. Given a vector $v$ in $V$ and a scalar $k \in F$, use the previous axioms to prove that $k\mathbf{0}=\mathbf{0}$.
+\end{example}
+
+\begin{proof}
+    Using the distributive property for scalar multiplication, we have:
+    \[
+    k(\mathbf{0}+\mathbf{0})=k\mathbf{0}+k\mathbf{0}.
+    \]
+    From the existence of the additive identity, we know $\mathbf{0}+\mathbf{0}=\mathbf{0}$, so:
+    \[
+    k\mathbf{0}=k\mathbf{0}+k\mathbf{0}.
+    \]
+    By the additive inverse property, there exists an additive inverse $-k\mathbf{0}\in V$. Adding $-k\mathbf{0}$ to both
+    sides gives:
+    \[
+    k\mathbf{0}+(-k\mathbf{0})=(k\mathbf{0}+k\mathbf{0})+(-k\mathbf{0}).
+    \]
+    The left-hand side simplifies to $\mathbf{0}$, and using the fact that addition is commutative and contains an inverse on the right-hand side gives:
+    \[
+    \mathbf{0} = k\mathbf{0}+[k\mathbf{0}+(-k\mathbf{0})] = k\mathbf{0}+\mathbf{0} = k\mathbf{0}.
+    \]
+    This completes the proof. Note that the properties of associativity and identity in addition are also used.
+\end{proof}
+
+Next we will move on to subspaces. Subspaces of vector spaces are subsets that form a vector space of its own under the same vector operations. For example, the set of vectors in $\R^2$ with a positive $x$ component violate the properties of a subspace as it is not closed when multiplied with a negative scalar. More rigorously
+
+\begin{definition}[Subspace]
+    A non-empty subset $W$ of a vector space $V$ is called a subspace of $V$ if $W$ is a vector space under the \emph{same scalar field} $F$ and the same operations of vector addition and scalar multiplication as in $V$. 
+\end{definition}
+
+While the properties listed out in the bullet points are easy to verify as those properties are inherently preserved when defining a subspace. In order to verify that a subset is a subspace, it suffices to verify whether the points 1. and 2. hold.  
+
+\begin{theorem}
+    If $W$ is a non-empty subset of a vector space $V$, then $W$ is a subspace of $V$ if and only if $W$ satisfies closure under addition and scalar multiplication.
+\end{theorem}
+
+\begin{example}
+    Prove that the empty set is a subspace of $\Rn/\Cn$. 
+\end{example}
+
+\begin{proof}
+    We only need to verify that addition and scalar multiplication holds in the subspace. Since $$\zerovec + \zerovec = \zerovec, \qquad k\zerovec = \zerovec$$
+    Therefore, $\{\zerovec\}$ is a subspace. 
+\end{proof}
+
+\begin{definition}[Zero Subspace]
+    The subset $W = \{\zerovec\}$ is called the zero subspace of a vector space $V$ where $\zerovec$ is the zero vector in $V$.
+\end{definition}
+
+An informal corrolary is that any hyperplane spanned by vectors that does not pass through the origin will not form a subspace. 
+
+\begin{example}
+    Show that $S = \{\mathbf{x} \vert \mathbf{x} = (z, \conj{z}), z \in \C\}$ is not a subspace of $\C^2$
+\end{example}
+
+\begin{proof}
+    We see that the second element is the conjugate of the first element for all elements spanned by this vector space, written as $\vvec = (z, \conj{z})$. However, if $k \in \C$, we find that $\conj{(k\vvec)} = \conj{k} \conj{v}$ holds. If we take the conjugate of the vector $\uvec = k \vvec$, we see that  the case for when $k$ has a non-zero imaginary part, we find that $$\conj{\uvec} = (kz, k\conj{z})$$
+    or that 
+\end{proof}
+
+\begin{proof}
+    Since this is the space of the vectors spanned by a complex number $z$ and its inverse $\conj{z}$, a scalar multiplication is defined as $$k \vvec = (kz, k \conj{z}).$$
+    However, when we take the conjugate of an element in $S$ that was already scaled by $k \in \C$, the conjugate element should be $$\conj{(kz)} = \conj{k}\conj{z} \neq k \conj{z} \Rightarrow k \vvec \in S.$$
+    Which violates closure under multiplication and proves that $S$ is not a subspace of $\C^2$.
+\end{proof}
+
+
+
+
 \subsection{Linear Independence, Basis, and Dimension}
 
 
