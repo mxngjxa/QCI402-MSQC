@@ -1674,6 +1674,21 @@ An informal corrolary is that any hyperplane spanned by vectors that does not pa
     Which violates closure under multiplication and proves that $S$ is not a subspace of $\C^2$.
 \end{proof}
 
+While the previous definitions can be called foundational or elementary, we are interested to see how subspaces can be constructed using a set of vectors rather than from the top down, i.e., from the reduction of another subspace. 
+
+\begin{theorem}
+    If $S = \{\vvec_1, \vvec_2, \ldots, \vvec_r\}$ is a set of vectors from vector space $V$, then all possible linear combinations of the vectors in $S$ form a subspace of $V$. 
+\end{theorem}
+
+\begin{proof}
+    Let $W$ be the set of all possible linear combinations of the vectors in $S$ and take any two vectors $\mathbf{a}, \mathbf{b} \in W$. Then we can express $\mathbf{a}$ and $\mathbf{b}$ as a linear combination of all vectors in $S$ with coefficients $a_i, b_i \in F$. Then, for any scalar $k \in F$, we see that addition and scalar multiplication hold under $S$, making $W$ a subspace of $V$.
+\end{proof}
+
+The formal definition also is as follows:
+
+\begin{definition}[Span]
+    Given a set $S = \{\vvec_1, \vvec_2, \ldots, \vvec_r\}$ from the vector space $V$, and let $W$ be the subspoace of $V$ that contains all possible linear combinations of $S$. Here, we define $W$ as the span of $S$, and write $$W = \text{span}(S) = \text{span}\{\vvec_1, \vvec_2, \ldots, \vvec_r\}.$$ In other words, S \textbf{spans} W. 
+\end{definition}
 
 
 
