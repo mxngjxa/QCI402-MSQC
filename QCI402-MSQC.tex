@@ -1694,16 +1694,66 @@ The formal definition also is as follows:
 
 \subsection{Linear Independence, Basis, and Dimension}
 
+We commonly use basis to describe the fundamental units on the cartesian coordiante and commonly use $\mathbf{\hat{i}} = (1, 0)$ and $\mathbf{\hat{j}} = (0, 1)$ in order to form a basis for $\R^2$. It is also easy to see that any vector in $\R^2$ can be expressed as a linear combination of these two vectors. However, it is not immediately mathmatically obvious why we must chose these to vectors.  to form the basis of these vectors. 
 
+The first prerequisite for some combination of vectors to span a space, is for them to be linearly independent. This ensures that no vectors are redundant, which brings us to an associated property of subspaces
 
+\begin{definition}[Linear Dependence]
+    Let $S = \{\vvec_1, \vvec_2, \ldots, \vvec_r\}$ be a set of vectors from a vector space $V$. The set $S$ is said to be linearly dependent if there exists scalars $c_1, c_2, \ldots, c_n$ not all zero such that $$c_1 \vvec_1 + c_2 \vvec_2 + \ldots + c_n \vvec_n = \mathbf{0}.$$ If not such scalars exists, such that $\forall c_i = 0, i \in [1, n]$, then the set is linearly independent. 
+\end{definition}
 
+A minimal set of vectors that spans a vector space $V$ is a basis. Of course, there is also a rigorous definition.
 
+\begin{definition}[Basis]
+    A set of vectors $S = \{\vvec_1, \vvec_2, \ldots, \vvec_r\}$ from a vector space $V$ forms the basis for $V$ if and only if 
+    \begin{itemize}
+        \item $\text{span}(S) = V$
+        \item $S$ is linearly independent
+    \end{itemize}
+\end{definition}
 
+These two properties together construct the following theorem:
 
+\begin{theorem}[Uniqueness of Basis Representation]
+    If $S$ is a basis of a vector space $V$, then every vector $\mathbf{w} \in V$ has a unique representation as a linear combination of $S$. 
+\end{theorem}
 
+\begin{proof}
+    Assuming that $\text{span}(S) = V$ and take 
+    $$\mathbf{w} = \sum_{i=1}^{n}k_i \vvec_i$$
+    and another representation of the same vector, 
+    $$\mathbf{w} = \sum_{i=1}^{n}m_i \vvec_i$$
+    then we have 
+    $$\zerovec = \sum_{i=1}^{n} (k_i - m_i) \vvec_i$$
+    since $S$ is linearly independent, we must have $$k_i - m_i = 0, \quad \forall k_i, m_i \Rightarrow k_i = m_i$$
+    which renders the representation unique.
+\end{proof}
 
+From this, we can see that there is a well-defined and unique set of coefficients for every vector $\mathbf{w} \in V$ expressed as a linear combination of vector set $S$, where $\text{span}(S) = V$. There is also a special term that we assign to the coefficients:
 
+\begin{definition}[Coordinate]
+    Take the vector $\wvec$ expressed in the terms of a basis $S$ for from a vector space $V$ over a field $\R/\C$:
+    $$\wvec = \sum_{i=1}^{n}k_i \vvec_i$$
+    The unique vector $(k_1, k_2, \ldots, k_n)$ formed from the scalar coefficients in $\Rn/\Cn$ is said to be the coordinate vector, or the coordinate of $\wvec$ relative to $S$, denoted as $$(\wvec)_S = (k_1, k_2, \ldots, k_n)$$
+\end{definition}
 
+\begin{example}
+    Any vector $(a, b) \in \R^2/\C^2$ in the standard basis $\mathbf{\hat{i}} = (1, 0)$ and $\mathbf{\hat{j}} = (0, 1)$ gives 
+    $$(a, b) = a(1, 0) + b(0, 1)$$ which in turn gives us the coordinates for $(a, b)$, that is 
+    $$(a, b)_{\{\ibase,\ \jbase\}} = (a, b)$$
+\end{example}
+
+This example goes to show that the coordinates in a Cartesian coordinate system uses the unit vectors along the $x$ and $y$ axis as its coordinate system. While this sentence sounds like a broken record, we can see that, while we prefer to use the unit vectors as the basis vectors to represent vectors in lower dimensional space, we can use alternative axes for representing the same points in $n$-dimensional space, and we'll introduce dimensions right off the bat with a theorem:
+
+\begin{theorem}
+    For a finite-dimensional vector space, all bases posess the same number of vectors. 
+\end{theorem}
+
+While the formal proof of this theorem requires extensive background in linear systems and matrix algebra, we nevertheless wish to develop an intuitive understanding. Consider a basis $S$ for a finite-dimensional vector space $V$. If we add an extra vector to this, the set would be linearly dependent. Conversely, removing any vector would reduce the span and fail to cover all of $V$. However, this theorem confirms that the dimension of a vector space is well defined.
+
+\begin{definition}[Dimension]
+    The dimensions of a finite-dimensional vector space $V$ is the number of vectors in its basis, denoted as $\dim(V)$. 
+\end{definition}
 
 
 
