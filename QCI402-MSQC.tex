@@ -1664,13 +1664,8 @@ An informal corrolary is that any hyperplane spanned by vectors that does not pa
 \end{example}
 
 \begin{proof}
-    We see that the second element is the conjugate of the first element for all elements spanned by this vector space, written as $\vvec = (z, \conj{z})$. However, if $k \in \C$, we find that $\conj{(k\vvec)} = \conj{k} \conj{v}$ holds. If we take the conjugate of the vector $\uvec = k \vvec$, we see that  the case for when $k$ has a non-zero imaginary part, we find that $$\conj{\uvec} = (kz, k\conj{z})$$
-    or that 
-\end{proof}
-
-\begin{proof}
-    Since this is the space of the vectors spanned by a complex number $z$ and its inverse $\conj{z}$, a scalar multiplication is defined as $$k \vvec = (kz, k \conj{z}).$$
-    However, when we take the conjugate of an element in $S$ that was already scaled by $k \in \C$, the conjugate element should be $$\conj{(kz)} = \conj{k}\conj{z} \neq k \conj{z} \Rightarrow k \vvec \in S.$$
+    Since this is the space of the vectors spanned by a complex number $z$ and its inverse $\conj{z}$, we see that it conflicts with a scalar multiplication is defined as $$k \vvec = (kz, k \conj{z}).$$
+    The second element in the vector should be the complex conjugate of the first element. However, for every $\vvec \in S$ scaled by $k \in \C$, it becomes evident that the element is no longer in the set. Mathmatically: $$\conj{(kz)} = \conj{k}\conj{z} \neq k \conj{z} \Rightarrow k \vvec \notin S.$$
     Which violates closure under multiplication and proves that $S$ is not a subspace of $\C^2$.
 \end{proof}
 
