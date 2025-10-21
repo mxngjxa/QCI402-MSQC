@@ -1750,9 +1750,161 @@ While the formal proof of this theorem requires extensive background in linear s
     The dimensions of a finite-dimensional vector space $V$ is the number of vectors in its basis, denoted as $\dim(V)$. 
 \end{definition}
 
+\break
+
+\section{Inner Product Spaces}
+
+What lays the foundation for representing $n$-qubit systems is being able to mathmatically represent them as state vectors residing in $\C^{2^n}$, which must be orthonormal basis – vectors mutually orthogonal of length 1. In order to rigorously define inner product spaces, we require a well-defined inner product – a mathmatical structure that generalizes length and orthogonality to higher dimensions. This, in turn, serves as the foundation for Hilbert spaces. We will also introduce dirac (or bra-ket) notation in this chapter which presents itself as an elegant method to represent quantum states and operations. 
 
 
+\subsection{Dirac Notation Basics}
 
+\begin{definition}[Matrix]
+    A matrix is a rectangular array of numbers, which can be either real or complex. A matrix with $m$ rows and $n$ columns is represented as:
+    \[
+    A = \begin{bmatrix}
+    a_{11} & a_{12} & \cdots & a_{1n} \\
+    a_{21} & a_{22} & \cdots & a_{2n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    a_{m1} & a_{m2} & \cdots & a_{mn}
+    \end{bmatrix}_{m \times n}
+    \]
+    where the entries $a_{11}, a_{12}, \ldots, a_{mn}$ are called \textbf{elements}. The matrix is referred to as an $m \times n$ matrix, indicating its size.
+\end{definition}
+
+When a matrix contains only one column (or one row), it is called a column vector (or a row vector):
+
+\begin{definition}[Column and Row Vectors]
+    A matrix with only one column ($n \times 1$ in size) is called a column vector, denoted as:
+    \[
+    \begin{bmatrix}
+    v_1 \\
+    v_2 \\
+    \vdots \\
+    v_n
+    \end{bmatrix} .
+    \]
+
+    Similarly, a matrix with only one row ($1 \times m$ in size) is called a row vector, denoted as:
+    \[
+    \begin{bmatrix}
+    v_1 & v_2 & \cdots & v_m
+    \end{bmatrix} .
+    \]
+\end{definition}
+
+The process of matrix transposition, which interchanges the rows and columns of a matrix, is a fundamental operation in matrix algebra, defined as follows.
+
+\begin{definition}[Transpose]
+    Given an $m \times n$ matrix $A$ as given in Eq.~6.1, the transpose of $A$, denoted as $A^T$, is an $n \times m$ matrix defined as:
+    \[
+    A^T = \begin{bmatrix}
+    a_{11} & a_{21} & \cdots & a_{m1} \\
+    a_{12} & a_{22} & \cdots & a_{m2} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    a_{1n} & a_{2n} & \cdots & a_{mn}
+    \end{bmatrix}_{n \times m}
+    \]
+    resulting from interchanging the rows and columns of $A$.
+\end{definition}
+
+From here on out, vectors such as $\vvec$ will represent column vectors and the transpose thereof will represent row vectors. In dirac notation, column vectors in $\Cn$ are usually represented by a symbol called ket. 
+
+\begin{definition}[Ket]
+    Given a general vector $v = (v_1, v_2, \ldots, v_n)$ in $\mathbb{C}^n$, we use $\ket{v}$ to denote its column vector form:
+    \[
+    \ket{v} \equiv \begin{bmatrix}
+    v_1 \\
+    v_2 \\
+    \vdots \\
+    v_n
+    \end{bmatrix}
+    \]
+    where $\ket{v}$ is referred to as a ket.
+\end{definition}
+
+There are a few general and commmon methods of representing a state vector ket, which include:
+
+\begin{itemize}
+    \item $\ket{\psi}$ for a general state vector;
+    \item $\ket{\lambda_i}$ for eigenvectors corresponding to the eigenvalue $\lambda_i$;
+    \item $\ket{j}, \ket{k}$ with $j, k \in \{0, 1, 2, \ldots, n - 1 \}$ to denote the computational basis vectors in $\Cn$.
+\end{itemize}
+
+Therea realso certain symbols reserved for specific vectors of significance, much like how we reserve $\pi$ and $e$ in common arithmatic. These include
+
+\begin{itemize}
+    \item $\qzero, \qone$ for the computational basis veectors in single qubit systems;
+    \item $\ket{V}, \ket{H}$ for rectilinear polarization states of a photon;
+    \item $\bellpsi, \bellpsim, \bellphi, \bellphim$ for Bell states of two qubits. 
+\end{itemize}
+
+the standard basis vectors of $\Cn$ are indispensable in quantum computing, so it is necessary to define the computational basis for it
+
+\begin{definition}[Computational Basis]
+For a single-qubit system in $\C^2$, the standard basis vectors, commonly referred to as the \textbf{computational basis}, are defined as the following ket vectors:
+\[
+\qzero \equiv \begin{bmatrix} 1 \\ 0 \end{bmatrix}, \quad \qone \equiv \begin{bmatrix} 0 \\ 1 \end{bmatrix}
+\]
+
+For a one-qudit system (with $d$ distinct levels) in $\C^d$, the computational basis includes vectors:
+\[
+\qzero \equiv \begin{bmatrix} 1 \\ 0 \\ \vdots \\ 0 \end{bmatrix}, \quad \qone \equiv \begin{bmatrix} 0 \\ 1 \\ \vdots \\ 0 \end{bmatrix}, \quad \cdots, \quad \ket{d-1} \equiv \begin{bmatrix} 0 \\ 0 \\ \vdots \\ 1 \end{bmatrix}
+\]
+\end{definition}
+
+Therefore, a general vector can be expressed as 
+
+$$
+\begin{bmatrix}
+    1 \\ 0
+\end{bmatrix}
+= 
+\alpha \qzero
++
+ \beta \qone, \quad \forall \alpha, \beta \in \C
+$$
+
+We conversely also have the hermitian adjoint of any vector $\ketpsi$, which is defined as 
+
+\begin{definition}[Hermitian Adjoint]
+    Consider a column vector in $\mathbb{C}^n$:
+    \[
+    v = \begin{bmatrix}
+    v_1 \\
+    v_2 \\
+    \vdots \\
+    v_n
+    \end{bmatrix},
+    \]
+
+    its Hermitian adjoint, or simply \textit{adjoint}, is defined as its conjugate transpose, denoted as:
+    \[
+    v^\dagger \equiv (v^*)^T = (v^T)^* = \begin{bmatrix} v_1^* & v_2^* & \cdots & v_n^* \end{bmatrix}.
+    \]
+\end{definition}
+
+We have a convinient method of encapsulating the concept of adjoint vectors using a bra in dirac notation, defined as:
+
+\begin{definition}[Bra]
+The bra, denoted as $\bra{v}$, represents the Hermitian adjoint of $\ket{v}$, formally defined as:
+\[
+\bra{v} \equiv \ket{v}^\dagger.
+\]
+\end{definition}
+
+\begin{theorem}
+    Given vectors $\bra{u}$, $\bra{v}$ in $\Cn$ and scalars $\alpha, \beta \in \mathbb{C}$, bras exhibit the following conjugate-linear properties:
+        \begin{align}
+        \bra{u + v} &= \bra{u} + \bra{v}\\
+        \bra{\alpha v} &= \alpha^* \bra{v}\\
+        \bra{\alpha u + \beta v} &= \alpha^* \bra{u} + \beta^* \bra{v}.
+        \end{align}
+\end{theorem}
+
+Note that $\brapsi$ and $\ketpsi$ are fundamentally not in the same dimension, so that operations on them will not be very straightforward. 
+
+\subsection{Norm and Unit Vectors}
 
 
 
