@@ -1906,6 +1906,57 @@ Note that $\brapsi$ and $\ketpsi$ are fundamentally not in the same dimension, s
 
 \subsection{Norm and Unit Vectors}
 
+We know that the squared distance of a line can be calculated by adding the squared values of their $x$ and $y$ componenets. In three dimensional space, it means adding the squared value of the $z$ component as well. This allows us to generalize to the $n$th dimension, where we have the following, rather intuitive, definition for norm. 
+
+\begin{definition}[Norm of a Real Vector]
+    For any real vector $\vvec \in \Rn$, its length is denoted $\left\lVert \vvec \right\rVert$ and defined by: $$\left\lVert \vvec \right\rVert = \sqrt{v_1^2 + v_2^2 + \cdots + v_n^2}$$
+\end{definition}
+
+
+\begin{theorem}
+    The norm of a vector in $\Rn/\Cn$ exhibits the following properties:
+    \begin{enumerate}
+        \item $\norm{\vvec} \geq 0$
+        \item $\vnorm = 0$ if and only if $\vvec = 0$
+        \item $\norm{k \vvec} = \abs{k} \norm{\vvec}$
+    \end{enumerate} 
+\end{theorem}
+
+For complex numbers, we just need to use the complex conjugate into the equation. 
+
+\begin{definition}[Norm of a Complex Number]
+    For any complex vector $\vvec \in \Cn$, the norm is defined by the formula: 
+    $$\vnorm = \sqrt{v_1 \conj{v_1} + v_2 \conj{v_2} + \cdots + v_n \conj{v_n} }$$
+\end{definition}
+
+We can also derive the following theorem:
+
+\begin{theorem}
+    For a complex number $\vvec \in \C$, the following identity holds:
+    $$\vnorm^2 = \abs{v_1}^2 + \abs{v_2}^2 + \cdots + \abs{v_n}^2$$
+\end{theorem}
+
+On a side note, we have the following equivalencies for a vector in dirac notation:
+
+$$\norm{v} \equiv \norm{\ket{v}} = \norm{\bra{v}}$$
+
+In quantum mechanics, most of the vectors must be represented as complex vectors of norm 1. 
+
+\begin{theorem}
+    For any non-zero vector $\vvec \in \R$, the following formula will give the normalized vector in the direction of $\vvec$, denoted by $\hat{\vvec}$: $$\unitv = \frac{1}{\vnorm}\vvec$$ 
+\end{theorem}
+
+You might realize by this point, that the unit vectors reside on some version of a unit hypersphere. In 2 dimensions, this would be the unit circle. Consequently, rotations in hyperspace keep the unit vector as a unit vector. Distance is defined as:
+
+\begin{definition}[Distance]
+    Given two vectors $\vvec$ and $\uvec$ in $\Rn$ or $\Cn$, the distance between $\vvec$ and $\uvec$ is defined as:
+    $$d(\uvec, \vvec) = \norm{\uvec - \vvec}$$
+\end{definition}
+
+\subsection{Complex Inner Product Spaces}
+
+
+
 
 
 \end{document}
