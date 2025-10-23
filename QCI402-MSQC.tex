@@ -1987,6 +1987,35 @@ The norm of a real vector and the distance between two vectors can also be expre
     \end{align*}
 \end{theorem}
 
+\begin{proof}
+    Write the equation out and group it together using the definition of the real dot product. 
+\end{proof}
+
+At the same time, we have a few more intuitive and convinient algebraic properties of the dot product. 
+
+\begin{theorem}
+    For $\uvec, \vvec, \wvec \in \Rn$ and $k \in \R$, we have the following algebraic identities:
+    \begin{align*}
+        \uvec \cdot \vvec &= \vvec \cdot \uvec &\text{(Commutative Law)} \\
+        \uvec \cdot (\vvec + \wvec) &= \uvec \cdot \vvec + \uvec \cdot \wvec &\text{(Left Distributive Law)} \\
+        (\uvec + \vvec) \cdot \wvec &= \uvec \cdot \wvec + \vvec \cdot \wvec &\text{(Right Distributive Law)} \\
+        (k \uvec) \cdot \vvec &= k(\uvec \cdot \vvec) &\text{(Left Homogeneity Law)} \\
+        \uvec \cdot (k \vvec) &= k(\uvec \cdot \vvec) &\text{(Right Homogeneity Law)}
+    \end{align*}
+\end{theorem}
+
+In the complex plane, things get more interesting. 
+
+\begin{definition}[Complex Dot Product]
+    Given $\vvec, \uvec \in \Cn$, we have the complex dot product:
+    $$\uvec \cdot \vvec = u_1^* v_1 + u_2^* v_2 + \cdots + u_n^* v_n = \sum_{n}^{i=1}u_i^* v_i$$
+\end{definition}
+
+Generally speaking, the complex dot product will produce a complex scalar. In some other contexts, one might find the definition of the complex dot product to have the second element be the conjugate element. However, the previous definition is in line with the conventions of quantum mechanics and computing.  
+
+
+
+
 
 
 
