@@ -1936,6 +1936,11 @@ We can also derive the following theorem:
     $$\vnorm^2 = \abs{v_1}^2 + \abs{v_2}^2 + \cdots + \abs{v_n}^2$$
 \end{theorem}
 
+\begin{proof}
+    Since we know that $\abs{z} = \sqrt{z^* z}$, we can square both sides of the equation to give us:
+    $$\vnorm^2 = z_1^* z_1 + z_2^* z_2 + \cdots + z_n^* z_n = \abs{v_1}^2 + \abs{v_2}^2 + \cdots + \abs{v_n}^2$$
+\end{proof}
+
 On a side note, we have the following equivalencies for a vector in dirac notation:
 
 $$\norm{v} \equiv \norm{\ket{v}} = \norm{\bra{v}}$$
@@ -1946,6 +1951,12 @@ In quantum mechanics, most of the vectors must be represented as complex vectors
     For any non-zero vector $\vvec \in \R$, the following formula will give the normalized vector in the direction of $\vvec$, denoted by $\hat{\vvec}$: $$\unitv = \frac{1}{\vnorm}\vvec$$ 
 \end{theorem}
 
+\begin{proof}
+    $$
+    \norm{\unitv} = \norm{\frac{1}{\vnorm}\vvec} = \abs{\frac{1}{\vnorm}}\vnorm = \frac{1}{\vnorm}\vnorm = 1
+    $$
+\end{proof}
+
 You might realize by this point, that the unit vectors reside on some version of a unit hypersphere. In 2 dimensions, this would be the unit circle. Consequently, rotations in hyperspace keep the unit vector as a unit vector. Distance is defined as:
 
 \begin{definition}[Distance]
@@ -1955,6 +1966,26 @@ You might realize by this point, that the unit vectors reside on some version of
 
 \subsection{Complex Inner Product Spaces}
 
+A vector space will only become an inner product space when it contains the inner product as a valid operation. In $\Rn$, this operation is simply the dot product. Generally speaking, the inner product is the operation defined for a vector space $V$, scalar field $F$, as $$\left\langle \cdot, \cdot \right\rangle: V \cross V \rightarrow F $$
+
+The more familiar form of the inner product in $\Rn$, defined as:
+
+\begin{definition}[Real Dot Product]
+    For vectors $\vvec$ and $\uvec$ in $\Rn$, their dot product is deinfed as:
+    $$\uvec \cdot \vvec = u_1 v_1 + u_2 v_2 + \ldots + u_n v_n$$
+    Which is also known as the Euclidian inner product.
+\end{definition}
+
+
+The norm of a real vector and the distance between two vectors can also be expressed as a dot product as:
+
+\begin{theorem}
+    For $\uvec, \vvec \in \Rn$, we have
+    \begin{align*}
+        \norm{\vvec}^2 &= \vvec \cdot \vvec \\
+        \norm{\uvec - \vvec}^2 &= (\uvec - \vvec) \cdot (\uvec - \vvec)
+    \end{align*}
+\end{theorem}
 
 
 
