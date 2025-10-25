@@ -2011,10 +2011,206 @@ In the complex plane, things get more interesting.
     $$\uvec \cdot \vvec = u_1^* v_1 + u_2^* v_2 + \cdots + u_n^* v_n = \sum_{n}^{i=1}u_i^* v_i$$
 \end{definition}
 
-Generally speaking, the complex dot product will produce a complex scalar. In some other contexts, one might find the definition of the complex dot product to have the second element be the conjugate element. However, the previous definition is in line with the conventions of quantum mechanics and computing.  
+Generally speaking, the complex dot product will produce a complex scalar. In some other contexts, one might find the definition of the complex dot product to have the second element be the conjugate element. However, the previous definition is in line with the conventions of quantum mechanics and computing. The use of the complex conjugate is also designed to ensure that the norm defined previously is the dot product of a complex number with itself. 
+
+\begin{theorem}
+    Given a complex number $\vvec$, it's norm can be expressed as:
+    $$\vnorm = \sqrt{\vvec \cdot \vvec} \quad \Longleftrightarrow \quad \vnorm^2 = \vvec \cdot \vvec$$
+\end{theorem}
+
+Complex inner product spaces are complex vector spaces "equipped" with a complex inner prodcut. You can think of them as spaces where the dot product (a resulting scalar from two vector multiplications) is a valid operation. We like using $\Rn/\Cn$ as examples of common inner product spaces, and in quantum computing we really like $\Cn$ as it is the norm for representing quantum systems. 
+
+\begin{definition}[Complex Inner Product Space]
+    A complex inner product space is a complex vector space $V$ equipped with an inner product, defined as: $\left\langle \cdot, \cdot \right\rangle: V \cross V \rightarrow \C. $ The inner product, for $\uvec, \vvec, \wvec \in V, \quad k \in \C$, must satisfy:
+    \begin{enumerate}
+        \item $\innerprod{\uvec}{\vvec} = \conj{\innerprod{\vvec}{\uvec}}$
+        \item $\innerprod{\uvec}{\vvec + \wvec} = \innerprod{\uvec}{\vvec} + \innerprod{\uvec}{\wvec}$
+        \item $\innerprod{\uvec}{k \vvec} = k \innerprod{\uvec}{\vvec}$
+        \item $\innerprod{\vvec}{\vvec} \in \R$
+        \item $\innerprod{\vvec}{\vvec} = 0 \quad \Longleftrightarrow \quad \vvec = 0$
+    \end{enumerate}
+\end{definition}
+
+If we put the dot product and the complex vector space together, we have:
+
+\begin{theorem}
+    $\Cn$ is a complex inner product space when the complex dot product is used as the inner product.
+\end{theorem}
+
+\begin{proof}
+    Take $V \equiv \Cn$. In order to prove that the dot product qualifies as an inner product space, we need to make sure that it satisfies the properties laid out in the previous definition. 
+    \begin{enumerate}
+        \item $$\uvec \cdot \vvec = \sumonen \conj{u_i} v_i = \sumonen \conj{(u_i \conj{v_i})} = \conj{\left(\sumonen u_i \conj{v_i}\right)} = \conj{(\vvec \cdot \uvec)}$$
+        \item $$\uvec \cdot (\vvec + \wvec) = \sumonen \conj{u_i}(v_i + w_i) = \sumonen \conj{u_i} v_i + \sumonen \conj{u_i} w_i = \uvec \cdot \vvec + \uvec \cdot \wvec$$
+        \item $$\uvec \cdot (k \vvec) = \sumonen \conj{u_i} (k v_i) = k \sumonen \conj{u_i} v_i = k (\uvec \cdot \vvec)$$
+        \item $$\vvec \cdot \vvec = \sumonen \conj{v_i} v_i = \sumonen \abs{v_i}^2 \geq 0, \qquad \forall \vvec$$
+        \item $$\forall i \in [1, n], \qquad \abs{v_i} = 0 \quad \Rightarrow \quad v_i = 0 \quad \Rightarrow \quad \vvec = \zerovec$$
+    \end{enumerate}
+\end{proof}
+
+In addition to the previously defined identities, we also have:
+
+\begin{theorem}
+    Given a complex inner product space $V$ with an inner product $\innerprod{\cdot}{\cdot}$, with $\uvec, \vvec, \wvec \in V, \quad k \in \C$, the following identities hold:
+    \begin{align*}
+        \innerprod{\zerovec}{\vvec} &= \innerprod{\vvec}{\zerovec} = 0 \\
+        \innerprod{\uvec + \vvec}{\wvec} &= \innerprod{\uvec}{\wvec} + \innerprod{\vvec}{\wvec} \\
+        \innerprod{k \uvec}{\vvec} &= \conj{k} \innerprod{\uvec}{\vvec}
+    \end{align*}
+\end{theorem}
+
+\begin{proof}
+    Considering that the conjugate is taken for the left-handed element in the inner product:
+    \begin{align*}
+        \innerprod{k \uvec}{\vvec} &= \conj{\innerprod{\vvec}{k \uvec}} \\
+        &= \conj{(k \innerprod{\vvec}{\uvec})} \\ 
+        &= \conj{k} \conj{\innerprod{\vvec}{\uvec}}\\
+        &= \conj{k} \innerprod{\uvec}{\vvec}
+    \end{align*}
+\end{proof}
+
+Now as a subset of complex inner product spaces, we have the real inner product space. 
+
+\begin{definition}[Real Inner Product Space]
+    A real inner product space is a vector space $V$ equipped with the binary function (inner product) $\left\langle \cdot, \cdot \right\rangle: V \cross V \rightarrow \R.$  It must, for all $\uvec, \vvec, \wvec \in V, \quad k \in \R$, satisfy:
+    \begin{enumerate}
+        \item $\innerprod{\uvec}{\vvec} = \innerprod{\vvec}{\uvec}$
+        \item $\innerprod{\uvec}{\vvec + \wvec} = \innerprod{\uvec}{\vvec} + \innerprod{\uvec}{\wvec}$
+        \item $\innerprod{\uvec}{k \vvec} = k \innerprod{\uvec}{\vvec}$
+        \item $\innerprod{\vvec}{\vvec} \in \R$
+        \item $\innerprod{\vvec}{\vvec} = 0 \quad \Longleftrightarrow \quad \vvec = 0$
+    \end{enumerate}
+\end{definition}
+
+The only key difference lies in the first property. We also have the following theorem for the real inner product:
+
+\begin{theorem}
+    The following identities hold for the real inner product space:
+    \begin{align*}
+        \innerprod{\uvec}{k\vvec + m\wvec} &= k\innerprod{\uvec}{\vvec} + m\innerprod{\uvec}{\wvec} \\
+        \innerprod{k\uvec + m\vvec}{\wvec} &= k\innerprod{\uvec}{\wvec} + m\innerprod{\vvec}{\wvec} \\
+    \end{align*}
+\end{theorem}
+
+Which, conviniently, leads us to the definition for norm and distance using the inner product.
+
+\begin{definition}[Norm and Distance]
+    For any $\vvec, \uvec \in V$, the length (norm) is defined by 
+    $$\vnorm = \sqrt{\innerprod{\vvec}{\vvec}}$$
+    The distance between two vectors is defined by:
+    $$d(\vvec, \uvec) = \norm{\vvec - \uvec} = \sqrt{\innerprod{\vvec - \uvec}{\vvec - \uvec}}$$
+\end{definition}
+
+Using dirac notation, representing inner products become much simpler and straightforward.
+
+\begin{definition}[Product of Row and Column Vectors]
+    Given a row vector $\mathbf{r}$ and a column vector $\mathbf{c}$ in $\Cn$:
+    $$\mathbf{r} = 
+    \begin{bmatrix}
+    r_1 &
+    r_2 &
+    \cdots &
+    r_n
+    \end{bmatrix}, \quad \mathbf{c} = 
+    \begin{bmatrix}
+    c_1 \\ c_2 \\ \vdots \\ c_m
+    \end{bmatrix}
+    $$
+    their matrix product is defined as:
+    $$\mathbf{rc} = \sumonen r_i c_i$$
+\end{definition}
+
+Now, noting that we can simplify the product betweenn a vector $\ketphi$ and a hermitian adjoint ($\psi^\dagger = \brapsi$) as $\brapsi \ketphi \equiv \diracinnerprod{\psi}{\phi}$, we have the following definition:
+
+\begin{definition}[Dirac Notation of Inner Product]
+    Given two vectors $\ket{u} = \uvec, \ket{v} = \vvec$, we have the inner product defined as:
+    $$\diracinnerprod{u}{v} \equiv \innerprod{\uvec}{\vvec} = \uvec \cdot \vvec.$$
+\end{definition}
+
+For convinience, we have the following theorem:
+
+\begin{theorem}
+    For veectors $\ket{u}, \ket{v}, \ket{w} \in \Cn, \alpha \in \C$, the following identities hold:
+    \begin{align*}
+        \diracinnerprod{u}{v} &= \conj{\diracinnerprod{v}{u}} \\
+        \diracinnerprod{u + v}{w} &= \diracinnerprod{u}{w} + \diracinnerprod{v}{w} \\
+        \diracinnerprod{u}{v + w} &= \diracinnerprod{u}{v} + \diracinnerprod{u}{w} \\ 
+        \diracinnerprod{u}{\alpha v} &= \alpha \diracinnerprod{u}{v} \\
+        \diracinnerprod{\alpha u}{v} &= \conj{\alpha} \diracinnerprod{u}{v} \\
+        \vnorm^2 &= \diracinnerprod{v}{v} \\
+    \end{align*}
+\end{theorem}
+
+We also have the following theorem for any unit vector:
+
+\begin{theorem}
+    Any unit vector $\ketphi$ satisfies:
+    $$\diracinnerprod{\phi}{\phi} = 1$$
+\end{theorem}
+
+\begin{proof}
+    Since $\ketphi$ is a unit vector, $\norm{\phi} = 1$, which means that $\diracinnerprod{\phi}{\phi} = \norm{\phi}^2 = 1$
+\end{proof}
+
+There are a host of computational examples that can be found in the textbook and it is highly recommended to look over them and compute for yourself. Now it is worth mentioning a quick note on \textbf{Hilbert Spaces}, which is the mathmatical framework under which quantum states reside. While such spaces are often infinite-dimensional, the complex inner product spaces $\Cn$ are often special cases of finite-dimensional Hilbert spaces. 
+
+\subsubsection*{Infinite-Dimensional Complex Vector Spaces $\C^\infty$}
+
+We first start with $\C^\infty$ where columns consist of infinite sequences of complex numbers. This forms the foundation for infinite dimensional Hilbert spaces. An inner product here is defined as:
+
+$$\innerprod{\uvec}{\vvec} = \sumoneinf \conj{u_i} v_i$$
+
+Notably, for the inner product to be well defined, the series must converge, which leads to the concept of square-summable sequences ($l^2$).
+
+\subsubsection*{Functional Inner Spaces}
+
+Functional Spaces, which are defined as the spaces of functions, consist of functions with specific properties. If we equip them with an inner product, these functional spaces become (you guessed it) functional inner spaces. For the inner product of functions $f(x), g(x)$ over the interval $[a, b]$, we have:
+
+$$\innerprod{f}{g} = \int_{a}^{b} \conj{f}(x) g(x)\,dx. $$
+
+One of the most important examples of functional inner spaces is $L^2([a, b])$, is the space of all square-intergrable functions on $[a, b]$, defined as:
+
+$$L^2([a, b]) = \left\{f: [a, b] \longrightarrow \C \vert \int_{a}^{b} \abs{f(x)}^2 \, dx < \infty \right\}$$
+
+The corresponding norm, (unironically) called the $L^2$ norm, is defined as:
+
+$$\norm{f} = \sqrt{\int_{a}^{b} \abs{f(x)}^2 \,dx }$$
+
+One will see later how concepts like orthogonality and projection naturally extends to functions. In the textbook, there is a brief tangent that connects this to the fourier series $\phi_k(x)$, which will not be covered at this time. 
+
+\subsubsection*{Hilbert Space}
+
+Building on the previous concepts of $\Cn$ and functional spaces, we are ready to define Hilber spaces. These are generalization of inner product spaces that is \textit{complete}. 
+
+\begin{definition}[Hilbert Space]
+    A Hilber space is an \textbf{inner product space} that is \textit{complete} with respect to the norm induced by its inner product. Completeness means that every Cauchy sequence in the space converges to a point within the space. 
+\end{definition}
+
+So what is a cauchy sequence? It is what Augustin Cauchy proposed as the solution to the question: how do you decide when to consider a sequence as convergent?
+
+\begin{definition}[Cauchy Sequence]
+    A $\left\{s_n\right\} = (s_1, s_2, \ldots)$ is called a \textbf{Cauchy Sequence} if:
+    $$\forall N \in \N, \quad \epsilon > 0, \quad n > N \qquad \Longrightarrow \qquad \abs{s_n - s_{n+1}} < \epsilon$$
+    \begin{center}
+        \includegraphics[width=200px]{6_cauchy}
+    \end{center}
+\end{definition}
+
+In relation to the Hilbert space, it means that every sequence in the Hilbert space will converge to a point in the Hilbert space, that it is complete. In the context of quantum computing and representing information, the $n$-qubit state space is a finite system constructed from an inner product space with dimension $2^n$. This is formalized by the following theorem:
+
+\begin{theorem}
+    Every finite-dimensional real or complex inner product space is a Hilbert space.
+\end{theorem}
+
+
+In quantum mechanics, Hilbert spaces will often extend to infinite dimensions. It ensures that any linear combination or superposition remains a valid quantum state, providing consistency to the space. In other words, this space is \textbf{complete}.
+
+\subsection{Orthogonality and Projection}
 
 
 
+
+\section*{Appendix}
 
 
 
