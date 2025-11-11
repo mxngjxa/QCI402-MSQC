@@ -1834,7 +1834,7 @@ There are a few general and commmon methods of representing a state vector ket, 
 Therea realso certain symbols reserved for specific vectors of significance, much like how we reserve $\pi$ and $e$ in common arithmatic. These include
 
 \begin{itemize}
-    \item $\qzero, \qone$ for the computational basis veectors in single qubit systems;
+    \item $\qzero, \qone$ for the computational basis vectors in single qubit systems;
     \item $\ket{V}, \ket{H}$ for rectilinear polarization states of a photon;
     \item $\bellpsi, \bellpsim, \bellphi, \bellphim$ for Bell states of two qubits. 
 \end{itemize}
@@ -2120,24 +2120,24 @@ Using dirac notation, representing inner products become much simpler and straig
     $$\mathbf{rc} = \sumonen r_i c_i$$
 \end{definition}
 
-Now, noting that we can simplify the product betweenn a vector $\ketphi$ and a hermitian adjoint ($\psi^\dagger = \brapsi$) as $\brapsi \ketphi \equiv \diracinnerprod{\psi}{\phi}$, we have the following definition:
+Now, noting that we can simplify the product betweenn a vector $\ketphi$ and a hermitian adjoint ($\psi^\dagger = \brapsi$) as $\brapsi \ketphi \equiv \braket{\psi}{\phi}$, we have the following definition:
 
 \begin{definition}[Dirac Notation of Inner Product]
     Given two vectors $\ket{u} = \uvec, \ket{v} = \vvec$, we have the inner product defined as:
-    $$\diracinnerprod{u}{v} \equiv \innerprod{\uvec}{\vvec} = \uvec \cdot \vvec.$$
+    $$\braket{u}{v} \equiv \innerprod{\uvec}{\vvec} = \uvec \cdot \vvec.$$
 \end{definition}
 
 For convinience, we have the following theorem:
 
 \begin{theorem}
-    For veectors $\ket{u}, \ket{v}, \ket{w} \in \Cn, \alpha \in \C$, the following identities hold:
+    For vectors $\ket{u}, \ket{v}, \ket{w} \in \Cn, \alpha \in \C$, the following identities hold:
     \begin{align*}
-        \diracinnerprod{u}{v} &= \conj{\diracinnerprod{v}{u}} \\
-        \diracinnerprod{u + v}{w} &= \diracinnerprod{u}{w} + \diracinnerprod{v}{w} \\
-        \diracinnerprod{u}{v + w} &= \diracinnerprod{u}{v} + \diracinnerprod{u}{w} \\ 
-        \diracinnerprod{u}{\alpha v} &= \alpha \diracinnerprod{u}{v} \\
-        \diracinnerprod{\alpha u}{v} &= \conj{\alpha} \diracinnerprod{u}{v} \\
-        \vnorm^2 &= \diracinnerprod{v}{v} \\
+        \braket{u}{v} &= \conj{\braket{v}{u}} \\
+        \braket{u + v}{w} &= \braket{u}{w} + \braket{v}{w} \\
+        \braket{u}{v + w} &= \braket{u}{v} + \braket{u}{w} \\ 
+        \braket{u}{\alpha v} &= \alpha \braket{u}{v} \\
+        \braket{\alpha u}{v} &= \conj{\alpha} \braket{u}{v} \\
+        \vnorm^2 &= \braket{v}{v} \\
     \end{align*}
 \end{theorem}
 
@@ -2145,11 +2145,11 @@ We also have the following theorem for any unit vector:
 
 \begin{theorem}
     Any unit vector $\ketphi$ satisfies:
-    $$\diracinnerprod{\phi}{\phi} = 1$$
+    $$\braket{\phi}{\phi} = 1$$
 \end{theorem}
 
 \begin{proof}
-    Since $\ketphi$ is a unit vector, $\norm{\phi} = 1$, which means that $\diracinnerprod{\phi}{\phi} = \norm{\phi}^2 = 1$
+    Since $\ketphi$ is a unit vector, $\norm{\phi} = 1$, which means that $\braket{\phi}{\phi} = \norm{\phi}^2 = 1$
 \end{proof}
 
 There are a host of computational examples that can be found in the textbook and it is highly recommended to look over them and compute for yourself. Now it is worth mentioning a quick note on \textbf{Hilbert Spaces}, which is the mathmatical framework under which quantum states reside. While such spaces are often infinite-dimensional, the complex inner product spaces $\Cn$ are often special cases of finite-dimensional Hilbert spaces. 
@@ -2207,10 +2207,152 @@ In quantum mechanics, Hilbert spaces will often extend to infinite dimensions. I
 
 \subsection{Orthogonality and Projection}
 
+We define orthogonality using the inner product, where, in close conjunction with the norm and establishing orthonormal bases, is a key concept. It entertains a close relationship with the projection problem, playing a crucial role in determining the measurement probabilities for different outcome states. From a geometric standpoint, the angle between two non-zero vectors in $\R^2/\R^3$ is defined as the intuitive angle between the two vectors. 
+
+When we talk about the dot product, it is closely related to the two. Applying the law of cosines:
+
+$$
+    \norm{\uvec - \vvec}^2 = \unorm^2 + \vnorm^2 - 2 \unorm \vnorm \cos \theta
+$$
+
+and rearranging this equation gives us:
+
+$$
+    \unorm \vnorm \cos \theta = \frac{1}{2} (\unorm^2 + \vnorm^2 - \norm{\uvec - \vvec}^2 )
+$$
+
+We can see that the right hand side is equal to the dot product of $\uvec$ and $\vvec$, bringing us to the following theorem and definition.
+
+\begin{center}
+    \includegraphics[width=200px]{6_dot_prod_angle}
+\end{center}
+
+\begin{theorem}
+    For vectors $\uvec, \vvec \in \R^2/\R^3$, we have the following identity:
+    
+    $$\uvec \cdot \vvec = \unorm \vnorm \cos \theta$$
+
+    where $\theta$ is the geometric angle between $\uvec$ and $\vvec$.
+\end{theorem}
+
+In fact, while we say that this is true for $\uvec, \vvec \in \R^2/\R^3$, it is only because we mention that this is for the geometric angle $\theta$. It is very difficult to visualize $\theta$ in hyperspace, yet the following general definition holds for non-zero vectors in $\Rn$. 
+
+\begin{definition}[Angle Between Two Real Vectors]
+    For any $\uvec, \vvec \in \R^n$, the angle is said to lie within the interval [$0, \pi$] and is given by:
+    $$\cos \theta = \frac{\uvec \cdot \vvec}{\unorm \vnorm}$$
+\end{definition}
+
+Note that for the previous definition to hold, the computed cosine value must lie within the interval of $[-1, 1]$. This condition is guaranteed to be satisfied given the \textbf{Cauchy-Schwarz Inequality}, stating that:
+
+$$ - \unorm \vnorm \leq \vvec \cdot \uvec \leq \unorm \vnorm $$
 
 
+For complex numbers, we say that $\uvec \cdot \vvec$ is generally a complex number. As a result, the previous definition for $\cos \theta$ no longer holds since the right side is generally complex. However, the condition $\vvec \cdot \uvec = 0$ still holds regardless and remains of great use even for complex vectors. 
 
-\section*{Appendix}
+\begin{definition}[Orthogonality in $\Cn$]
+    Given two vectors $\uvec, \vvec \in \Cn$, we say that $\uvec$ and $\vvec$ are orthogonal if $\vvec \cdot \uvec = \uvec \cdot \vvec = 0$.
+\end{definition}
+
+\begin{definition}[Orthogonality in Inner Product Spaces]
+    Generally, for $\uvec, \vvec \in V$, where $V$ is an inner product space, we say that $\uvec$ and $\vvec$ are orthogonal when $\innerprod{\uvec}{\vvec} = \innerprod{\vvec}{\uvec} = 0$
+\end{definition}
+
+\begin{definition}[Generalized Pythagorean Theorem]
+    For $\uvec, \vvec \in \Cn$, if $\uvec$ and $\vvec$ are orthognal, then 
+    $$\vnorm^2 + \unorm^2 = \norm{\uvec + \vvec}^2$$
+\end{definition}
+
+\begin{proof}
+    Since we know that orthogonal vectors $\uvec, \vvec$ have the property $\innerprod{\uvec}{\vvec} = 0$, then:
+    $$\innerprod{\uvec}{\vvec} = (\uvec + \vvec) \cdot (\uvec + \vvec) = \unorm^2 + \uvec \cdot \vvec + \vvec \cdot \uvec + \vnorm^2 =  \unorm^2 + \vnorm^2$$
+\end{proof}
+
+There is an intriguing property of orthogonal vectors that can be illustrated with the following example:
+
+\begin{example}
+    Given $\uvec = (1, 0)$, find a unit vector $\vvec \in \C^2$ that is orthogonal to $\uvec$. If we take $\vvec = (v_1, v_2)$, we know that $\innerprod{\uvec}{\vvec} = 0$, which means that $v_1 = 0$, and it will not matter what $v_2$ is equal to, as long as it is of length one. Therfore, we have
+    $$\vvec = (0, e^{i \phi}), \quad \phi \in \R$$
+\end{example}
+
+This example illustrates a simple concept about complex vectors, whcih is that there exists an infinite number of unit vectors that are orthognoal to $(1, 0)$ in $\C^2$. This comes from the fact that multiplying, or scaling, by a factor $i \phi$ only maintains the magnitude of a complex number $z$. Therefore, we have the the following theorem:
+
+\begin{theorem}
+    Given two unit vectors $\mathbf{z}, \wvec \in \Cn$ that are orthogonal, there are an infinitely many unit vecros in the span of $\wvec$ which are ortogonal to $\mathbf{z}$ in the form of $e^{i \phi}\wvec, \phi \in \R$. 
+\end{theorem}
+
+\begin{proof}
+    We rewrite $\wvec^\prime = e^{i \phi}\wvec, \phi \in \R$ as $\wvec^\prime = \lambda \wvec, \lambda \in \C$. The orthogonality operation then becomes:
+    $$\mathbf{z} \cdot \wvec^\prime = \mathbf{z} \cdot (\lambda \wvec) = \lambda (\mathbf{z} \cdot \wvec) = \lambda \zerovec = \zerovec$$
+    Furthermore, since $\norm{\wvec^\prime} = 1$, we see that:
+    $$\norm{\wvec^\prime} = \norm{\lambda \wvec} = \abs{\lambda} \cdot \norm{\wvec} = \abs{\lambda}$$
+    Implying that $\lambda$ is of the form $e^{i \phi}$.
+\end{proof}
+
+Since quantum states are represented by unit vectors in $\Cn$, we can see that multiplying any unit vector by a factor of $e^{i \phi}$ preserves its modulus, hence preserving it as a unit vector. We therefore call these vectors \textbf{global phase factors}, which highlights its effect across the quantum state. 
+
+\begin{theorem}
+    Given two orthogonal vectors $\ketphi, \ketpsi \in \Cn$, they satisfy:
+    $$\braket{\phi}{\psi} = \braket{\psi}{\phi} = 0$$
+\end{theorem}
+
+Orthogonaliy is closely related to the concept of projections in the sense that it is commonly known as an orthogonal projection. An example of this in $\R^2$ is illustrated by the dashed line in the figure below. 
+
+\begin{center}
+    \includegraphics[width=\textwidth]{6_2d_proj}
+\end{center}
+
+Once you understand this conceptually in two dimensions, it becomes easier to see how $\mathbf{a}$ can be extended to a plane in three dimensions, and so on, bringing us to the general projection theorem in $\Rn/\Cn$. 
+
+\begin{theorem}[Projection Theorem]
+    Given $\vvec, \mathbf{a} \in \Rn/\Cn$, there is an \textit{unique} way to decompose $\vvec$ as $\vvec = \wvec + \wvec^\prime$ where $\wvec$ is in the span of $\mathbf{a}$ and $\wvec^\prime$ is orthogonal to $\mathbf{a}$. 
+
+    Here, we denote $\wvec$ as the \textbf{orthogonal projection of $\vvec$ onto $\mathbf{a}$} and denote it as $\text{proj}_{\mathbf{a}}{\vvec}$ while $\wvec^\prime$ as the \textbf{complement of $\vvec$ orthogonal to $\mathbf{a}$}, denoted as $\vvec_{\perp \mathbf{a}}$. They are given by the following formulas:
+    \begin{align*}
+        \text{proj}_{\mathbf{a}}{\vvec} = \vvec_{\Vert \mathbf{a}} &= \frac{\mathbf{a} \cdot \vvec}{\norm{\mathbf{a}}^2}\mathbf{a} \\
+        \vvec_{\perp \mathbf{a}} &= \vvec - \text{proj}_{\mathbf{a}}{\vvec} \\
+    \end{align*}
+\end{theorem}
+
+\begin{proof}
+    Since $\wvec$ is in the span of the vector $\mathbf{a}$, it can be writen as a scaled version of $\mathbf{a}$, i.e. $\wvec = \lambda \mathbf{a}, \lambda \in \C$. It is thus possible to expand the equation into:
+    $$\mathbf{a} \cdot \vvec = \mathbf{a} \cdot (\wvec + \wvec^\prime) = \mathbf{a} \cdot \wvec + \mathbf{a} \cdot \wvec^\prime = \mathbf{a} \cdot \wvec = \mathbf{a} \cdot (\lambda \mathbf{a}) = \lambda (\mathbf{a} \cdot \mathbf{a})$$
+    Solving for $\lambda$ gives us:
+    $$\lambda = \frac{\mathbf{a} \cdot \vvec}{\mathbf{a} \cdot \mathbf{a}} = \frac{\mathbf{a} \cdot \vvec}{\norm{\mathbf{a}}^2}$$
+    We therefore have:
+    $$\wvec = \lambda \mathbf{a} = \frac{\mathbf{a} \cdot \vvec}{\norm{\mathbf{a}}^2} \mathbf{a}, \qquad \wvec^\prime = \vvec - \wvec = \vvec - \frac{\mathbf{a} \cdot \vvec}{\norm{\mathbf{a}}^2} \mathbf{a}$$
+\end{proof}
+
+Since in quantum computing the state vectors are unit vectors, the projection between unit complex vectors are of vital importance. We thus have:
+
+\begin{theorem}[Projection Theorem Between Complex Unit Vectors]
+    Consider $\ketphi, \ketpsi \in \Cn$. The projection of $\ketphi$ onto $\ketpsi$ is given by the formula:
+    $$\text{proj}_{\ketpsi} \ketphi = \braket{\psi}{\phi} \ketpsi$$
+    where $\abs{\braket{\psi}{\phi}} \leq 1$.
+\end{theorem}
+
+Now in order to prove this, we need an adaptation of the Cauchy-Schwarz Inequality for Dirac notation$$\abs{\braket{\phi}{\psi}}^2 \leq \braket{\phi}{\psi} \cdot \braket{\psi}{\psi} \quad \Longleftrightarrow \quad \abs{\innerprod{\phi}{\psi}} \leq \norm{\psi} \norm{\phi}$$.
+
+
+\begin{proof}
+    If we rewrite this equation into Dirac notation, it gives us 
+    $$\text{proj}_{\ketphi} \ketpsi = \frac{\braket{\psi}{\phi}}{\braket{\phi}{\phi}} \ketpsi$$
+    Since $\ketphi$ is a unit vector, $\braket{\phi}{\phi} = \norm{\phi}^2 = 1$, simplifying to the equation in the theorem above. 
+    In order to prove that $\braket{\phi}{\psi} \leq 1$, we apply the Cauchy-Schwarz inequality and get:
+    $$\abs{\braket{\phi}{\psi}}^2 \leq \braket{\phi}{\phi} \braket{\psi}{\psi} = 1$$
+    since both $\braket{\phi}{\phi} = \braket{\psi}{\psi} = 1$.
+\end{proof}
+
+This is important for properties such as the Born Rule, which states that upon measuring an obvservable $M$ on a quantum state $\ketpsi$, the probability of obtaining each eigenvalue $\lambda_i$ is given by $\abs{\braket{\lambda_i}{\psi}}^2$, where $\ket{\lambda_i}$ is the corresponding eigenvector. Since the aforementioned theorem ensures that $\abs{\braket{\lambda_i}{\psi}}^2 \leq 1$, we can ensure that it is a valid probability. It is now necessary to reintroduce the general form of the following theorem:
+
+\begin{theorem}[Cauchy-Schwarz Inequality]
+    Consider any two vectors $\uvec, \vvec \in V$, where $V$ is an inner product space.Then we have the following inequality:
+    $$\abs{\innerprod{\uvec}{\vvec}}^2 = \leq \innerprod{\uvec}{\uvec} \innerprod{\vvec}{\vvec}.$$ 
+\end{theorem}
+
+This theorem can be adapted into several other forms for various inner product spaces, such as $\Rn$, $\Cn$, etc. 
+
+\subsection{Orthonormal Bases}
+
 
 
 
