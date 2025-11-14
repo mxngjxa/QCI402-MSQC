@@ -33,6 +33,37 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 
+% Code
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
 
 \usemintedstyle{manni}
 \graphicspath{ {./figures/} }
@@ -1834,7 +1865,7 @@ There are a few general and commmon methods of representing a state vector ket, 
 Therea realso certain symbols reserved for specific vectors of significance, much like how we reserve $\pi$ and $e$ in common arithmatic. These include
 
 \begin{itemize}
-    \item $\qzero, \qone$ for the computational basis vectors in single qubit systems;
+    \item $\ketzero, \ketone$ for the computational basis vectors in single qubit systems;
     \item $\ket{V}, \ket{H}$ for rectilinear polarization states of a photon;
     \item $\bellpsi, \bellpsim, \bellphi, \bellphim$ for Bell states of two qubits. 
 \end{itemize}
@@ -1844,12 +1875,12 @@ the standard basis vectors of $\Cn$ are indispensable in quantum computing, so i
 \begin{definition}[Computational Basis]
 For a single-qubit system in $\C^2$, the standard basis vectors, commonly referred to as the \textbf{computational basis}, are defined as the following ket vectors:
 \[
-\qzero \equiv \begin{bmatrix} 1 \\ 0 \end{bmatrix}, \quad \qone \equiv \begin{bmatrix} 0 \\ 1 \end{bmatrix}
+\ketzero \equiv \begin{bmatrix} 1 \\ 0 \end{bmatrix}, \quad \ketone \equiv \begin{bmatrix} 0 \\ 1 \end{bmatrix}
 \]
 
 For a one-qudit system (with $d$ distinct levels) in $\C^d$, the computational basis includes vectors:
 \[
-\qzero \equiv \begin{bmatrix} 1 \\ 0 \\ \vdots \\ 0 \end{bmatrix}, \quad \qone \equiv \begin{bmatrix} 0 \\ 1 \\ \vdots \\ 0 \end{bmatrix}, \quad \cdots, \quad \ket{d-1} \equiv \begin{bmatrix} 0 \\ 0 \\ \vdots \\ 1 \end{bmatrix}
+\ketzero \equiv \begin{bmatrix} 1 \\ 0 \\ \vdots \\ 0 \end{bmatrix}, \quad \ketone \equiv \begin{bmatrix} 0 \\ 1 \\ \vdots \\ 0 \end{bmatrix}, \quad \cdots, \quad \ket{d-1} \equiv \begin{bmatrix} 0 \\ 0 \\ \vdots \\ 1 \end{bmatrix}
 \]
 \end{definition}
 
@@ -1860,9 +1891,9 @@ $$
     1 \\ 0
 \end{bmatrix}
 = 
-\alpha \qzero
+\alpha \ketzero
 +
- \beta \qone, \quad \forall \alpha, \beta \in \C
+ \beta \ketone, \quad \forall \alpha, \beta \in \C
 $$
 
 We conversely also have the hermitian adjoint of any vector $\ketpsi$, which is defined as 
@@ -2353,8 +2384,382 @@ This theorem can be adapted into several other forms for various inner product s
 
 \subsection{Orthonormal Bases}
 
+We know that bases of vector spaces are a set of linearly independent vectors that span a given space. In this subsection, we will extend this generalization to inner product spaces (which have additional properties such as norm and orthogonality). In these spaces, orthonormal bases are formed by sets of vectors that are both orthognoal and normalized, are an intuitive and funcamental concept for both quantum mechanics and quantum computing, simplifying the representation of quantum states and illustrating key concepts such as superposition, entanglement, state evoluytion, and measurement. Here, Dirac notation is the norm. 
+
+\begin{definition}[Orthonormal Basis]
+    A basis $S = \left\{\ket{b_1}, \ket{b_2}, \ldots, \ket{b_n}\right\}$ for an $n$-dimensional complex inner product space $V$ is said to be orthonormal when they have norm $1$ and are all orthogonal to each other. That is:
+    $$\norm{b_1} = \norm{b_2} = \ldots = \norm{b_n} = 1$$
+    $$\braket{b_i}{b_j} = 0 \quad \forall i \neq j$$
+\end{definition}
+
+This is very much intuitive and analogous to the definition of any orthonormal basis. However, extending this to complex inner product spaces, we have the following theorem:
+
+\begin{theorem}[Fundamental Property of Orthonormal Bases]
+    Given a basis $S$of a complex inner product space, $S$ is orthonormal if and only if all inner products between pairs of basis vectors satisfy:
+    $$
+    \braket{b_i}{b_j} = \delta_{ij}, \qquad \delta_{ij} = \begin{cases}
+        0 \quad i \neq j \\
+        1 \quad i = j
+    \end{cases}
+    $$
+\end{theorem}
+
+When expressing any unit vector in terms of orthonormal basses, the following key property holds true.
+
+\begin{theorem}
+    Let $\ketpsi \in \Cn$ be a \textit{unit vector}, and take a set of orthonormal basis $\left\{\ket{b_i}\right\}$. Suppose we can express $\ketpsi$ as a linear combination of the basis vectors as:
+    $$\ketpsi = c_1 \ket{b_1} + c_2 \ket{b_2} + \cdots + c_n \ket{b_n}$$
+    with $\left\{c_i\right\} \in \C$, then we have the squared magnitudes of the coefficients satisfying the following constraint:
+    $$\sum_{i=1}^{n} \abs{c_i}^2 = 1$$ 
+\end{theorem}
+
+\begin{proof}
+    Using rules of the complex dot product and the properties of an orthonormal basis, we can see that this holds:
+    \begin{align}
+        \braket{\psi}{\psi} &= \left(c_1^* \bra{b_1} + c_2^* \bra{b_2} + \cdots c_n^* \bra{b_n}\right) \left(c_1 \ket{b_1} + c_2 \ket{b_2} + \ldots c_n \ket{b_n}\right) \\
+        &= \sum_{i=1}^{n} c_i^* c_i \braket{b_i}{b_i} + \sum_{i \neq j} c_i^* c_j \braket{b_i}{b_j} \\
+        &= \sum_{i=1}^{n} c_i^* c_i 1 + \sum_{i \neq j} c_i^* c_j \mathbf{0} \\
+        &= \sum_{i=1}^{n} \abs{c_i}^2
+    \end{align}
+    Since $\ketpsi$ is a unit vector, $\braket{\psi}{\psi} = \norm{\psi}^2 = 1$, so $\braket{\psi}{\psi} = \sum_{i=1}^{n} \abs{c_i}^2 = 1$.
+\end{proof}
+
+In quantum computing, we would take $\ketphi$ to be a \textbf{superposition state} within the basis $\left\{\ket{b_i}\right\}$, and when measured, the probability that this quantum state would reduce itself to $\left\{\ket{b_i}\right\}$ is $\abs{c_i}^2$. The previous theorem simply proves that the summation of these states is equal to one, consistent with the definition of probability. Now note that, starting at this point in the notes, that \textbf{all complex vectors expressed in Dirac notation are unit vectors}, unless stated otherwise. This is standard practice for quantum computing literature. 
+
+In quantum computing, state vectors $\ketphi$ are typically expressed as superpositions within an orthonormal basis, rather than the standard basis themselves. For example, take the state $\ketplus = \frac{1}{\sqrt{2}}(\ketzero + \ketone)$, rather than taking the matrix form $\ketplus = \left[\frac{1}{\sqrt{2}} \quad \frac{1}{\sqrt{2}}\right]^T$. This greatly simplifies operations such as outer and tensor products, introduced in the later chapters. 
+
+\begin{theorem}
+    Given $\ketpsi$ and an orthonormal basis $S$ in an $n$-dimensional complex inner product space, $\ketpsi$ can be decomposed as a superposition of basis vectors:
+    $$\ketpsi = c_1 \ket{b_1} + c_2 \ket{b_2} + \cdots + c_n \ket{b_n}$$
+    where each coefficient $c_i$ is given by:
+    $$c_i = \braket{b_i}{\psi}$$
+\end{theorem}
+
+\begin{proof}
+    Since we are expressing $\ketpsi$ as a linear combination of the basis vectors $\left\{\ket{b_i}\right\}$, 
+    $$\ketpsi = c_1 \ket{b_1} + c_2 \ket{b_2} + \cdots + c_n \ket{b_n}$$
+    then in order to find $c_i$, we only need to take 
+    \begin{align*}
+        \braket{b_i}{\psi} &= \bra{b_i}(c_1 \ket{b_1} + c_2 \ket{b_2} + \cdots + c_n \ket{b_n}) \\
+        &= c_1 \braket{b_i}{b_1} + c_2 + \cdots + c_n \braket{b_i}{b_n} \\
+        &= c_1 \cdot 1 + \sum_{i \neq j} c_j \cdot 0 \\
+        &= c_i \\
+    \end{align*}
+\end{proof}
+
+This can also be rewritten as 
+
+$$\ketpsi = \braket{b_1}{\psi} \ket{b_1} + \braket{b_2}{\psi} \ket{b_2} + \cdots + \braket{b_n}{\psi} \ket{b_n} = \sum_{i=1}^{n} \braket{b_i}{\psi} \ket{b_i}$$
+
+where each component $\braket{b_i}{\phi} \ket{b_i}$ is just the projection of $\ketphi$ onto $\ket{b_i}$ or $\projection{\ket{b_i}}{\ketpsi}$.
+
+\begin{center}
+    \includegraphics[width=\textwidth]{6_orthonorm_decomp}
+\end{center}
+
+Now we know that generally vectors can be decomposed into some naturally existing subspaces and vectors defined in real linear algebra. This translates well to complex inner product spaces, where $c_i = \braket{b_i}{\psi}$ represents the $i$-th coordinate of $\ketpsi$ relative to the orthonormal basis $S = \left\{\ket{b_i}\right\}$, and obtained by projecting $\ketpsi$ onto the corresponding basis vector $\ket{b_i}$. 
+
+We know that all finite-dimensional inner product spaces have an orthonormal basis. Actually, they have infinite orthonormal bases, and in some situations it is critical to create an orthonormal basis from a non-orthonormal one. The gram-schmidt process defines a methodical algorithm for htis task, which is especially beneficial when working with degenerate eigenvalues.
+
+In order to fully understand this processs, we must first introduce a few theorems that lay the foundation for this. 
+
+\begin{theorem}[Basis from Linearly Independent Vectors]
+    Given a set $S$ with exactly $n$ vectors from a vector space $V$ with $\dim(V) = n$, $S$ forms a basis for $V$ if and only if $S$ is linearly independent. 
+\end{theorem}
+
+\begin{proof}
+    Assume that $S$ forms a basis yet is linearly independent. Then it must be possible to remove at least one vector from $S$ without changing it's span. However, this means that the number of vectors will now be strictly less than $n$, which is in direct contradiction to the previous theorem that states the minimum number of vectors required to span a space is equal to its dimension. Therefore, $S$ must be linearly independent. 
+\end{proof}
+
+\begin{theorem}[Orthogonal Basis]
+    Take $S = \left\{\vvec_1, \vvec_2, \ldots, \vvec_n\right\}$ is a set of nonzero vectors in an inner product space $V, \dim(V) = n$, and that these vectors are orthogonal to each other s.t. $\braket{\vvec_i}{\vvec_j} = 0, \forall i \neq j$. Thus, $S$ constitues an orthogonal basis of $V$. 
+\end{theorem}
+
+\begin{proof}
+    Since $S$ is already defined as an orthogonal basis, we only need to demonstrate that $S$ is linearly independent. Consider the following equation:
+    $$k_1 \vvec_1 + k_2 \vvec_2 + \cdots + k_n \vvec_n = \zerovec$$
+    If we take the left dot product for each $\vvec_i$ with this equation, then we have 
+    \begin{align*}
+        \braket{\vvec_i}{k_1 \vvec_1 + k_2 \vvec_2 + \cdots + k_n \vvec_n} &= k_1 \braket{\vvec_i}{\vvec_1} + k_2 \braket{\vvec_i}{\vvec_2} + \cdots + k_n \braket{\vvec_i}{\vvec_n} \\
+        &= k_i \braket{\vvec_i}{\vvec_i} \\
+    \end{align*}
+    We are left with:
+    $$k_i \braket{\vvec_i}{\vvec_i} = 0$$
+    Since $\braket{\vvec_i}{\vvec_i} = \norm{\vvec_i}^2 \neq 0$ for all non-zero vectors, it follows that $k_i = 0$. Hence, $S$ is linearly independent.
+\end{proof}
+
+Normalizing each basis vector in an orthogonal basis naturally leads to an orthonormal basis. This transformation is formalized in:
+
+\begin{theorem}
+    Given an orthogonal basis $S$ for an inner product space $V$, an orthonormal basis can be obtained by normalizing each basis vector in $S$:
+    $$\hat{\vvec_1} = \frac{\vvec_1}{\norm{\vvec_1}}, \hat{\vvec_2} = \frac{\vvec_2}{\norm{\vvec_2}}, \ldots, \hat{\vvec_n} = \frac{\vvec_n}{\norm{\vvec_n}}$$
+\end{theorem}
+
+The Gram Schmidt process, 
+
+\begin{theorem}[The Gram-Schmidt Process]
+    The following computational steps, known as the Gram-Schmidt process, transform any basis \(\{\uvec_1, \uvec_2, \ldots, \uvec_n\}\) of an inner product space \(V\) into an orthogonal basis \(\{\vvec_1, \vvec_2, \ldots, \vvec_n\}\):
+
+        \begin{enumerate}
+            \item \(\vvec_1 = \uvec_1\)
+            
+            \item \(\vvec_2 = \uvec_2 - \projection{\vvec_1}{\uvec_2}\)
+            
+            \item \(\vvec_3 = \uvec_3 - \projection{\vvec_1}{\uvec_3} - \projection{\vvec_2}{\uvec_3}\)
+            
+            \item \(\vvec_4 = \uvec_4 - \projection{\vvec_1}{\uvec_4} - \projection{\vvec_2}{\uvec_4} - \projection{\vvec_3}{\uvec_4}\)
+             
+            \item[n.] \(\displaystyle \vvec_n = \uvec_n - \sum_{i=1}^{n-1} \projection{\vvec_i}{\uvec_n}\)
+        \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    In this proof, we utilize the complex dot product as the inner product. Given that \(\{\uvec_1, \uvec_2, \ldots, \uvec_n\}\) is a basis for \(V\), and hence \(\dim(V) = n\), we aim to demonstrate that \(\{\vvec_1, \vvec_2, \ldots, \vvec_n\}\) forms an orthogonal basis. This follows from the previous theorem where we showed that \(\vvec_i \cdot \vvec_j = 0, \forall i \neq j\).
+
+    We establish the following relationships: that the inner product of a vector with another one onto itself is just the dot product with that vector, and the dot product of two vectors that are already orthogonal, then the projection of another vector onto the orthogonal vector is simply zero. Mathmatically:
+
+    \begin{align}
+        \vvec_i \cdot \projection{\vvec_i}{\uvec_j} &= \vvec_i \cdot \left(\frac{\vvec_i \cdot \uvec_j}{\vvec_i \cdot \vvec_i}\vvec_i\right) = \frac{\vvec_i \cdot \uvec_j}{\vvec_i \cdot \vvec_i}\vvec_i \cdot \vvec_i = \vvec_i \cdot \uvec_j,  \\
+        \vvec_i \cdot \projection{\vvec_k}{\uvec_j} &= \vvec_i \cdot \left(\frac{\vvec_k \cdot \uvec_j}{\vvec_k \cdot \vvec_k}\vvec_k\right) = \frac{\vvec_k \cdot \uvec_j}{\vvec_k \cdot \vvec_k}\vvec_i \cdot \vvec_k = 0 \quad \text{if } \vvec_i \cdot \vvec_k = 0.
+    \end{align}
+
+    With these formulas, we proceed with the proof using mathematical induction.
+
+    \textbf{Base Case:}
+
+    For \(n = 2\), the vectors \(\vvec_1\) and \(\vvec_2\) are given by:
+    \[
+    \vvec_1 = \uvec_1, \quad \vvec_2 = \uvec_2 - \projection{\vvec_1}{\uvec_2}.
+    \]
+
+    Compute the inner product \(\vvec_1 \cdot \vvec_2\):
+    \begin{align*}
+        \vvec_1 \cdot \vvec_2 &= \vvec_1 \cdot (\uvec_2 - \projection{\vvec_1}{\uvec_2}) \\
+        &= \vvec_1 \cdot \uvec_2 - \vvec_1 \cdot \projection{\vvec_1}{\uvec_2} \\
+        &= \vvec_1 \cdot \uvec_2 - \vvec_1 \cdot \uvec_2 \\
+        &= 0.
+    \end{align*}
+
+    Thus, \(\vvec_1\) and \(\vvec_2\) are orthogonal.
+
+    \textbf{Inductive Step:}
+
+    Assume that \(\vvec_1, \vvec_2, \ldots, \vvec_k\) are mutually orthogonal. We prove that \(\vvec_{k+1}\) is orthogonal to all previous \(\vvec_i\) for \(i = 1, 2, \ldots, k\). By definition:
+    \[
+        \vvec_{k+1} = \uvec_{k+1} - \sum_{i=1}^{k} \projection{\vvec_i}{\uvec_{k+1}}.
+    \]
+
+    Compute the inner product \(\vvec_j \cdot \vvec_{k+1}\) for \(j = 1, 2, \ldots, k\):
+    \begin{align*}
+        \vvec_j \cdot \vvec_{k+1} &= \vvec_j \cdot \left(\uvec_{k+1} - \sum_{i=1}^{k} \projection{\vvec_i}{\uvec_{k+1}}\right) \\
+        &= \vvec_j \cdot \uvec_{k+1} - \sum_{i=1}^{k} \vvec_j \cdot \projection{\vvec_i}{\uvec_{k+1}}.
+    \end{align*}
+
+    For \(i \neq j\), \(\vvec_j \cdot \projection{\vvec_i}{\uvec_{k+1}} = 0\) because \(\vvec_j \cdot \vvec_i = 0\) by the induction hypothesis. For \(i = j\):
+    \[
+    \vvec_j \cdot \projection{\vvec_j}{\uvec_{k+1}} = \vvec_j \cdot \uvec_{k+1}.
+    \]
+
+    Thus:
+    \[
+    \vvec_j \cdot \vvec_{k+1} = \vvec_j \cdot \uvec_{k+1} - \vvec_j \cdot \uvec_{k+1} = 0.
+    \]
+
+    By induction, \(\vvec_1, \vvec_2, \ldots, \vvec_{k+1}\) are mutually orthogonal.
+\end{proof}
 
 
+An illustration of the Gram-Schmidt Process in $\R^2$ and $\R^3$ is depicted in the above figure a few pages back. We can generally define the projection of a vector onto a subspace as:
 
+\begin{definition}[Projection]
+    Let $V$ be an inner product space and $\uvec \in V$, and take $W \subseteq V$. If $\left\{\vvec_1, \vvec_2, \ldots, \vvec_n\right\}$ is an orthogonal basis for $W$, then we define $\projection{W}{\uvec}$ as:
+    $$\projection{W}{\uvec} = \sum_{i=1}^{r}\projection{\vvec_i}{\uvec} = \sum_{i=1}^{r} \frac{\innerprod{\vvec_i}{\uvec}}{\innerprod{\vvec_i}{\vvec_i}} \vvec_i$$
+    The component of $\uvec$ orthogonal to $W$, denoted by $\projection{W^\bot}{\uvec}$, is:
+    $$\projection{W^\bot}{\uvec} = \uvec = \projection{W}{\uvec}$$
+\end{definition}
+
+Here, we take $W^\bot$ to be the \textbf{orthogonal complement} of $W$, where the vectors in $W^\bot$ are orthogonal to every vector in $W$. 
+
+\begin{center}
+    \includegraphics[width=\textwidth]{6_gram_schmidt}
+\end{center}
+
+Following the previous definition, the Gram-Schmidt Process can be succinctly summarized:
+
+\begin{enumerate}
+    \item \(\vvec_1 = \uvec_1\),
+    
+    \item \(\vvec_2 = \text{proj}_{W_1^{\perp}} \uvec_2\), where \(W_1 = \text{span}\{\vvec_1\}\),
+    
+    \item \(\vvec_3 = \text{proj}_{W_2^{\perp}} \uvec_3\), where \(W_2 = \text{span}\{\vvec_1, \vvec_2\}\),
+    
+    \item \(\vvec_4 = \text{proj}_{W_3^{\perp}} \uvec_4\), where \(W_3 = \text{span}\{\vvec_1, \vvec_2, \vvec_3\}\),
+    
+    \vdots
+    
+    \item[n.] \(\vvec_n = \text{proj}_{W_{n-1}^{\perp}} \uvec_n\), where \(W_{n-1} = \text{span}\{\vvec_1, \vvec_2, \ldots, \vvec_{n-1}\}\),
+\end{enumerate}
+
+where \(W_i\) represents the subspace spanned by \(\vvec_1, \vvec_2, \ldots, \vvec_i\).
+
+Interestingly, there have been several proposed forms for the Gram-Schmidt process in Python, a few examples we will include below:
+
+\textbf{Classical Implementation}
+
+The original implementation by \textbf{iizukak} provides a straightforward translation of the Gram-Schmidt algorithm, directly computing projections and subtracting them iteratively. However, this approach uses Python's \texttt{map} function and doesn't leverage NumPy's vectorization capabilities, making it slower for larger matrices:
+
+\begin{lstlisting}[language=Python]
+import numpy
+
+def gs_coefficient(v1, v2):
+    return numpy.dot(v2, v1) / numpy.dot(v1, v1)
+
+def multiply(coefficient, v):
+    return map((lambda x : x * coefficient), v)
+
+def proj(v1, v2):
+    return multiply(gs_coefficient(v1, v2), v1)
+
+def gs(X):
+    Y = []
+    for i in range(len(X)):
+        temp_vec = X[i]
+        for inY in Y:
+            proj_vec = proj(inY, X[i])
+            temp_vec = map(lambda x, y : x - y, temp_vec, proj_vec)
+        Y.append(temp_vec)
+    return Y
+\end{lstlisting}
+
+\textbf{Modified Gram-Schmidt (Clear Implementation)}
+
+\textbf{mretegan's} implementation is notable for its clarity and adherence to the textbook algorithm. It processes each column sequentially, subtracting projections onto previously computed orthogonal vectors. This is the \textbf{modified Gram-Schmidt} algorithm, which offers better numerical stability than the classical version by reducing floating-point error accumulation:
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+
+def gram_schmidt(A):
+    # Get the number of vectors.
+    n = A.shape[1]
+    for j in range(n):
+        # To orthogonalize the vector in column j with respect to the
+        # previous vectors, subtract from it its projection onto
+        # each of the previous vectors.
+        for k in range(j):
+            A[:, j] -= np.dot(A[:, k], A[:, j]) * A[:, k]
+        A[:, j] = A[:, j] / np.linalg.norm(A[:, j])
+    return A
+\end{lstlisting}
+
+\textbf{Vectorized Implementation}
+
+\textbf{aditya0by0} improved upon the classical approach with a vectorized version that computes projections using matrix operations rather than loops. The key advantage is computing all projection coefficients simultaneously, which significantly improves performance for large matrices:
+
+\begin{lstlisting}[language=Python]
+def gram_schmidt(A, norm=True, row_vect=False):
+
+    if row_vect:
+        A = A.T
+    
+    no_of_vectors = A.shape[1]
+    G = A[:, 0:1].copy()
+    
+    for i in range(1, no_of_vectors):
+        numerator = A[:, i].dot(G)
+        denominator = np.diag(np.dot(G.T, G))
+        weights = np.squeeze(numerator / denominator)
+        
+        projected_vector = np.sum(weights * G, axis=1, keepdims=True)
+        orthogonalized_vector = A[:, i:i+1] - projected_vector
+        G = np.hstack((G, orthogonalized_vector))
+        
+    if norm:
+        G = G / np.linalg.norm(G, axis=0)
+    
+    if row_vect:
+        return G.T
+    
+    return G
+\end{lstlisting}
+
+\textbf{Handling Singular Matrices}
+
+\textbf{JJGO} addressed an important practical issue: handling linearly dependent vectors. This implementation checks if a vector is already in the span of previous vectors (using a small tolerance like \texttt{1e-10}) and skips it if so:
+
+\begin{lstlisting}[language=Python]
+def gram_schmidt(vectors):
+    basis = []
+    for v in vectors:
+        w = v - np.sum(np.dot(v, b) * b for b in basis)
+        if (w > 1e-10).any():  
+            basis.append(w / np.linalg.norm(w))
+    return np.array(basis)
+\end{lstlisting}
+
+\textbf{NumPy QR Factorization}
+
+\textbf{jakevdp} pointed out that NumPy's built-in \texttt{qr()} function provides the fastest and most numerically stable approach. The QR decomposition inherently performs Gram-Schmidt orthogonalization (using a modified version), but with optimized C implementations:
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+
+def gram_schmidt_columns(X):
+    Q, R = np.linalg.qr(X)
+    return Q
+\end{lstlisting}
+
+\textbf{Modified Gram-Schmidt for Complex Vectors}
+
+For complex inner product spaces (relevant to quantum computing), \textbf{scrpy} provided a modified implementation using \texttt{np.vdot()} for proper complex conjugation:
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+
+def modifiedGramSchmidt(A):
+    dim = A.shape[0]
+    Q = np.zeros(A.shape, dtype=A.dtype)
+    for j in range(0, dim):
+        q = A[:, j]
+        for i in range(0, j):
+            rij = np.vdot(Q[:, i], q)
+            q = q - rij * Q[:, i]
+        rjj = np.linalg.norm(q, ord=2)
+        if np.isclose(rjj, 0.0):
+            raise ValueError
+        else:
+            Q[:, j] = q / rjj
+    return Q
+\end{lstlisting}
+
+\textbf{Custom Inner Product Implementation}
+
+For non-Euclidean inner product spaces, the algorithm can be adapted by replacing the dot product with a custom inner product function:
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+
+def inner_product(x, y):
+    # Example: weighted inner product
+    return x[0]*y[0] + 2*x[1]*y[1] + x[2]*y[2]
+
+def gram_schmidt(V):
+    U = []
+    for i in range(len(V)):
+        u = V[i]
+        for j in range(i):
+            proj = (inner_product(V[i], U[j]) / 
+                    inner_product(U[j], U[j])) * U[j]
+            u = u - proj
+        U.append(u / ((inner_product(u, u))**0.5))
+    return np.array(U)
+\end{lstlisting}
+
+\textbf{Performance Comparison}
+
+According to \textbf{victorhcm's} testing, the NumPy QR approach and manual Gram-Schmidt implementations produce identical results (up to sign differences in the basis vectors). However, the QR factorization is typically 2-3 times faster and more numerically stable, especially for ill-conditioned matrices.
+
+\break
+
+\section{Fundamentals of Matrix Algebra}
 
 \end{document}
