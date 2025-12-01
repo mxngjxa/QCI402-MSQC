@@ -2762,4 +2762,299 @@ According to \textbf{victorhcm's} testing, the NumPy QR approach and manual Gram
 
 \section{Fundamentals of Matrix Algebra}
 
+Matrices play a fundamental role across various fields, such as physics, engineering, data science, and especially quantum computing. Here, they represent quantum measurements, evolution, and mixed quantum states. A solid understanding of matrix algebra as well as the relationship between vectors and matrices is profound and essential for advanced topics in quantum computing. This chapter introduces the fundamental principles of matrix algebra, which the proceeding chapters will build upon. 
+
+\subsection{Matrix Basics}
+
+After introducing matrices and vectors in the previous sections, we will provide a thorough exploration of all fundamental concepts essential for the subsequent sections and chapters.
+
+\begin{definition}[Matrix]
+    A matrix $A$ is defined as a rectangular array with $m$ rows and $n$ columns, represented as follows:
+    \[
+    A = \begin{bmatrix}
+    a_{11} & a_{12} & \cdots & a_{1n} \\
+    a_{21} & a_{22} & \cdots & a_{2n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    a_{m1} & a_{m2} & \cdots & a_{mn}
+    \end{bmatrix}_{m \times n},
+    \]
+    where the numbers in the matrix are called entries or elements. The matrix is said to be an $m \times n$ matrix, or $m \times n$ in size.
+\end{definition}
+
+In linear algebra, matrices are conventionally denoted by capitalized Latin or Greek letters, such as $A, B, U, V, \Sigma, \Delta$. This convention largely holds in quantum computing with a notable exception: the density matrix $\rho$. Additionally, the notation $[a_{ij}]$ might be used to denote the matrix $A$, and $(A)_{ij}$ is used to refer specifically to the entries of $A$, with $i,j$ referring to the individual entries of $A$.
+
+\begin{definition}[Column and Row Vectors]
+    A matrix with only one column ($n \times 1$ in size) is called a column vector, denoted as
+    \[
+    \vvec =
+    \begin{bmatrix}
+    v_{1} \\
+    v_{2} \\
+    \vdots \\
+    v_{n}
+    \end{bmatrix}.
+    \]
+    Similarly, a matrix with only one row ($1 \times m$ in size) is called a row vector, denoted as
+    \[
+    \vvec^{T} =
+    \begin{bmatrix}
+    v_{1} & v_{2} & \cdots & v_{m}
+    \end{bmatrix}.
+    \]
+\end{definition}
+
+In matrix algebra, a scalar can be considered as a $1 \times 1$ matrix when this interpretation fits the context of the operations. This allows scalars to be seamlessly incorporated into matrix operations, especially when dealing with matrices of varying dimensions.
+
+\begin{definition}[Transpose]
+    Given an $m \times n$ matrix $A$, the transpose of $A$, denoted by $A^{T}$, is the $n \times m$ matrix
+    \[
+    A^{T} =
+    \begin{bmatrix}
+    a_{11} & a_{21} & \cdots & a_{m1} \\
+    a_{12} & a_{22} & \cdots & a_{m2} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    a_{1n} & a_{2n} & \cdots & a_{mn}
+    \end{bmatrix}_{n \times m},
+    \]
+    obtained by interchanging the rows and columns of $A$.
+\end{definition}
+
+\begin{definition}[Conjugate]
+    For a complex matrix $A$, its conjugate is the matrix $A^{*}$ obtained by taking the complex conjugate of each entry:
+    \[
+    A^{*} =
+    \begin{bmatrix}
+    a_{11}^{*} & a_{12}^{*} & \cdots & a_{1n}^{*} \\
+    a_{21}^{*} & a_{22}^{*} & \cdots & a_{2n}^{*} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    a_{m1}^{*} & a_{m2}^{*} & \cdots & a_{mn}^{*}
+    \end{bmatrix}.
+    \]
+\end{definition}
+
+We remind that the complex conjugate is obtained through inverting the sign of the complex component of the individual entries. 
+
+\begin{definition}[Adjoint]
+    For a complex matrix $A$, its Hermitian adjoint, or adjoint, denoted by $A^{\dagger}$, is defined as the conjugate transpose:
+    \[
+    A^{\dagger} = (A^{*})^{T} = (A^{T})^{*} =
+    \begin{bmatrix}
+    a_{11}^{*} & a_{21}^{*} & \cdots & a_{m1}^{*} \\
+    a_{12}^{*} & a_{22}^{*} & \cdots & a_{m2}^{*} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    a_{1n}^{*} & a_{2n}^{*} & \cdots & a_{mn}^{*}
+    \end{bmatrix}_{n \times m}.
+    \]
+\end{definition}
+
+For a real matrix, it's complex conjugate is just the matrix itself, while the adjoint is equal to the transpose. Just some matrix manipulation here, nothing else. While some textbooks might use $\overline{A}$ as the conjugate of a matrix, $A^*$ as the conjugate transpose (adjoint) of the matrix. 
+
+\begin{theorem}
+    For any matrix $A$, the following property holds: 
+    $$
+    (A^T)^T = A, \quad (A^\dagger)^\dagger = A
+    $$
+\end{theorem}
+
+\begin{definition}[Square Matrix]
+    A matrix that has an equal number of rows and columns is termed a square matrix, or an $n \times n$ matrix.
+\end{definition}
+
+\begin{definition}[Main Diagonal]
+    The main diagonal of a square matrix consists of the entries where the row and column indices are the same. In an $n \times n$ matrix $A$, the entry $a_{ij}$ is on the main diagonal if $i = j$.
+\end{definition}
+
+\begin{definition}[Matrix Equality]
+    Two matrices of the same size, $A_{m \times n}$ and $B_{m \times n}$, are said to be equal if all corresponding entries are identical:
+    \[
+    a_{ij} = b_{ij}, \quad \text{for all } i = 1,2,\ldots,m \text{ and } j = 1,2,\ldots,n.
+    \]
+    If two matrices $A$ and $B$ are identical in this sense, this relationship is denoted simply by
+    \[
+    A = B.
+    \]
+\end{definition}
+
+\begin{definition}[Symmetric Matrix]
+    A square matrix $A$ is termed a symmetric matrix if $A = A^T$. 
+\end{definition}
+
+While symmetric matrices are more imporant in the analysis of real matrices, Hermetian matrices are more pertient especially as they remain invariant when taking the Hermitian adjoint. 
+
+\begin{definition}[Hermitian Matrix]
+    A square complex matrix $A$ is said to be Hermitian or a Hermitian matrix if $A = A^\dagger$.
+\end{definition}
+
+Hermitian matrices are of crucial importance in quantum mnechanics and computing since they represent operators for quantum measurements. A matrix is Hermitian if it is square with entries that are conjugate symmetric about the main diagonal. Any real symmetric matrix is Hermitian. 
+
+\begin{example}
+    The following matrix is a Hermitian Matrix:
+
+    $$
+    A = 
+    \begin{bmatrix}
+    0 & a - ib & c - id \\
+    a + ib & 1 & m - in \\
+    c + id & m + in & 2
+    \end{bmatrix}
+    $$
+\end{example}
+
+Now similar to vectors, the fundamental algebraic operations for matrices include addition and scalar multiplication, which are defined as follows. 
+
+
+\begin{definition}[Matrix Addition]
+    Matrix addition is defined only for two matrices of the same size, $A_{m \times n}$ and $B_{m \times n}$. Their sum, denoted by $A + B$, is an $m \times n$ matrix computed entrywise as
+    \[
+    A + B =
+    \begin{bmatrix}
+    a_{11} + b_{11} & a_{12} + b_{12} & \cdots & a_{1n} + b_{1n} \\
+    a_{21} + b_{21} & a_{22} + b_{22} & \cdots & a_{2n} + b_{2n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    a_{m1} + b_{m1} & a_{m2} + b_{m2} & \cdots & a_{mn} + b_{mn}
+    \end{bmatrix}.
+    \]
+\end{definition}
+
+\begin{definition}[Scalar Multiplication of Matrices]
+    Let $A_{m \times n}$ be a matrix and $k \in \R$ a scalar. The scalar multiple $kA$ is the $m \times n$ matrix obtained by multiplying each entry of $A$ by $k$:
+    \[
+    kA =
+    \begin{bmatrix}
+    k a_{11} & k a_{12} & \cdots & k a_{1n} \\
+    k a_{21} & k a_{22} & \cdots & k a_{2n} \\
+    \vdots   & \vdots   & \ddots & \vdots   \\
+    k a_{m1} & k a_{m2} & \cdots & k a_{mn}
+    \end{bmatrix}.
+    \]
+\end{definition}
+
+\begin{definition}[Negative of a Matrix]
+    The negative of a matrix $A_{m \times n}$, denoted by $-A$, is defined as the scalar multiple $(-1)A$. Explicitly,
+    \[
+    -A =
+    \begin{bmatrix}
+    -a_{11} & -a_{12} & \cdots & -a_{1n} \\
+    -a_{21} & -a_{22} & \cdots & -a_{2n} \\
+    \vdots  & \vdots  & \ddots & \vdots  \\
+    -a_{m1} & -a_{m2} & \cdots & -a_{mn}
+    \end{bmatrix}.
+    \]
+\end{definition}
+
+\begin{definition}[Matrix Subtraction]
+    For two matrices $A_{m \times n}$ and $B_{m \times n}$, matrix subtraction $A - B$ is defined as the addition of $A$ and the negative of $B$:
+    \[
+    A - B = A + (-B) =
+    \begin{bmatrix}
+    a_{11} - b_{11} & a_{12} - b_{12} & \cdots & a_{1n} - b_{1n} \\
+    a_{21} - b_{21} & a_{22} - b_{22} & \cdots & a_{2n} - b_{2n} \\
+    \vdots          & \vdots          & \ddots & \vdots          \\
+    a_{m1} - b_{m1} & a_{m2} - b_{m2} & \cdots & a_{mn} - b_{mn}
+    \end{bmatrix}.
+    \]
+\end{definition}
+
+While these are visually appealing methods for notation, they are quite cumbersome in notation. 
+
+\begin{theorem}
+    Given two matrices $A_{m \times n} = [a_{ij}]$ and $B_{m \times n} = [a_{ij}]$ of the same size and a scalar $k$, the basic algebraic operations can be computed element wise as follows:
+
+    \begin{align*}
+        (A + B)_{ij} &= a_{ij} + b_{ij} \\
+        (kA)_{ij} &= ka_{ij} \\
+        (-A)_{ij} &= -a_{ij} \\
+        (A - B)_{ij} &= a_{ij} - b_{ij}\\
+    \end{align*}
+\end{theorem}
+
+For transpose and Hermitian of matrices, the element-wise formula is as follows: 
+
+\begin{theorem}
+    Given $A_{m \times n} = [a_{ij}]$, the entries of $A^T$ and $A^\dagger$ are given element-wise by:
+    \begin{align*}
+        (A^T)_{ji} &= a_{ij} \\
+        (A^\dagger)_{ji} &= a^*_{ij} \\
+    \end{align*}
+\end{theorem}
+
+Since matrices adhere to the same fundamental operations as vectors, they naturally form vecor spaces. In order to complete the definition, we first need to define the zero matrix. 
+
+\begin{definition}[Zero Matrix]
+    Among all matrices of a specific size $m \times n$, the unique zero matrix, denoted by $0$, is defined as the matrix whose entries are all zero:
+    \[
+    0_{m \times n} =
+    \begin{bmatrix}
+    0 & 0 & \cdots & 0 \\
+    0 & 0 & \cdots & 0 \\
+    \vdots & \vdots & \ddots & \vdots \\
+    0 & 0 & \cdots & 0
+    \end{bmatrix}_{m \times n}
+    \]
+    or in element-wise notation,
+    \[
+    (0)_{ij} = 0, \quad \forall i = 1,2,\ldots,m \text{ and } j = 1,2,\ldots,n.
+    \]
+\end{definition}
+
+\begin{theorem}
+    The following properties hold true for any matrices $A, B, C, 0$ of the same size and scalars $k, m$:
+
+    \begin{align*}
+        A + B &= B + A \\
+        A + 0 &= 0 + A = A \\
+        (A + B) + C &= A + (B + C) \\
+        k(A + B) &= kA + kB \\
+        (k + m)A &= kA + mA \\
+        (km)A &= k(mA) \\
+        0A &= 0 \\
+        1A &= A\\
+    \end{align*}
+\end{theorem}
+
+While this might seem familiar to you, it is worth reiterating given that there are some key differences between vectors and matrices. At the same time, all of the aformentioned properties remain true if addition is replaced with subtraction. It's rather easy to verfiy that matrices of a specific size $m \times n$ satisfy the all of the axioms required for a vector spaces given in the previous theorem. Therefore, we have:
+
+\begin{theorem}
+    All matrices of size $m \times n$ constitute a vector space. For real matrices over $\R$, this is defined as $\Rmn$, nad for complex matrices over $\C$, this is denoted as $\Cmn$. 
+\end{theorem}
+
+For the matrix space $\R^{2 \times 2}$, we have the following basis: 
+
+\[
+B_{11} =
+\begin{bmatrix}
+1 & 0 \\
+0 & 0
+\end{bmatrix},
+\quad
+B_{12} =
+\begin{bmatrix}
+0 & 1 \\
+0 & 0
+\end{bmatrix},
+\quad
+B_{21} =
+\begin{bmatrix}
+0 & 0 \\
+1 & 0
+\end{bmatrix},
+\quad
+B_{22} =
+\begin{bmatrix}
+0 & 0 \\
+0 & 1
+\end{bmatrix}.
+\]
+
+
+In general, there for a vector space in $\Rmn/\Cmn$, there are going to be $mn$ basis matrices in the $mn$ dimensional space. This warrants the introduction of a more broader concept, namely tensors. If we take vectors to be one-dimensional arrays in $\Cn$, and matrices to be two-dimensional arrays in $\C^{n \times n}$, and three dimensional arrays in $\C^{n \times n \times n}$, the mathmatical term given to such objects in higher dimensions is defined as tensors. By this definition, vectors are 1D tensors, matrices are 2D tensors, and then generally $k$-dimensional tensors will reside in $\C^{n \times n \times \cdots \times n}$. 
+
+\subsection{Matrix Multiplication}
+
+
+
+
+
+
+
 \end{document}
