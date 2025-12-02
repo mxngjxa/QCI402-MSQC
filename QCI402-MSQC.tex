@@ -2750,7 +2750,7 @@ def gram_schmidt(V):
             proj = (inner_product(V[i], U[j]) / 
                     inner_product(U[j], U[j])) * U[j]
             u = u - proj
-        U.append(u / ((inner_product(u, u))**0.5))
+        U.append(u / ((inner_product(u, u))0.5))
     return np.array(U)
 \end{lstlisting}
 
@@ -3050,6 +3050,491 @@ B_{22} =
 In general, there for a vector space in $\Rmn/\Cmn$, there are going to be $mn$ basis matrices in the $mn$ dimensional space. This warrants the introduction of a more broader concept, namely tensors. If we take vectors to be one-dimensional arrays in $\Cn$, and matrices to be two-dimensional arrays in $\C^{n \times n}$, and three dimensional arrays in $\C^{n \times n \times n}$, the mathmatical term given to such objects in higher dimensions is defined as tensors. By this definition, vectors are 1D tensors, matrices are 2D tensors, and then generally $k$-dimensional tensors will reside in $\C^{n \times n \times \cdots \times n}$. 
 
 \subsection{Matrix Multiplication}
+
+While the previous subsection established the foundational principles of matrix algebra, behavior of matrices largely seemed like vectors. However, matrix multiplication significantly differs from vector multiplication, which you will be able to see in this chapter. At the same time, we note that this will mainly focus on square matrices as they are of particular importance in quantum computing. 
+
+Before diving into matrix multiplication, it is crucial to understand how to partition a matrix into its row and column vectors, which are the two fundamental partitions of a matrix. 
+
+\begin{definition}[Partition into Row and Column Vectors]
+    Given a matrix $A_{m \times n}$, it can be partitioned into its row vectors as
+    \[
+    A =
+    \begin{bmatrix}
+    a_{11} & a_{12} & \cdots & a_{1n} \\
+    \hline
+    a_{21} & a_{22} & \cdots & a_{2n} \\
+    \hline
+    \vdots & \vdots & \ddots & \vdots \\
+    \hline
+    a_{m1} & a_{m2} & \cdots & a_{mn}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+    \mathbf{r}_{1} \\
+    \mathbf{r}_{2} \\
+    \vdots \\
+    \mathbf{r}_{m}
+    \end{bmatrix},
+    \]
+    where $\mathbf{r}_{1}, \mathbf{r}_{2}, \ldots, \mathbf{r}_{m}$ represent the row vectors of $A$. The matrix can also be partitioned into its column vectors as
+    \[
+    A =
+    \begin{bmatrix}
+    a_{11} & \vline & a_{21} & \vline & \cdots & \vline & a_{m1} \\
+    a_{12} & \vline & a_{22} & \vline & \cdots & \vline & a_{m2} \\
+    \vdots & \vline & \vdots & \vline & \ddots & \vline & \vdots \\
+    a_{1n} & \vline & a_{2n} & \vline & \cdots & \vline & a_{mn}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+    \mathbf{c}_{1} & \mathbf{c}_{2} & \cdots & \mathbf{c}_{n}
+    \end{bmatrix},
+    \]
+    where $\mathbf{c}_{1}, \mathbf{c}_{2}, \ldots, \mathbf{c}_{n}$ are the column vectors of $A$.
+\end{definition}
+
+Matrix partitioning will be essential to what is to come in a moment. We will adopt the convention that $\mathbf{r}_i$ and $\mathbf{c}_j$ represent row and column vectors of a given matrix. We previously introduced the dot product as:
+
+\[
+\rvec \cvec
+= \begin{bmatrix} r_{1} & r_{2} & \cdots & r_{n} \end{bmatrix}
+  \begin{bmatrix}
+  c_{1} \\
+  c_{2} \\
+  \vdots \\
+  c_{n}
+  \end{bmatrix}
+= r_{1} c_{1} + r_{2} c_{2} + \cdots + r_{n} c_{n}
+= \rvec \cdot \cvec.
+\]
+
+Now we will the dot product to matrix products. For the matrices $A_{m \times p}$ and $B_{p \times n}$, note that the number of columns in $A$ must be equal to the number of rows in $B$. While you are multiplying the rows in $A$ with the columns in $B$, the entries in a row from $A$ and entries in a column from $B$ must be the same. Therefore, the elements in a column of $A$ and the number of elements in a row of $B$ must add up. 
+
+\begin{definition}[Matrix Product]
+    The matrix product $AB$ is defined when the number of columns in $A_{m \times p}$ matches the number of rows in $B_{p \times n}$. Partition $A$ into its row vectors and $B$ into its column vectors:
+    \[
+    A =
+    \begin{bmatrix}
+    \rvec_{1} \\
+    \rvec_{2} \\
+    \vdots   \\
+    \rvec_{m}
+    \end{bmatrix},
+    \qquad
+    B =
+    \begin{bmatrix}
+    \cvec_{1} & \cvec_{2} & \cdots & \cvec_{n}
+    \end{bmatrix}.
+    \]
+    The product $AB$ is consequently defined as an $m \times n$ matrix, computed as
+    \[
+    (AB)_{m \times n} =
+    \begin{bmatrix}
+    \rvec_{1} \cdot \cvec_{1} & \rvec_{1} \cdot \cvec_{2} & \cdots & \rvec_{1} \cdot \cvec_{n} \\
+    \rvec_{2} \cdot \cvec_{1} & \rvec_{2} \cdot \cvec_{2} & \cdots & \rvec_{2} \cdot \cvec_{n} \\
+    \vdots                    & \vdots                    & \ddots & \vdots                    \\
+    \rvec_{m} \cdot \cvec_{1} & \rvec_{m} \cdot \cvec_{2} & \cdots & \rvec_{m} \cdot \cvec_{n}
+    \end{bmatrix}.
+    \]
+\end{definition}
+
+This relationship can be succinctly expressed using element-wise notation:
+
+\begin{theorem}
+    Given two matrices $A_{m \times p}$ and $B_{p \times n}$, and $C_{m \times n} = AB$, the entries of $C$ are given by the row–column rule for matrix multiplication:
+    \[
+    c_{ij} = a_{i1} b_{1j} + a_{i2} b_{2j} + \cdots + a_{ip} b_{pj}
+           = \sum_{k=1}^{p} a_{ik} b_{kj},
+    \]
+    where $i = 1,2,\ldots,m$ and $j = 1,2,\ldots,n$.
+\end{theorem}
+
+\begin{center}
+    \includegraphics[width=350px]{7_row_col}
+\end{center}
+
+Now this brings up an imporant aspect of matrix multiplication, which is that matrix multiplication generally does not commute, or that $AB \neq BA$. This takes place when either one is not defined, or that they differ in size, or that they are simply not equal. This property stands in sharp contrast with scalar multiplication and the dot product of vectors, which are commutative or conjugate commutative. In quantum computing, the special case of two matrices commuting holds significant importance. To formally express this relationship, we have the following definition:
+
+\begin{definition}[Commutator]
+    Given two square matrices of equal dimension, their commutator is denoted as $[A, B]$ and defined by:
+    $$[A, B] = AB - BA$$
+    When $[A, B] = 0$ or equivalently $AB = BA$, the matrices $A$ and $B$ are said to commute. 
+\end{definition}
+
+Building on this concept of commutation, where matrix multiplication is symmetric, we explore its counterpart, namely the anti-commutator. This operator provides an alternative:
+
+\begin{definition}[Anti-Commutator]
+    Given two square matrices of the same size, their anti-commutator is denoted as ${A, B}$ and defined by:
+    $${A, B} = AB + BA$$
+    When ${A, B} = 0$ or equivalently $AB = -BA$, the matrices $A$ and $B$ are said to anticommute. 
+\end{definition}
+
+Commutation and anticommutation relations are particularly relevant when working with Pauli matrices, which are going to be thouroughly covered in Section 12. Despite the non-commutativity of matrix multiplication, it shares many properties with scalar multiplication. For instance:
+
+\begin{theorem}
+    Assuming all matrix multiplications are valid, the following identities hold:
+    \begin{align*}
+        A(B + C) &= AB + AC \\
+        (A + B)C &= AC + BC \\
+        (AB)C &= A(BC)\\
+    \end{align*}
+\end{theorem}
+
+\begin{proof}
+    For the operation $A(B + C)$ to be valid, consider matrices
+    $A_{m \times p} = [a_{ik}]$, $B_{p \times n} = [b_{kj}]$, and
+    $C_{p \times n} = [c_{kj}]$ for $i = 1,2,\ldots,m$, $k = 1,2,\ldots,p$, and
+    $j = 1,2,\ldots,n$.
+
+    Define $D = A(B + C) = [d_{ij}]$ and $F = AB + AC = [f_{ij}]$
+    (both are $m \times n$ matrices). Compute the entries of $D$ and $F$
+    using element-wise notation for matrix multiplication:
+    \[
+        d_{ij} = \sum_{k=1}^{p} a_{ik} (b_{kj} + c_{kj}), \qquad
+        f_{ij} = \sum_{k=1}^{p} a_{ik} b_{kj} + \sum_{k=1}^{p} a_{ik} c_{kj}.
+    \]
+
+    By applying the distributive laws of scalars within the summation,
+    \[
+        d_{ij}
+        = \sum_{k=1}^{p} a_{ik} (b_{kj} + c_{kj})
+        = \sum_{k=1}^{p} (a_{ik} b_{kj} + a_{ik} c_{kj})
+        = \sum_{k=1}^{p} a_{ik} b_{kj} + \sum_{k=1}^{p} a_{ik} c_{kj}
+        = f_{ij},
+    \]
+    for all $i = 1,2,\ldots,m$ and $j = 1,2,\ldots,n$. Hence, by matrix
+    equality, $D = F$. 
+\end{proof}
+
+The proofs of the two other properties follow a similar pattern and are omitted for brevity. At the same time, when we are dealing with transpose or adjoint operations, the following identities are very useful:
+
+\begin{theorem}
+    Assuming all matrix multiplications are valid, the following identities hold:
+    \begin{align*}
+        (AB)^* &= A^* B^* \\
+        (AB)^T &= B^T A^T \\
+        (AB)^\dagger &= B^\dagger A^\dagger
+    \end{align*}
+\end{theorem}
+
+\begin{proof}
+    To prove the part of the above theorem, consider $A_{m \times p} = [a_{ik}]$ and
+    $B_{p \times n} = [b_{kj}]$ for $i = 1,2,\ldots,m$, $k = 1,2,\ldots,p$, and
+    $j = 1,2,\ldots,n$.
+
+    Let $C_{n \times m} = (AB)^{T} = [c_{ji}]$ and
+    $D_{n \times m} = B^{T} A^{T} = [d_{ji}]$. Using the row–column rule, compute
+    the entries of $C$ and $D$ as follows:
+    \[
+        c_{ji} = \bigl((AB)^{T}\bigr)_{ji}
+        = (AB)_{ij}
+        = \sum_{k=1}^{p} a_{ik} b_{kj},
+    \]
+    \[
+        d_{ji} = (B^{T} A^{T})_{ji}
+        = \sum_{k=1}^{p} (B^{T})_{jk} (A^{T})_{ki}
+        = \sum_{k=1}^{p} b_{kj} a_{ik}.
+    \]
+
+    Since multiplication of scalar entries is commutative,
+    $a_{ik} b_{kj} = b_{kj} a_{ik}$ for all $i,j,k$, it follows that
+    $c_{ji} = d_{ji}$. Therefore, $C = D$, proving that
+    \[
+        (AB)^{T} = B^{T} A^{T}.
+    \]
+    The third equation builds upon the previous logic, where
+    \[
+    (AB)^{\dagger}
+    = \bigl((AB)^{*}\bigr)^{T}
+    = (A^{*} B^{*})^{T}
+    = (B^{*})^{T} (A^{*})^{T}
+    = B^{\dagger} A^{\dagger}.
+    \]
+\end{proof}
+
+Now, matrix multiplication can also be performed using a technique known as the column-row expansion. This is an alternative way of computing the product of matrices by expanding it into a sum of individual matrices. 
+
+\begin{theorem}[Column–Row Expansion]
+    Consider matrices $A_{m \times p}$ and $B_{p \times n}$. Partition $A$ into its column vectors and $B$ into its row vectors:
+    \[
+        A =
+        \begin{bmatrix}
+        \cvec_{1} & \cvec_{2} & \cdots & \cvec_{p}
+        \end{bmatrix},
+        \qquad
+        B =
+        \begin{bmatrix}
+        \rvec_{1} \\
+        \rvec_{2} \\
+        \vdots   \\
+        \rvec_{p}
+        \end{bmatrix}.
+    \]
+    Then, the product $AB$ can be calculated by summing the products of these vectors:
+    \[
+        AB = \cvec_{1} \rvec_{1} + \cvec_{2} \rvec_{2} + \cdots + \cvec_{p} \rvec_{p}
+           = \sum_{i=1}^{p} \cvec_{i} \rvec_{i}.
+    \]
+\end{theorem}
+
+Note that in this each product term become full-sized matrices, and thus the entire product is express as a sum of such matrices. However, we can't have a little fun without Dirac notation, and in the field of quantum computing, the matrices are primarily square matrices and column vectors. In this subsection, we will delve into some of the most frequently encountered matrix multiplication scenarios in quantum computing utilizing bra-ket notation. For example, we know that the inner product (essentially a dot product) effectively produces a scalar and is defined as:
+
+\[
+\innerprod{\uvec}{\vvec}
+= \braket{\uvec}{\vvec}
+= \begin{bmatrix} u_{1}^{*} & u_{2}^{*} & \cdots & u_{n}^{*} \end{bmatrix}
+  \begin{bmatrix}
+  v_{1} \\
+  v_{2} \\
+  \vdots \\
+  v_{n}
+  \end{bmatrix}
+= u_{1}^{*} v_{1} + u_{2}^{*} v_{2} + \cdots + u_{n}^{*} v_{n}.
+\]
+
+Hereforth, we also define a matrix-vector multiplication as multiplying an $n \times n$ matrix by an $n \times 1$ column vector, yielding another $n \times 1$ column vector. In dirac notation, this operation is expressed as:
+
+$$A \ket{u} = \ket{v}$$
+
+In this context, $A$ is referred to as a transformation matrix as it transforms the vector $\ket{u}$ into $\ket{v}$. The matrix representation of this operation is as follows: 
+
+\[
+\begin{bmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+a_{21} & a_{22} & \cdots & a_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{bmatrix}
+\begin{bmatrix}
+u_{1} \\
+u_{2} \\
+\vdots \\
+u_{n}
+\end{bmatrix}
+=
+\begin{bmatrix}
+v_{1} \\
+v_{2} \\
+\vdots \\
+v_{n}
+\end{bmatrix}.
+\]
+
+This operation is fundamental in quantum computing, particularly in the context of quantum gates, as we can simply take the vector $\ket{u}$ as the input quantum gate, and $\ket{v}$ as the output quantum gate. $A$ embodies the matrix representation of the quantum gate, which is mathmatical candor at its finest. Next we will introduce the outer product of two vectors, which is defined as follows: 
+
+\begin{definition}[Outer Product of Two Vectors]
+    Given two vectors $\ket{u}$ and $\ket{v}$ in $\Cn$, their outer product is an $n \times n$ matrix defined as
+    \[
+        \ket{u}\bra{v}
+        =
+        \begin{bmatrix}
+        u_{1} \\
+        u_{2} \\
+        \vdots \\
+        u_{n}
+        \end{bmatrix}
+        \begin{bmatrix}
+        v_{1}^{*} & v_{2}^{*} & \cdots & v_{n}^{*}
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+        u_{1} v_{1}^{*} & u_{1} v_{2}^{*} & \cdots & u_{1} v_{n}^{*} \\
+        u_{2} v_{1}^{*} & u_{2} v_{2}^{*} & \cdots & u_{2} v_{n}^{*} \\
+        \vdots          & \vdots          & \ddots & \vdots          \\
+        u_{n} v_{1}^{*} & u_{n} v_{2}^{*} & \cdots & u_{n} v_{n}^{*}
+        \end{bmatrix}.
+    \]
+\end{definition}
+
+A pretty useful formula for outer products is as follows: 
+
+$$\ket{v}\bra{u} = (\ket{u}\bra{v})^\dagger$$
+
+This can be demonstrated by applying the conjugate transpose prooperty:
+
+$$(\ket{u}\bra{v})^\dagger = (\bra{v})^\dagger (\ket{u})^\dagger = \ket{v}\bra{u}$$
+
+\begin{example}
+    Compute $\ket{0}\bra{0}$, $\ket{0}\bra{1}$, $\ket{1}\bra{0}$, and $\ket{1}\bra{1}$ in matrix representation. 
+    
+    Using the computational basis, we find:
+    \[
+        \ket{0}\bra{0}
+        =
+        \begin{bmatrix}
+        1 \\
+        0
+        \end{bmatrix}
+        \begin{bmatrix}
+        1 & 0
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+        1 & 0 \\
+        0 & 0
+        \end{bmatrix},
+        \qquad
+        \ket{0}\bra{1}
+        =
+        \begin{bmatrix}
+        1 \\
+        0
+        \end{bmatrix}
+        \begin{bmatrix}
+        0 & 1
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+        0 & 1 \\
+        0 & 0
+        \end{bmatrix},
+    \]
+    \[
+        \ket{1}\bra{0}
+        =
+        \begin{bmatrix}
+        0 \\
+        1
+        \end{bmatrix}
+        \begin{bmatrix}
+        1 & 0
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+        0 & 0 \\
+        1 & 0
+        \end{bmatrix},
+        \qquad
+        \ket{1}\bra{1}
+        =
+        \begin{bmatrix}
+        0 \\
+        1
+        \end{bmatrix}
+        \begin{bmatrix}
+        0 & 1
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+        0 & 0 \\
+        0 & 1
+        \end{bmatrix}.
+    \]
+\end{example}
+
+Now in this example, we see that it is possible to represent a general matrix $A_{2 \times 2}$ in terms of outer products. This approach can be generalized to any matrix using the following theorem. 
+
+\begin{theorem}[Matrix Basis Decomposition]
+    Let $\{\ket{0}, \ket{1}, \ldots, \ket{d-1}\}$ be the computational basis of $\C^{d}$. For a general matrix $A \in \C^{d \times d}$ given by
+    \[
+        A =
+        \begin{bmatrix}
+        a_{00}     & a_{01}     & \cdots & a_{0(d-1)} \\
+        a_{10}     & a_{11}     & \cdots & a_{1(d-1)} \\
+        \vdots     & \vdots     & \ddots & \vdots     \\
+        a_{(d-1)0} & a_{(d-1)1} & \cdots & a_{(d-1)(d-1)}
+        \end{bmatrix},
+    \]
+    it can be decomposed into a sum of outer products:
+    \[
+        A = \sum_{i,j} a_{ij} \ket{i}\bra{j},
+        \qquad \text{for } i,j = 0,1,\ldots,d-1.
+    \]
+\end{theorem}
+
+\begin{example}
+    Given the matrix $A$ as described above, demonstrate that:
+    $$A \ket{k} = \sum_i a_{ik} \ket{i}$$
+\end{example}
+
+\begin{proof}
+    \begin{align*}
+        A \ket{k} &= \left(\sum_{i, j} a_{ij} \ket{i} \bra{j}\right) \ket{k} \\
+        &= \sum_{i, j} a_{ij} \ket{i} \braket{j}{k} \\
+        &= \sum_{i, j} a_{ij} \ket{i} \delta_{jk} \\ 
+        &= \sum_{i} a_{ij} \ket{i}
+    \end{align*}
+\end{proof}
+
+Where the equailty $\braket{j}{k} = \delta_{jk}$ (the Koronecker delta) simplifies the expression by collapsing the sum over $j$ to only the term where $j = k$. Next we will consider basis change matrices based on the previous example. In quantum computing, basis changes are often expressed as sums of outer products between two basis vectors. For example, consider changing from the set of vectors ${\ket{0}, \ket{1}}$ to the basis ${\ketplus, \ketminus}$. We take the matrix $U$ that performs this mapping to be 
+
+$$
+U = \ketplus \bra{0} + \ketminus \bra{1}
+$$
+
+We can verify that $U$ completes this mapping by showing, for example, that $(\ketplus \bra{0})\ket{0} = \ketplus \braket{0}{0}$. This result can be generalized to the following formula:
+
+\begin{theorem}
+    Given a matrix $U$ as an outer product of $U = \ket{u} \bra{v}$ and a vector $\ket{w}$, the product $U \ket{w}$ is computed as:
+    $$U \ket{w} = \braket{v}{w} \ket{u}$$
+    which is just a scalar multiple of $\ket{u}$
+\end{theorem}
+
+\begin{proof}
+    We have 
+    $$U \ket{w} = (\ket{u} \bra{v}) \ket{w} = \ket{u} (\bra{v} \ket{w}) = \ket{u} \braket{v}{w} = \braket{v}{w} \ket{u}$$
+    Since $\braket{v}{w}$ is a scalar, the result is just a scalar multiple of $\ket{u}$. 
+\end{proof}
+
+This provides you with an effective yet clean change of basis method. A more comprehensive discussion on changing basis will be presented in the next section. Sometimes, it is also necessary to compute the inner product between two vectors, wherein one or both vectors are the results of a matrix-vector product. For instance in classical linear algebra, we have:
+
+$$\braket{Ax}{y} = (A\mathbf{x}) \cdot \mathbf{y}$$
+$$\braket{x}{Ay} = \mathbf{x} \cdot (A\mathbf{y})$$
+$$\braket{Ax}{Ay} = (A\mathbf{x}) \cdot (A\mathbf{y})$$
+
+For brevity, we denote $\ket{Ax} \equiv A \ket{x}$ and $\bra{Ax} \equiv (A \ket{x})^\dagger$, and adopt the following identities when dealing with these forms:
+
+\begin{theorem}
+    The inner product on the left-hand side can be expressed as matrix products on the right-hand side:
+    \begin{align*}
+        \braket{x}{Ay} &= \bra{x} A \ket{y} \\
+        \braket{Ax}{y} &= \bra{x} A^\dagger \ket{y} \\
+        \braket{Ax}{Ay} &= \bra{x} A^\dagger A \ket{y}\\
+    \end{align*}
+\end{theorem}
+
+\begin{proof}
+    These relationships can be defined using the rules of bra-ket notation:
+    \begin{align*}
+        \braket{x}{Ay} &= \bra{x}\ \ket{Ay} = \bra{x} A \ket{y} \\
+        \braket{Ax}{y} &= \bra{Ax}\ \ket{y} = (\ket{Ax})^\dagger \ket{y} = \ket{x}^\dagger A^\dagger \ket{y} = \bra{x} A^\dagger \ket{y} \\
+        \braket{Ax}{Ay} &= \bra{Ax}\ \ket{Ay} = (\ket{Ax})^\dagger A \ket{y} = \bra{x} A^\dagger A \ket{y} \\
+    \end{align*}
+\end{proof}
+
+For the given matrix $A$, the expression $\bra{x} A \ket{y}$ defines the mapping $\Cn \times \Cn \rightarrow \C$, which is linear in the second argument $\ket{y}$ and conjugate linear in the first argument $\ket{x}$, which refers to $\bra{x} A \ket{y}$ as something in sesquilinear form, a generalization of inner products in complex vector spaces. What does this mean? 
+
+When we say the mapping is linear in $\ket{y}$, we mean it behaves exactly as you would expect standard multiplication to behave. It preserves addition and scalar multiplication without changing the scalar. Mathematically, if you replace $\ket{y}$ with a linear combination $c_1\ket{y_1} + c_2\ket{y_2}$ (where $c_1, c_2$ are complex numbers), the expression splits cleanly:
+
+$$
+\bra{x} A (c_1\ket{y_1} + c_2\ket{y_2}) = c_1 \bra{x} A \ket{y_1} + c_2 \bra{x} A \ket{y_2}
+$$
+
+Conjugate linear (sometimes called antilinear) is where complex spaces differ from real ones. It means that the mapping preserves addition, but when you pull out a scalar, it comes out as its complex conjugate. If you replace $\bra{x}$ with a linear combination formed by $c_1\bra{x_1} + c_2\bra{x_2}$, the constants that come out are effectively conjugated ($c^*$ denotes the complex conjugate of $c$):
+
+$$
+(c_1\bra{x_1} + c_2\bra{x_2}) A \ket{y} = c_1^* \bra{x_1} A \ket{y} + c_2^* \bra{x_2} A \ket{y}
+$$
+
+Recall that in Dirac notation (bra-ket notation), the "bra" $\bra{x}$ corresponds to the Hermitian conjugate (adjoint) of the column vector $x$. If $\ket{x}$ is the column vector $x$, then $\bra{x}$ is the row vector $x^\dagger$ (conjugate transpose). If you scale the vector $x$ by a complex number $c$, the conjugate transpose scales by $c^*$.
+
+$$
+(c x)^\dagger = c^* x^\dagger
+$$
+
+Key Takeaway: The constants ($c_1, c_2$) come out of the first slot as their complex conjugates ($c_1^*, c_2^*$).
+
+The term Sesquilinear literally means "one-and-a-half linear."
+It is "one" linear because of the second argument ($\ket{y}$).
+It is "half" linear (antilinear) because of the first argument ($\bra{x}$).
+
+This structure ensures that the norm of a vector (the inner product of a vector with itself) is always a real number. If it were linear in both arguments, $\braket{cx}{cx}$ would equal $c^2 \braket{x}{x}$, which could be a complex number. Because it is conjugate linear in the first slot, we get:
+
+$$
+\braket{cx}{cx} = c^* c \braket{x}{x} = |c|^2 \braket{x}{x}
+$$
+
+This guarantees that lengths/probabilities remain real and non-negative.
 
 
 
