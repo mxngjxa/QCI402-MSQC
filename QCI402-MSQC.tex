@@ -1,104 +1,15 @@
 \documentclass[12pt]{article}
 
-% Geometry
-\usepackage[legalpaper, portrait, margin=1in]{geometry}
-
-% Math packages
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{amsthm}
-\usepackage{mathtools}
-\usepackage{physics}
-% \usepackage{braket}
-
-% Graphics and drawing
-\usepackage{graphicx}
-\usepackage{tikz}
-\usepackage{quantikz} % For quantum circuit drawing
-\usepackage{pgfplots}
-
-% Code formatting
-\usepackage{minted}
-
-% Layout and formatting
-\usepackage{titling}
-\usepackage{fancyhdr}
-\usepackage{titlesec}
-\usepackage{multicol}
-\usepackage{xcolor}
-
-% Tables
-\usepackage{multirow}
-\usepackage{array}
-\usepackage{booktabs}
-\usepackage{tabularx}
-
-% Code
-
-\usepackage{listings}
-\usepackage{xcolor}
-
-\definecolor{codegreen}{rgb}{0,0.6,0}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{0.58,0,0.82}
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
-
-\lstdefinestyle{mystyle}{
-    backgroundcolor=\color{backcolour},   
-    commentstyle=\color{codegreen},
-    keywordstyle=\color{magenta},
-    numberstyle=\tiny\color{codegray},
-    stringstyle=\color{codepurple},
-    basicstyle=\ttfamily\footnotesize,
-    breakatwhitespace=false,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
-    showstringspaces=false,
-    showtabs=false,                  
-    tabsize=2
-}
-
-\lstset{style=mystyle}
-
-
-\usemintedstyle{manni}
-\graphicspath{ {./figures/} }
-\newcommand{\Rlogo}{\protect\includegraphics[height=1.8ex,keepaspectratio]{Rlogo.png}}
+\usepackage{preamble}
 
 \input{config.tex}
-% \input{quantum-commands.tex}
-
-\theoremstyle{definition}
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{postulate}[theorem]{Postulate}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{lemma}[theorem]{Lemma}
-
-% % alt styling: theorem is separate from rest
-% % Theorem: its own counter, resets each section
-% \newtheorem{theorem}{Theorem}[section]
-
-% % Create an independent base counter for the "definition group"
-% \newtheorem{fact}{\!\!}[section] % invisible title; serves only as a counter
-
-% % Make these share the "fact" counter (not the theorem counter)
-% \newtheorem{definition}[fact]{Definition}
-% \newtheorem{postulate}[fact]{Postulate}
-% \newtheorem{corollary}[fact]{Corollary}
-% \newtheorem{lemma}[fact]{Lemma}
-
-\newtheorem*{example}{Example}
-
-\newtheorem*{solution}{Solution}
+\input{quantum-commands.tex}
 
 \title{\COURSECODE\ - \FULLCOURSENAME\ - \UNIVERSITY}
 \author{\PROFESSORNAME\ - \STUDENTNAME}
 \date{\SEMESTER\ Semester \YEAR}
+
+\pgfplotsset{compat=1.18}
 
 \begin{document}
 
@@ -2602,161 +2513,67 @@ Following the previous definition, the Gram-Schmidt Process can be succinctly su
 
 where \(W_i\) represents the subspace spanned by \(\vvec_1, \vvec_2, \ldots, \vvec_i\).
 
-Interestingly, there have been several proposed forms for the Gram-Schmidt process in Python, a few examples we will include below:
+\subsection*{Practical Implementation in Python}
 
-\textbf{Classical Implementation}
+Standard "textbook" implementations of Gram-Schmidt often fail in quantum computing contexts because they do not correctly handle complex conjugation (using \texttt{np.dot} instead of \texttt{np.vdot}) or suffer from numerical instability. Below are three verified approaches for quantum states.
 
-The original implementation by \textbf{iizukak} provides a straightforward translation of the Gram-Schmidt algorithm, directly computing projections and subtracting them iteratively. However, this approach uses Python's \texttt{map} function and doesn't leverage NumPy's vectorization capabilities, making it slower for larger matrices:
-
-\begin{lstlisting}[language=Python]
-import numpy
-
-def gs_coefficient(v1, v2):
-    return numpy.dot(v2, v1) / numpy.dot(v1, v1)
-
-def multiply(coefficient, v):
-    return map((lambda x : x * coefficient), v)
-
-def proj(v1, v2):
-    return multiply(gs_coefficient(v1, v2), v1)
-
-def gs(X):
-    Y = []
-    for i in range(len(X)):
-        temp_vec = X[i]
-        for inY in Y:
-            proj_vec = proj(inY, X[i])
-            temp_vec = map(lambda x, y : x - y, temp_vec, proj_vec)
-        Y.append(temp_vec)
-    return Y
-\end{lstlisting}
-
-\textbf{Modified Gram-Schmidt (Clear Implementation)}
-
-\textbf{mretegan's} implementation is notable for its clarity and adherence to the textbook algorithm. It processes each column sequentially, subtracting projections onto previously computed orthogonal vectors. This is the \textbf{modified Gram-Schmidt} algorithm, which offers better numerical stability than the classical version by reducing floating-point error accumulation:
+\subsubsection*{1. The Production Approach: NumPy QR}
+\textit{Recommended for actual work.} This approach is significantly faster, numerically stable, and utilizes optimized C routines.
 
 \begin{lstlisting}[language=Python]
 import numpy as np
 
-def gram_schmidt(A):
-    # Get the number of vectors.
-    n = A.shape[1]
-    for j in range(n):
-        # To orthogonalize the vector in column j with respect to the
-        # previous vectors, subtract from it its projection onto
-        # each of the previous vectors.
-        for k in range(j):
-            A[:, j] -= np.dot(A[:, k], A[:, j]) * A[:, k]
-        A[:, j] = A[:, j] / np.linalg.norm(A[:, j])
-    return A
+def quantum_gram_schmidt(state_vectors):
+    # Orthonormalizes a set of quantum state vectors using QR decomposition.
+    # 'reduced' returns Q with dimensions matching the input columns
+    Q, _ = np.linalg.qr(state_vectors, mode='reduced')
+    return Q
 \end{lstlisting}
 
-\textbf{Vectorized Implementation}
-
-\textbf{aditya0by0} improved upon the classical approach with a vectorized version that computes projections using matrix operations rather than loops. The key advantage is computing all projection coefficients simultaneously, which significantly improves performance for large matrices:
+\subsubsection*{2. The Pedagogical Approach: Modified GS}
+\textit{Recommended for understanding.} This is the correct manual implementation for quantum computing. It explicitly handles complex conjugation ($\braket{\psi}{\phi}$) and uses the \textbf{Modified} algorithm to stabilize against rounding errors.
 
 \begin{lstlisting}[language=Python]
-def gram_schmidt(A, norm=True, row_vect=False):
-
-    if row_vect:
-        A = A.T
+def modified_gram_schmidt(A):
+    # Ensure complex type to prevent casting errors
+    A = A.astype(complex)
+    n_rows, n_cols = A.shape
+    Q = np.zeros((n_rows, n_cols), dtype=complex)
     
-    no_of_vectors = A.shape[1]
-    G = A[:, 0:1].copy()
-    
-    for i in range(1, no_of_vectors):
-        numerator = A[:, i].dot(G)
-        denominator = np.diag(np.dot(G.T, G))
-        weights = np.squeeze(numerator / denominator)
-        
-        projected_vector = np.sum(weights * G, axis=1, keepdims=True)
-        orthogonalized_vector = A[:, i:i+1] - projected_vector
-        G = np.hstack((G, orthogonalized_vector))
-        
-    if norm:
-        G = G / np.linalg.norm(G, axis=0)
-    
-    if row_vect:
-        return G.T
-    
-    return G
+    for j in range(n_cols):
+        v = A[:, j]
+        # Subtract projections onto ALL previous vectors
+        for i in range(j):
+            # np.vdot conjugates the first argument: <Q_i | v>
+            projection = np.vdot(Q[:, i], v) 
+            v = v - projection * Q[:, i]
+            
+        norm = np.linalg.norm(v)
+        if norm < 1e-10: 
+            Q[:, j] = np.zeros_like(v)
+        else:
+            Q[:, j] = v / norm
+    return Q
 \end{lstlisting}
 
-\textbf{Handling Singular Matrices}
-
-\textbf{JJGO} addressed an important practical issue: handling linearly dependent vectors. This implementation checks if a vector is already in the span of previous vectors (using a small tolerance like \texttt{1e-10}) and skips it if so:
+\subsubsection*{3. The Robust Approach: Handling Linear Dependence}
+\textit{Recommended for redundant sets.} If your input vectors might be linearly dependent (common when generating overcomplete bases), this version explicitly checks for dependence and skips redundant vectors to avoid division by zero.
 
 \begin{lstlisting}[language=Python]
-def gram_schmidt(vectors):
+def robust_gram_schmidt(vectors, tol=1e-10):
     basis = []
     for v in vectors:
-        w = v - np.sum(np.dot(v, b) * b for b in basis)
-        if (w > 1e-10).any():  
-            basis.append(w / np.linalg.norm(w))
-    return np.array(basis)
+        w = np.array(v, dtype=complex)
+        for b in basis:
+            w -= np.vdot(b, w) * b # Orthogonalize
+            
+        norm = np.linalg.norm(w)
+        if norm > tol:
+            basis.append(w / norm)
+            
+    return np.array(basis).T # Return as columns
 \end{lstlisting}
 
-\textbf{NumPy QR Factorization}
-
-\textbf{jakevdp} pointed out that NumPy's built-in \texttt{qr()} function provides the fastest and most numerically stable approach. The QR decomposition inherently performs Gram-Schmidt orthogonalization (using a modified version), but with optimized C implementations:
-
-\begin{lstlisting}[language=Python]
-import numpy as np
-
-def gram_schmidt_columns(X):
-    Q, R = np.linalg.qr(X)
-    return Q
-\end{lstlisting}
-
-\textbf{Modified Gram-Schmidt for Complex Vectors}
-
-For complex inner product spaces (relevant to quantum computing), \textbf{scrpy} provided a modified implementation using \texttt{np.vdot()} for proper complex conjugation:
-
-\begin{lstlisting}[language=Python]
-import numpy as np
-
-def modifiedGramSchmidt(A):
-    dim = A.shape[0]
-    Q = np.zeros(A.shape, dtype=A.dtype)
-    for j in range(0, dim):
-        q = A[:, j]
-        for i in range(0, j):
-            rij = np.vdot(Q[:, i], q)
-            q = q - rij * Q[:, i]
-        rjj = np.linalg.norm(q, ord=2)
-        if np.isclose(rjj, 0.0):
-            raise ValueError
-        else:
-            Q[:, j] = q / rjj
-    return Q
-\end{lstlisting}
-
-\textbf{Custom Inner Product Implementation}
-
-For non-Euclidean inner product spaces, the algorithm can be adapted by replacing the dot product with a custom inner product function:
-
-\begin{lstlisting}[language=Python]
-import numpy as np
-
-def inner_product(x, y):
-    # Example: weighted inner product
-    return x[0]*y[0] + 2*x[1]*y[1] + x[2]*y[2]
-
-def gram_schmidt(V):
-    U = []
-    for i in range(len(V)):
-        u = V[i]
-        for j in range(i):
-            proj = (inner_product(V[i], U[j]) / 
-                    inner_product(U[j], U[j])) * U[j]
-            u = u - proj
-        U.append(u / ((inner_product(u, u))0.5))
-    return np.array(U)
-\end{lstlisting}
-
-\textbf{Performance Comparison}
-
-According to \textbf{victorhcm's} testing, the NumPy QR approach and manual Gram-Schmidt implementations produce identical results (up to sign differences in the basis vectors). However, the QR factorization is typically 2-3 times faster and more numerically stable, especially for ill-conditioned matrices.
 
 \break
 
@@ -3510,10 +3327,10 @@ $$
 \bra{x} A (c_1\ket{y_1} + c_2\ket{y_2}) = c_1 \bra{x} A \ket{y_1} + c_2 \bra{x} A \ket{y_2}
 $$
 
-Conjugate linear (sometimes called antilinear) is where complex spaces differ from real ones. It means that the mapping preserves addition, but when you pull out a scalar, it comes out as its complex conjugate. If you replace $\bra{x}$ with a linear combination formed by $c_1\bra{x_1} + c_2\bra{x_2}$, the constants that come out are effectively conjugated ($c^*$ denotes the complex conjugate of $c$):
+Conjugate linear (sometimes called antilinear) is where complex spaces differ from real ones. It means that the mapping preserves addition, but when you pull out a scalar, it comes out as its complex conjugate.
 
 $$
-(c_1\bra{x_1} + c_2\bra{x_2}) A \ket{y} = c_1^* \bra{x_1} A \ket{y} + c_2^* \bra{x_2} A \ket{y}
+(c_1\ket{x_1} + c_2\ket{x_2})^\dagger A \ket{y} = c_1^* \bra{x_1} A \ket{y} + c_2^* \bra{x_2} A \ket{y}
 $$
 
 Recall that in Dirac notation (bra-ket notation), the "bra" $\bra{x}$ corresponds to the Hermitian conjugate (adjoint) of the column vector $x$. If $\ket{x}$ is the column vector $x$, then $\bra{x}$ is the row vector $x^\dagger$ (conjugate transpose). If you scale the vector $x$ by a complex number $c$, the conjugate transpose scales by $c^*$.
@@ -3522,19 +3339,24 @@ $$
 (c x)^\dagger = c^* x^\dagger
 $$
 
-Key Takeaway: The constants ($c_1, c_2$) come out of the first slot as their complex conjugates ($c_1^*, c_2^*$).
 
-The term Sesquilinear literally means "one-and-a-half linear."
-It is "one" linear because of the second argument ($\ket{y}$).
-It is "half" linear (antilinear) because of the first argument ($\bra{x}$).
+So therefore the term Sesquilinear literally means "one-and-a-half linear." It is "one" linear because of the second argument ($\ket{y}$). It is "half" linear (antilinear) because of the first argument ($\bra{x}$). 
 
-This structure ensures that the norm of a vector (the inner product of a vector with itself) is always a real number. If it were linear in both arguments, $\braket{cx}{cx}$ would equal $c^2 \braket{x}{x}$, which could be a complex number. Because it is conjugate linear in the first slot, we get:
+Sesquilinearity ensures that the norm of a vector (the inner product of a vector with itself) is always a real number. If it were linear in both arguments, $\braket{cx}{cx}$ would equal $c^2 \braket{x}{x}$, which could be a complex number. Because it is conjugate linear in the first slot, we get:
 
 $$
 \braket{cx}{cx} = c^* c \braket{x}{x} = |c|^2 \braket{x}{x}
 $$
 
-This guarantees that lengths/probabilities remain real and non-negative.
+This guarantees that lengths/probabilities remain real and non-negative. Now going along with the previous theorems, if $A$ is Hermitian and both vectors on either side are equal, we call this a \textbf{Hermitian quadratic form} for the expression:
+
+$$\brapsi M \ketpsi$$
+
+where $M$ is Hermitian ($M = M^\dagger$). This form is critical in quantum computing as it represents the statistical average of an observable $M$ on the state $\ketpsi$ always yielding a real scalar. This is explored further below. 
+
+\begin{theorem}
+    Given a Hermitian matrix $M \in $ x 
+\end{theorem}
 
 
 

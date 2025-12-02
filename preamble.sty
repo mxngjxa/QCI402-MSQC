@@ -1,0 +1,135 @@
+\ProvidesPackage{preamble}
+
+% ==========================================
+% 1. Page Layout & Geometry
+% ==========================================
+\usepackage[legalpaper, portrait, margin=1in]{geometry}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{multicol}
+
+% ==========================================
+% 2. Mathematics & Physics
+% ==========================================
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{physics} % Includes Dirac notation, partial derivatives, etc.
+
+% ==========================================
+% 3. Graphics & Visualization
+% ==========================================
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{quantikz} % Quantum circuits (requires tikz)
+
+\pgfplotsset{compat=1.18}
+\graphicspath{ {./figures/} }
+\newcommand{\Rlogo}{\protect\includegraphics[height=1.8ex,keepaspectratio]{Rlogo.png}}
+
+% ==========================================
+% 4. Tables
+% ==========================================
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{tabularx}
+
+% ==========================================
+% 5. Code Highlighting (Listings)
+% ==========================================
+\usepackage{listings}
+\usepackage{xcolor}
+
+% --- One Light Color Palette (Matching the screenshot) ---
+\definecolor{olpBackground}{HTML}{F0F5F9} % Very pale blue-gray background
+\definecolor{olpText}{HTML}{333333}       % Standard dark gray text for identifiers
+\definecolor{olpComment}{HTML}{999999}    % Medium gray comments
+\definecolor{olpKeyword}{HTML}{A753A6}    % Purple keywords (def, for, if, return)
+\definecolor{olpBuiltin}{HTML}{3E76E6}    % Blue built-ins (np, complex, range, len)
+\definecolor{olpString}{HTML}{4BA150}     % Green strings
+\definecolor{olpNumber}{HTML}{C37800}     % Orange numbers
+
+% --- Listings Style Configuration ---
+\lstdefinestyle{onelight}{
+    backgroundcolor=\color{olpBackground},
+    basicstyle=\ttfamily\footnotesize\color{olpText}, % Use dark text on light background
+    commentstyle=\color{olpComment}\itshape,
+    keywordstyle=\color{olpKeyword},          % Keywords (def, for, if)
+    keywordstyle=[2]\color{olpBuiltin},       % Built-ins/types (np, complex)
+    stringstyle=\color{olpString},            % Strings
+    numberstyle=\tiny\color{olpComment},      % Line numbers (using comment color)
+    % Note: identifierstyle is removed so variables use the basicstyle (dark gray)
+    %
+    % --- Layout ---
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4,
+    frame=none,
+}
+
+% Set the default style to the new 'onelight' style
+\lstset{style=onelight}
+
+% Define Python keywords to ensure colors map correctly
+% Class 1: Standard keywords (Purple in image)
+% Class 2: Built-ins/Types (Blue in image)
+\lstset{language=Python,
+    morekeywords={as, assert, non-local, with, yield, True, False, None},
+    morekeywords=[2]{np, complex, range, len, array, vdot, linalg, norm, append},
+    alsodigit={.}
+}
+
+% ==========================================
+% 6. Code Highlighting (Minted Alternative)
+% ==========================================
+\usepackage{minted}
+% 'friendly' or 'tango' are good light theme alternatives for minted
+\usemintedstyle{friendly}
+
+% ==========================================
+% 7. Theorems & Environments
+% ==========================================
+\theoremstyle{definition}
+
+% ------------------------------------------
+% Standard Styling (Shared Counter)
+% ------------------------------------------
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{postulate}[theorem]{Postulate}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+
+% ------------------------------------------
+% 7.1 Alternative Styling (Split Counters)
+% Un-comment below to separate Theorem numbering 
+% from Definitions/Postulates.
+% ------------------------------------------
+% \newtheorem{theorem}{Theorem}[section]
+% 
+% % Create an independent base counter for the "definition group"
+% \newtheorem{fact}{\!\!}[section] % invisible title; serves only as a counter
+% 
+% % Make these share the "fact" counter (not the theorem counter)
+% \newtheorem{definition}[fact]{Definition}
+% \newtheorem{postulate}[fact]{Postulate}
+% \newtheorem{corollary}[fact]{Corollary}
+% \newtheorem{lemma}[fact]{Lemma}
+% ------------------------------------------
+
+% ==========================================
+% 8. Unnumbered environments
+% ==========================================
+\newtheorem*{example}{Example}
+\newtheorem*{solution}{Solution}
