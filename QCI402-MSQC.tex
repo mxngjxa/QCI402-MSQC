@@ -2,6 +2,9 @@
 
 \usepackage{preamble}
 
+%optionally, include packages for syntax highlighting
+\usepackage{physics}
+
 \input{config.tex}
 \input{quantum-commands.tex}
 
@@ -3355,8 +3358,24 @@ $$\brapsi M \ketpsi$$
 where $M$ is Hermitian ($M = M^\dagger$). This form is critical in quantum computing as it represents the statistical average of an observable $M$ on the state $\ketpsi$ always yielding a real scalar. This is explored further below. 
 
 \begin{theorem}
-    Given a Hermitian matrix $M \in $ x 
+    Given a Hermitian matrix $M \in \Cnn$ and a complex vector $\ketpsi \in \Cn$, $\brapsi M \ketpsi$ is always real. 
 \end{theorem}
+
+\begin{proof}
+    Taking $\ket{x} = \ket{y} = \ketpsi$ from previous equations, we have:
+
+    $$\brapsi M^\dagger \ketpsi = (\brapsi M \ketpsi)^*$$
+    
+    Since $M$ is Hermitian, it holds that $M = M^\dagger$, and thus:
+
+    $$\brapsi M \ketpsi = \brapsi M^\dagger \ketpsi$$
+    
+    This implies that:
+
+    $$\brapsi M \ketpsi = (\brapsi M \ketpsi)^* \quad \Longrightarrow \quad \brapsi M \ketpsi \in \R$$
+\end{proof}
+
+\subsection{Matrix Inverses}
 
 
 
