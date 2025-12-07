@@ -3377,7 +3377,289 @@ where $M$ is Hermitian ($M = M^\dagger$). This form is critical in quantum compu
 
 \subsection{Matrix Inverses}
 
+Very similar to how real numbers have inverses, matrices have them too. 
 
+\begin{definition}[Identity Matrix]
+    The identity matrix, denoted by $I_{n}$, is an $n \times n$ square matrix characterized by ones on its main diagonal and zeros in all off-diagonal positions:
+    \[
+        I_{n} =
+        \begin{bmatrix}
+        1      & 0      & 0      & \cdots & 0 \\
+        0      & 1      & 0      & \cdots & 0 \\
+        0      & 0      & 1      & \cdots & 0 \\
+        \vdots & \vdots & \vdots & \ddots & \vdots \\
+        0      & 0      & 0      & \cdots & 1
+        \end{bmatrix}.
+    \]
+\end{definition}
+
+
+The identity matrix can also be defined using the Kronecker delta function as:
+
+$$
+I_n = [\delta_{ij}], \qquad \delta_{ij} = \begin{cases}
+    0 \quad i \neq j \\
+    1 \quad i = j \\
+\end{cases}
+$$
+
+\begin{theorem}
+    For any matrices $A_{m \cross n}$, the identity matrix $I_n$ and $I_m$ satisfies the properties $A I_n = A$ and $I_m A = A$. 
+\end{theorem}
+
+\begin{proof}
+    Let $A = [a_{ij}]$ and the product $C = AI_n = [c_{ij}]$:
+    $$c_{ij} = \sum_{k = 1}^{n} a_{ik} \delta_{kj}. $$
+    The only non-zero term in the summation occurs when $k = j$, yielding:
+    $$c_{ij} = a_{ij}\delta_{jj} = a_{ij}, \qquad \forall i, j,$$
+    affirming that $A I_n = A$. We can apply a similar method for validating $I_m A = A$.
+\end{proof}
+
+Note that we can omit the subscript when the context clearly identifies the size of the identity matrix $I$. Next, we will define the inverse of a matrix, which is conceptually analogous to the inverse of a scalar, but entails a few more hoops that you need to jump through.
+
+\begin{definition}[Inverse of a Matrix]
+    Consider a square matrix $A_{n \times n}$. If there exists a matrix $B_{n \times n}$ such that $BA = AB = I$, then we consider $A$ \textbf{invertible}, $B$ as the \textbf{inverse} of $A$, denoted by $A^{-1}$. If there exists no such $B$, then $A$ is described as \textbf{singular}. 
+\end{definition}
+
+We know that only square matrices are invertible. However, we also know that the inverse of a matrix is unique. 
+
+\begin{theorem}
+    The inverse of a matrix, if it exists, is unique. 
+\end{theorem}
+
+\begin{proof}
+    Assume $B$ and $C$ are the inverse of a matrix $A$. By definition:
+    $$AB = BA = I = AC = CA.$$
+    So if we take 
+    $$BAC = B (AC) = BI = B$$
+    which is by defnition equal to 
+    $$BAC = (BA)C = IC = C$$
+    it is easy to see that $B = C$ and that the inverse of a matrix is unique.
+\end{proof}
+
+\begin{theorem}
+    For two square matrices $A$ and $B$, 
+    $$AB = I \Leftrightarrow BA = I \quad \Longleftrightarrow \quad A = B^{-1} \Leftrightarrow B = A^{-1}.$$
+\end{theorem}
+
+It is out of the scope of this text to compute the inverse of matrices. However, not all matrices are invertible. The zero matrix is an obvious example of a singular matrix. In general, you can think of singular matrices having some form of information reduced from it so that compression and expansion is not able to recreate in inverted image of it. More formally: 
+
+\begin{theorem}
+    A square matrix $A$ is singular if its row vectors or column vectors are linearly independent. 
+\end{theorem}
+
+\begin{proof}
+    Consider a square matrix $A$ with $n$ linearly dependent column vectors. Let $\spantext(S) = A$. Since the column vectors are linearly dependent, that implies that $\dimtext(S) < n$. Next, we consider a matrix $B$ partitioned into its column vectors. If we define 
+    $$C = AB = \sum_{i=1}^{n} A \mathbf{b}_i,$$
+    then each product is going to be linearly dependent since $A$ is linearly dependent, implying that 
+    $$\forall \mathbf{b}_i, \quad A \mathbf{b}_i \in \spantext(S) \Longrightarrow C \neq I.$$
+    It is easy to see that this holds true for all matrices $B$ such that $C$ will never be the identity matrix $I$, and hence $A$ must be singular. A similar method can be used to prove that the same holds for linearly independent row vectors. 
+\end{proof}
+
+As a brief note, while invertibility is a fundamental property of square matrices and it does come up time and time again, the need to examine invertibility is not necessary in quantum computing. This is primarily so becuase unitary matrices, the mathmatical representation for quantum gates, are by definition invertible. As a result, the emphasis lies on unitary matrices and their properties, which are central to quantum computing. 
+
+In practice, it is often more desirable to represent solutions of problems as a vector. Such problems are often formulated using matrix equations. 
+
+\begin{theorem}
+    Given an invertible matrix $A \in \Cnn, \ketphi \in \Cn$, the matrix equation
+    $$A \ketphi = \ketpsi$$
+    admits a unique solution:
+    $$\ketphi = A^{-1} \ketpsi.$$
+\end{theorem}
+
+\begin{proof}
+    Multiplying the inverse on the right hand side of the equation yields:
+    $$\inverse{A} A \ketphi = \inverse{A} \ketpsi \qquad \Rightarrow \qquad I \ketphi = \inverse{A} \ketpsi \qquad \Rightarrow \qquad \ketphi = \inverse{A} \ketpsi$$
+\end{proof}
+
+\begin{theorem}
+    Given a series of invertible matrices $A_{1}, A_{2}, \ldots, A_{n-1}, A_{n}$ of the same dimensions, the following identity holds true:
+    \[
+        (A_{1} A_{2} \cdots A_{n-1} A_{n})^{-1} = A_{n}^{-1} A_{n-1}^{-1} \cdots A_{2}^{-1} A_{1}^{-1}.
+    \]
+\end{theorem}
+
+\begin{proof}
+    We verify the identity by showing that the product of the sequence of matrices and their inverses results in the identity matrix, $I$:
+    \begin{align*}
+        (A_{n}^{-1} A_{n-1}^{-1} \cdots A_{2}^{-1} A_{1}^{-1})(A_{1} A_{2} \cdots A_{n-1} A_{n})
+        &= A_{n}^{-1} A_{n-1}^{-1} \cdots A_{2}^{-1} I A_{2} \cdots A_{n-1} A_{n} \\
+        &= A_{n}^{-1} A_{n-1}^{-1} \cdots A_{3}^{-1} I A_{3} \cdots A_{n-1} A_{n} \\
+        &= \cdots \\
+        &= A_{n}^{-1} A_{n-1}^{-1} A_{n-1} A_{n} \\
+        &= A_{n}^{-1} I A_{n} = A_{n}^{-1} A_{n} = I.
+    \end{align*}
+    Therefore we conclude that
+    \[
+        (A_{1} A_{2} \cdots A_{n-1} A_{n})^{-1} = A_{n}^{-1} A_{n-1}^{-1} \cdots A_{2}^{-1} A_{1}^{-1}.
+    \]
+\end{proof}
+
+\begin{theorem}
+    If $A$ is an invertible matrix, then it's adjoint ($A^\dagger$) is also invertible. The inverse of $A^\dagger$ is given by:
+    $$\inverse{(A^\dagger)} = (\inverse{A})^\dagger$$ 
+\end{theorem}
+
+\begin{proof}
+    Multiplying the left side of the equation with $A^\dagger$ yields:
+    $$I = A^\dagger (\inverse{A})^\dagger \qquad \Rightarrow \qquad I^\dagger = A \inverse{A} = I$$
+\end{proof}
+
+Next we will move on to diagonal matrices, defined as square matrices with non-zero entries only on the main diagonal, play a signifcant role as a source of convinience in linear algebra. 
+
+\begin{definition}[Diagonal Matrix]
+    A diagonal matrix is a square matrix where all off-diagonal entries are zero. A general $n \times n$ diagonal matrix is represented as
+    \[
+        \Lambda =
+        \begin{bmatrix}
+        \lambda_{1} & 0           & \cdots & 0 \\
+        0           & \lambda_{2} & \cdots & 0 \\
+        0           & 0           & \ddots & 0 \\
+        0           & 0           & \cdots & \lambda_{n}
+        \end{bmatrix}.
+    \]
+\end{definition}
+
+While you might be used to using $D$ to represent diagonal matrices from real linear algebra, $\Lambda$ is used just the same. We also like to use the notation $\text{diag}(\lambda_1, \lambda_2, \ldots, \lambda_n)$ to represent diagonal matrices. A key advantage of using diagonal matrices is that matrix algebra operations are exceptionally straightforward. 
+
+\begin{theorem}
+    Given an $n \times n$ diagonal matrix $\Lambda = \operatorname{diag}(\lambda_{1}, \lambda_{2}, \ldots, \lambda_{n})$ and an $m \times n$ matrix $A$ partitioned into column vectors $A = \begin{bmatrix} \cvec_{1} & \cvec_{2} & \cdots & \cvec_{n} \end{bmatrix}$, the matrix product $A\Lambda$ is obtained by multiplying each column of $A$ by the corresponding $\lambda_{i}$ in $\Lambda$:
+    \[
+        A\Lambda = \begin{bmatrix} \lambda_{1}\cvec_{1} & \lambda_{2}\cvec_{2} & \cdots & \lambda_{n}\cvec_{n} \end{bmatrix}.
+    \]
+    Similarly, for an $n \times p$ matrix $B$ partitioned into row vectors $B = \begin{bmatrix} \rvec_{1} \\ \rvec_{2} \\ \vdots \\ \rvec_{n} \end{bmatrix}$, the matrix product $\Lambda B$ is obtained by multiplying each row vector of $B$ by the corresponding $\lambda_{i}$ in $\Lambda$:
+    \[
+        \Lambda B =
+        \begin{bmatrix}
+        \lambda_{1}\rvec_{1} \\
+        \lambda_{2}\rvec_{2} \\
+        \vdots \\
+        \lambda_{n}\rvec_{n}
+        \end{bmatrix}.
+    \]
+\end{theorem}
+
+\begin{theorem}
+    A diagonal matrix $\Lambda = \operatorname{diag}(\lambda_{1}, \lambda_{2}, \ldots, \lambda_{n})$ is invertible if and only if $\lambda_{i} \neq 0$ for all $i=1,2,\ldots,n$. The inverse of such a matrix is given by:
+    \[
+        \Lambda^{-1} = \operatorname{diag} \left( \frac{1}{\lambda_{1}}, \frac{1}{\lambda_{2}}, \ldots, \frac{1}{\lambda_{n}} \right) =
+        \begin{bmatrix}
+        \frac{1}{\lambda_{1}} & 0 & \cdots & 0 \\
+        0 & \frac{1}{\lambda_{2}} & \cdots & 0 \\
+        0 & 0 & \ddots & 0 \\
+        0 & 0 & \cdots & \frac{1}{\lambda_{n}}
+        \end{bmatrix}.
+    \]
+\end{theorem}
+
+
+\begin{theorem}
+    Let $\{\ket{0}, \ket{1}, \ldots, \ket{d-1}\}$ be the computational basis of $\C^{d}$. A general diagonal matrix $\Lambda = \operatorname{diag}(k_{0}, k_{1}, \ldots, k_{d-1})$ can be expressed as
+    \[
+        \begin{bmatrix}
+        k_{0} & 0 & \cdots & 0 \\
+        0 & k_{1} & \cdots & 0 \\
+        0 & 0 & \ddots & 0 \\
+        0 & 0 & \cdots & k_{d-1}
+        \end{bmatrix}
+        = k_{0}\ket{0}\bra{0} + k_{1}\ket{1}\bra{1} + \cdots + k_{d-1}\ket{d-1}\bra{d-1}.
+    \]
+\end{theorem}
+
+\begin{definition}[Matrix Power]
+    For a square matrix $A$, non-negative integer powers are defined as follows:
+    \[
+        A^{0} = I, \qquad A^{n} = \underbrace{AA \cdots A}_{n \text{ factors}}.
+    \]
+    For invertible matrices, negative integer powers can also be defined:
+\end{definition}
+
+\begin{definition}[Negative Power]
+    For an invertible matrix $A$, negative integer powers are defined as
+    \[
+        A^{-n} = \underbrace{A^{-1}A^{-1} \cdots A^{-1}}_{n \text{ factors}}.
+    \]
+\end{definition}
+
+The two above definitions yields the following properties:
+
+\begin{theorem}
+    For any matrix $A$, the following properties hold:
+    $$A^p A^q = A^{p+q}, \qquad (A^p)^q = A^{pq}$$
+    provided all powerers involved are defined. 
+\end{theorem}
+
+A special type of matrix related to matrix powers are idempotent matrices, derived from the latin words "idem," meaning "the same," and "potent," meaning "power."
+
+\begin{definition}[Idempotent Matrix]
+    A square matrix $A$ is called idempotent if $A^2 = A$.
+\end{definition}
+
+Idenpotent matrices frequently arise in the context of projection matrices. 
+
+\begin{definition}[Projection Matrix]
+    A projection matrix onto a $n \times 1$ vector $\ketpsi$ is defined as:
+    $$P_{\psi} = \ketpsi \brapsi,$$
+    such that $P_{\psi}$ projects any $n \times 1$ vector onto $\ketpsi$. In this context, $\ketpsi$ and $\ketphi$ are normalized vectors. 
+\end{definition}
+
+\begin{proof}
+    Consider the matrix multiplication:
+    $$P_{\psi} \ketphi = \ketpsi \brapsi \ketphi = \braket{\psi}{\phi} \ketpsi$$
+    which precisely follows the definition from the previous section. 
+\end{proof}
+
+\begin{theorem}
+    The projection matrix $P_{\psi} = \ketpsi \brapsi$ is idempotent. 
+\end{theorem}
+
+\begin{proof}
+    To verify that $P_{\psi}$ is idempotent, we can simply compute $P_{\psi}^2$:
+    $$P_{\psi}^2 = \ketpsi \brapsi \ketpsi \brapsi = \ketpsi \braket{\psi}{\psi} \brapsi = \ketpsi \brapsi = P_{\psi},$$
+    considering that $\braket{\psi}{\psi} = 1$ given that they are normalized vectors. 
+\end{proof}
+
+Conceptually, this follows since repeated powers of $P_\psi$ is simply the same projection over and over again. 
+
+\begin{theorem}
+    Given a diagonal matrix $\Lambda = \operatorname{diag}(\lambda_{1}, \lambda_{2}, \ldots, \lambda_{n})$, its $d$-th power is given by:
+    \[
+        \Lambda^{d} =
+        \begin{bmatrix}
+        \lambda_{1}^{d} & 0 & \cdots & 0 \\
+        0 & \lambda_{2}^{d} & \cdots & 0 \\
+        0 & 0 & \ddots & 0 \\
+        0 & 0 & \cdots & \lambda_{n}^{d}
+        \end{bmatrix},
+    \]
+    where $d \in \mathbb{Z}$. If $d$ is negative, $\Lambda$ must be invertible.
+\end{theorem}
+
+Another interesting note before the end of this subsection is that we can also have polynomials for matrices. 
+
+\begin{definition}[Matrix Polynomial]
+    Given a polynomial function
+    \[
+        p(x) = c_{0} + c_{1}x + c_{2}x^{2} + \cdots + c_{n}x^{n},
+    \]
+    the polynomial function of a square matrix $A$ is defined as:
+    \[
+        p(A) = c_{0}I + c_{1}A + c_{2}A^{2} + \cdots + c_{n}A^{n},
+    \]
+    where $I$ is the identity matrix of the same size as $A$, and $p(A)$ is a square matrix of the same size as $A$.
+\end{definition}
+
+Since matrices and their powers are associative under multiplication, matrix polynomials, also following the same rules. For instance, algebraic identities such as 
+
+$$1 - x^{n} = (1 - x)(1 + x + x^{2} + \cdots + x^{n-1})$$
+
+translates directly over to any square matrix $A$ such as 
+
+$$I - A^{n} = (I - A)(I + A + A^{2} + \cdots + A^{n-1}).$$
+
+Matrix polynomials are a powerful tool for analzying square matrices, particularly in the context of spectral decomposition, diagonalization, and the Cayley-Hamilton theorem, covered in section 11. 
+
+\subsection{Trace and Determinant}
 
 
 
