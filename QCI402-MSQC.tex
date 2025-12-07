@@ -3449,10 +3449,10 @@ It is out of the scope of this text to compute the inverse of matrices. However,
 \end{theorem}
 
 \begin{proof}
-    Consider a square matrix $A$ with $n$ linearly dependent column vectors. Let $\spantext(S) = A$. Since the column vectors are linearly dependent, that implies that $\dimtext(S) < n$. Next, we consider a matrix $B$ partitioned into its column vectors. If we define 
+    Consider a square matrix $A$ with $n$ linearly dependent column vectors. Let $\spanop(S) = A$. Since the column vectors are linearly dependent, that implies that $\dimop(S) < n$. Next, we consider a matrix $B$ partitioned into its column vectors. If we define 
     $$C = AB = \sum_{i=1}^{n} A \mathbf{b}_i,$$
     then each product is going to be linearly dependent since $A$ is linearly dependent, implying that 
-    $$\forall \mathbf{b}_i, \quad A \mathbf{b}_i \in \spantext(S) \Longrightarrow C \neq I.$$
+    $$\forall \mathbf{b}_i, \quad A \mathbf{b}_i \in \spanop(S) \Longrightarrow C \neq I.$$
     It is easy to see that this holds true for all matrices $B$ such that $C$ will never be the identity matrix $I$, and hence $A$ must be singular. A similar method can be used to prove that the same holds for linearly independent row vectors. 
 \end{proof}
 
@@ -3661,7 +3661,129 @@ Matrix polynomials are a powerful tool for analzying square matrices, particular
 
 \subsection{Trace and Determinant}
 
+Square matrices also contain two important scalar quantities, which are the trace and the determinant. Both quantities are foundational for linear algebra and quantum computing. While this section will briefly introduce their basic properties, it will lay the groundwork for understanding their fundamental roles and implications in both classical and quantum contexts. 
 
+\begin{definition}[Trace]
+    The trace of an $n \times n$ square matrix $A = [a_{ij}]$, denoted as $\operatorname{tr}(A)$, is defined as:
+    \[
+        \operatorname{tr}(A) = a_{11} + a_{22} + \cdots + a_{nn} = \sum_{i=1}^{n} a_{ii}.
+    \]
+\end{definition}
+
+\begin{theorem}
+    The following identities demonstrate the basic properties of the trace function for any square matrices $A$, $B$ and scalar $k$:
+    \begin{align*}
+        \operatorname{tr}(A^{T}) &= \operatorname{tr}(A),\\
+        \operatorname{tr}(A^{\dagger}) &= \operatorname{tr}(A^{*}) = \operatorname{tr}(A)^{*},\\
+        \operatorname{tr}(kA) &= k \operatorname{tr}(A) \\
+        \operatorname{tr}(A + B) &= \operatorname{tr}(A) + \operatorname{tr}(B)\\
+        \operatorname{tr}(AB) &= \operatorname{tr}(BA).
+    \end{align*}
+\end{theorem}
+
+\begin{proof}
+    Let $A = [a_{ij}]$ and $B = [b_{ij}]$, where $i,j = 1,2,\ldots,n$. Using the row–column rule, compute the entries of $AB$ and $BA$ as follows:
+    \[
+        (AB)_{ij} = \sum_{k=1}^{n} a_{ik} b_{kj}, \qquad
+        (BA)_{ij} = \sum_{k=1}^{n} b_{ik} a_{kj}.
+    \]
+
+    The traces of $AB$ and $BA$ are then:
+    \[
+        \operatorname{tr}(AB)
+        = \sum_{i=1}^{n} (AB)_{ii}
+        = \sum_{i=1}^{n} \sum_{k=1}^{n} a_{ik} b_{ki},
+    \]
+    \[
+        \operatorname{tr}(BA)
+        = \sum_{i=1}^{n} (BA)_{ii}
+        = \sum_{i=1}^{n} \sum_{k=1}^{n} b_{ik} a_{ki}.
+    \]
+
+    Since summations are symmetric with respect to $i$ and $k$, swapping $i$ and $k$ in the summation for $\operatorname{tr}(BA)$ yields:
+    \[
+        \operatorname{tr}(BA)
+        = \sum_{i=1}^{n} \sum_{k=1}^{n} b_{ik} a_{ki}
+        = \sum_{i=1}^{n} \sum_{k=1}^{n} b_{ki} a_{ik}
+        = \operatorname{tr}(AB).
+    \]
+\end{proof}
+
+Now the extension of the last theorerm leads to the following theorem:
+
+\begin{theorem}
+    The following identities hold true for square matrices $A, B, C$ and an intertible matrix $P$ we have the properties of \textbf{cyclic invariance}:
+    $$\trop(ABC) = \trop(BCA) = \trop(CAB)$$
+    and \textbf{simiarity invariance}:
+    $$\trop(\inverse{P} A P) = \trop(A)$$
+\end{theorem}
+
+A common misconception upon first glance is that the product of the matrices can be shuffled at will and they will still remain the same. However, this property actually borrows from the previous definition of how $\trop(AB) = \trop(BA)$.
+
+\begin{proof}
+    Using the cyclic property of the trace, we can rearrange the product inside the trace function:
+    \[
+    \operatorname{tr}(ABC) = \operatorname{tr}(A(BC)) = \operatorname{tr}((BC)A) = \operatorname{tr}(BCA),
+    \]
+    \[
+    \operatorname{tr}(ABC) = \operatorname{tr}((AB)C) = \operatorname{tr}(C(AB)) = \operatorname{tr}(CAB),
+    \]
+    \[
+    \operatorname{tr}(P^{-1} A P) = \operatorname{tr}(A P P^{-1}) = \operatorname{tr}(A I) = \operatorname{tr}(A).
+    \]
+\end{proof}
+
+The cyclic invariance property holds for the trace of a product of square matrices of any length. For example:
+
+$$\trop(ABCD) = \trop(BCDA) = \trop(CDAB) = \trop(DABC).$$
+
+Generally speaking, however, $\trop(ABC) \neq \trop(CAB)$ as this is not cyclic. 
+
+\begin{theorem}
+    For matrices $A \in \Rmn, B \in \C_{nm}$ it holds that:
+    $$\trop(AB) = \trop{BA}.$$
+\end{theorem}
+
+This theorem leads to several quite unique and useful results in quantum computing. 
+
+\begin{theorem}
+    The following identities hold for a matrix $A \in \Cnn$ and vectors $\ketpsi, \ketphi \in \Cn$:
+    $$\trop(\ketpsi \braphi) = \braket{\phi}{\psi}$$ 
+    $$\trop(A\ketpsi \braphi) = \braphi A \ketpsi$$
+\end{theorem}
+
+This theorm is fundamental to describing density matrices, also known as density operators, in quantum computing. In quantum mechanics, a \textbf{pure state} is represented by a unit vector $\ketpsi \in \Cn$, or more generally in a Hilbert space. A \textbf{mixed state} represents a statistical ensemble of such pure states. A mixed state can be described by a density matrix defined as:
+
+$$\rho = \sum_{i} = p_i \ket{\phi_i} \bra{\phi_i},$$
+
+where $p_i \geq 0$ and $\sum_{i} p_i = 1$. Here, $\ket{\phi_i}$ represents a pure state, and the state is mixed when the sum contains many terms, with $p_i$ represents the probability of observing the pure state $\ket{\phi_i}$. 
+
+A pure state is a special case of the mixed state, which can be expressed as a single outer product: $\rho = \ketphi \braphi$. Density matrices exhibit some very special properties: $\trop(\rho) = \trop(\rho^2) = 1$. We know that all traces of pure states are of unit trace using the above theorem. Additionally, we know that pure states have $\rho^2 = \rho$, implying that $\trop(\rho^2) = \trop(\rho) = 1$. 
+
+For mixed states, we know that $\trop(\rho) = 1$ and that $0 < \trop(\rho^2) \leq 1$. The proof of the first property is as follows:
+
+\begin{align*}
+    \trop\left(\sum_{i} p_i \ket{\psi_i} \bra{\psi_i}\right) &= \sum_{i} \trop\left( p_i \ket{\psi_i} \bra{\psi_i}\right) \\
+    &= \sum_{i} p_i \trop\left(  \ket{\psi_i} \bra{\psi_i}\right) \\
+    &= \sum_{i} p_i \\
+    &= 1.\\
+\end{align*}
+
+
+In order to demonstrate that $0 < \trop(\rho^2) \leq 1$, consider the case where ${\ket{\psi_i}}$ are the orthonormal pure states with $\braket{\psi_i}{\psi_j} = \delta_{ij}$. Since $\rho$ is Hermitian, it can always be decomposed with orthonormal pure states according to the spectral decomposition theorem. We derive:
+
+\begin{align*}
+\operatorname{tr}(\rho^{2})
+&= \operatorname{tr}\!\left( \sum_{i} p_{i} \ket{\psi_{i}}\bra{\psi_{i}} \sum_{j} p_{j} \ket{\psi_{j}}\bra{\psi_{j}} \right) \\
+&= \operatorname{tr}\!\left( \sum_{i} \sum_{j} p_{i} p_{j} \ket{\psi_{i}}\bra{\psi_{i}} \ket{\psi_{j}}\bra{\psi_{j}} \right) \\
+&= \operatorname{tr}\!\left( \sum_{i} \sum_{j} p_{i} p_{j} \delta_{ij} \ket{\psi_{i}}\bra{\psi_{j}} \right) \\
+&= \operatorname{tr}\!\left( \sum_{i} p_{i}^{2} \ket{\psi_{i}}\bra{\psi_{i}} \right)
+\qquad (\because \delta_{ij} = 0 \text{ when } i \neq j) \\
+&= \sum_{i} p_{i}^{2} \operatorname{tr}\!\left( \ket{\psi_{i}}\bra{\psi_{i}} \right) \\
+&= \sum_{i} p_{i}^{2}.
+\end{align*}
+
+since we know that $p_i \geq 0$ and $\sum_{i} p_i = 1$ it follows that $0 < \sum_{i} p^2_i \leq \sum_{i} p_i= 1$.
 
 
 
