@@ -3783,8 +3783,52 @@ In order to demonstrate that $0 < \trop(\rho^2) \leq 1$, consider the case where
 &= \sum_{i} p_{i}^{2}.
 \end{align*}
 
-since we know that $p_i \geq 0$ and $\sum_{i} p_i = 1$ it follows that $0 < \sum_{i} p^2_i \leq \sum_{i} p_i= 1$.
+since we know that $p_i \geq 0$ and $\sum_{i} p_i = 1$ it follows that $0 < \sum_{i} p^2_i \leq \sum_{i} p_i= 1$. The trace function is also critical for expressing exptected values. In a quantum state represented by density matrix $\rho$, we can extend the expected value of an observable state $A$ from its Hermitian quadratic form, 
 
+$$\expectation{A} = \brapsi A \ketpsi, $$
+
+to its reformatted version
+
+$$\expectation{A} = \brapsi A \ketpsi = \trop(A \ketpsi \brapsi) = \trop(A \rho).$$
+
+This naturally also applies to mixed states, represented by $\rho = \sum_i p_i \ket{\psi_i} \bra{\psi_i}$, the expected value $\expectation{A}$ is a weighted average of the expected value of its pure states.
+
+$$\expectation{A} = \sum_{i} p_i \bra{\psi_i} A \ket{\psi_i} = \sum_{i} p_i \trop(A \ket{\psi_i} \bra{\psi_i}) = \trop(A \sum_{i} p_i \ket{\psi_i} \bra{\psi_i}) = \trop(A\rho).$$
+
+This illustrates how the trace function is instrumental in bridging the pure and mixed states in facilitating the calculation of expected values in quantum measurements. It also plays a defining role in defining the inner products, as outlined below. 
+
+\begin{definition}[Matrix inner product]
+    Given two arbitrary matrices of the same size, their inner product is defined as:
+    $$\innerprod{A}{B} \equiv \trop(A^\dagger B).$$
+    This inner product, also known as the Hilber-Schmidt or Frobenius inner product, is sometimes denoted as $\innerprod{A}{B}_F$ to distinguish it from other types of inner products. 
+\end{definition}
+
+This matrix inner product generalizes the vector dot product by aggregating the products of corresponding elements across all indices. This concept, manifesting as simply as the inner product between two matrices such as:
+
+$$\innerprod{A}{B}
+= \operatorname{tr}(A^{\dagger} B)
+= a_{11}^{*} b_{11} + a_{12}^{*} b_{12} + a_{21}^{*} b_{21} + a_{22}^{*} b_{22}, $$
+
+generalizes to the following theorem:
+
+\begin{theorem}
+    For matrices $A_{m \times n} = [a_{ij}]$ and $B_{m \times n} = [b_{ij}]$, the Hilbert-Schmidt inner product is given by:
+    $$\trop(A^\dagger B) = \sum_{i=1}^{m} \sum_{j=1}^{n} a^*_{ij} b_{ij}.$$
+\end{theorem}
+
+\begin{proof}
+    If we take the product $C = A^\dagger B$ to be an $n \times n$ matrix with elements $C_{jk}$ given by:
+    $$c_{jk} = \sum_{i=1}^{m} (A^\dagger)_{ji} b_{ik} = \sum_{i=1}^{m} a^*_{ij} b_{ik}.$$
+    Then, the trace of $C$ is then simply the sum of its diagonal entries:
+    $$\trop(A^\dagger B) = \trop(C) = \sum_{j=1}^{n} c_{jj} = \sum_{i=1}^{n}\left( \sum_{j=1}^{m} a^*_{ij} b_{ij}\right)  = \sum_{i=1}^{m} \sum_{j=1}^{n} a^*_{ij} b_{ij}.$$
+\end{proof}
+
+This inner product also induces a narual norm for the matrices, analogous to the euclidian norm for vectors.
+
+\begin{definition}[Frobenius Norm]
+    The Frobenius norm of a matrix $A_{m \times n}$, denoted as $\norm{A}_F$, is defined as:
+    $$\norm{A}_F = \sqrt{\innerprod{A}{A}_F} = \sqrt{\trop(A^\dagger A)} = \sqrt{\sum_{i=1}^{m} \sum_{j=1}^{n} \abs{a_{ij}}^2}.$$
+\end{definition}
 
 
 \end{document}
