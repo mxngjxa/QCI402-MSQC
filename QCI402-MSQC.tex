@@ -3830,5 +3830,95 @@ This inner product also induces a narual norm for the matrices, analogous to the
     $$\norm{A}_F = \sqrt{\innerprod{A}{A}_F} = \sqrt{\trop(A^\dagger A)} = \sqrt{\sum_{i=1}^{m} \sum_{j=1}^{n} \abs{a_{ij}}^2}.$$
 \end{definition}
 
+The Hilbert-Schmidt inner product defines an inner product space structure on the set of all $A \in \Cmn$, endowing the space with the structure of a vector space and effectively facilitating the expression of any matrix as a linear combination of basis matrices. In quantum computing, a significant example of this is the decomposition of a single qubit density matrix $\rho$ as a linear combination of the matrices ${I, X, Y, Z}$, where $I$ is the identity matrix and $X, Y, Z$ are the Pauli matrices, which form an orthognal matrix. More on this in section 12. 
+
+Determinants are another foundational concept in linear algebra specifically relating to square matrices, and encodes an important property as well as the linear mappings it represents. Unlike the trace, computed as a simple sum, the determinant involves an intricate formultation. In the world of quantum computing, the focus is tyically on the applications and implications of the determinant rather than the formula. 
+
+\begin{definition}[Determinant]
+    Let $A = [a_{ij}]$ be an $n \times n$ square matrix. The determinant of $A$, denoted as $\det A$, $\det(A)$, or $\lvert A \rvert$, is the scalar
+    \[
+        \det(A) = \sum_{i_{1}, i_{2}, \ldots, i_{n}}^n \epsilon_{i_{1} i_{2} \cdots i_{n}} a_{1 i_{1}} a_{2 i_{2}} \cdots a_{n i_{n}},
+    \]
+    where $\epsilon$ is the Levi-Civita symbol, defined by
+    \[
+        \epsilon_{i_{1} i_{2} \cdots i_{n}} =
+        \begin{cases}
+            +1, & \text{if } (i_{1}, i_{2}, \ldots, i_{n}) \text{ is an even permutation of } (1, 2, \ldots, n), \\
+            -1, & \text{if } (i_{1}, i_{2}, \ldots, i_{n}) \text{ is an odd permutation of } (1, 2, \ldots, n), \\
+            0,  & \text{otherwise}.
+        \end{cases}
+    \]
+\end{definition}
+
+In this case, each term in the summation, $a_{1 i_{1}} a_{2 i_{2}} \cdots a_{n i_{n}}$ is a product of entries from the matrix $A$. Each entry is selected from a different row corresponding to the permutation that represents it. If the same index is selected twice, it will not be included in the summation in the first place, ensuring that no row or colun is repeated during the computation. Determinants also posess a few useful properties unique in the realm of linear algebra. 
+
+\begin{theorem}
+    Given square matrices $A, B$ of the same size, 
+    $$\operatorname{det}(AB = \det(A)\det(B)).$$
+\end{theorem}
+
+\begin{theorem}
+    For identity matrices of any size $I_n$, the determinant is:
+    $$\det(I_n) = 1.$$
+\end{theorem}
+
+Similarly, determinants of diagonal matrices are amazingly easy to compute. 
+
+\begin{theorem}[Determinant of a diagonal matrix]
+The determinant of a diagonal matrix
+\[
+\Lambda = \operatorname{diag}(\lambda_1,\lambda_2,\ldots,\lambda_n)
+\]
+is the product of its diagonal entries:
+\[
+\left|
+\begin{array}{cccc}
+\lambda_1 & 0        & \cdots & 0 \\
+0         & \lambda_2 & \cdots & 0 \\
+\vdots    & \vdots   & \ddots & \vdots \\
+0         & 0        & \cdots & \lambda_n
+\end{array}
+\right|
+= \lambda_1 \lambda_2 \cdots \lambda_n.
+\]
+\end{theorem}
+
+The following properties further illustrate that determinants are agnostic to transposition or ajoints, and that scalar multiplication is relatively straightforward. 
+
+\begin{theorem}
+Given an $n \times n$ square matrix $A$ and a scalar $k$, the following
+properties hold:
+    \begin{align*}
+        \det(kA) &= k^n \det(A), \\
+        \det(A^T) &= \det(A), \\
+        \det(A^\dagger) &= \det(A^*) = \det(A)^*.
+    \end{align*}
+\end{theorem}
+
+Determinants are also crucial in determining whether a matrix is invertible or singular:
+
+\begin{theorem}
+A square matrix $A$ is singular if and only if $\det(A) = 0$.
+Conversely, $A$ is invertible if and only if $\det(A) \neq 0$.
+\end{theorem}
+
+\begin{proof}
+    Should a matrix be invertible, then since:
+    $$A \inverse{A} = I \quad \Rightarrow \quad \det(A\inverse{A}) = \det(A) \det(\inverse{A}) = \det(I) = 1.$$
+    Thus, $\det(A) = 0$ implies $\det(A \inverse{A}) \neq 1$, hence $A$ is singular.
+\end{proof}
+
+\begin{theorem}
+    For an invertible matrix $A$, the determinant of its inverse is:
+    $$\det(\inverse{A}) = \frac{1}{\det(A)}.$$
+\end{theorem}
+
+The application of determinants will be explored further in subsequent chapters. For instance, they represent the ratio of change in area of volume of matrix operators, are critical in the computation of eigenvalues of matrices, validate that unitary operators with determinants of absolute value of 1, and much more, which will all be discussed in later chapters. 
+
+\break
+
+\section{Matrices as Linear Operators}
+
+
 
 \end{document}
