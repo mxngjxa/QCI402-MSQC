@@ -4181,7 +4181,79 @@ How do you combine them the right way? Well, first of all, you have to remember 
 
 There are some exceptions to this rule, including the rotation matrix only in $\R^2$. Another rule that we need to be know about is that matrix are generally associative, formerlly states as $(AB)C = A (BC)$, or that it doesn't matter in which order you apply the operations, as long as you do them step by step, you're fine.
 
-Inverses are also well-defined. 
+Inverses are also well-defined for any invertible matrix $A$ where $A \inverse{A} = \inverse{A} A = I$. This relationship, in the context of matrix transformations can be expressed as:
+
+\[
+(T_A \circ T_{A^{-1}})\vvec = (T_{A^{-1}} \circ T_A)\vvec = (A A^{-1})\vvec = (A^{-1} A)\vvec = I\vvec = \vvec.
+\]
+
+The invertibility of a matrix directly maps to whether the corresponding operation can be "undone." An invertible matrix, in mathmatical terms, is a bijective operation, providing a unique mapping from input vector to output, without the collapse into lower-dimensional space. Singular matrices, on the other hand, collapse to lower dimensions and are therefore singular. The determinant of a matrix correlates to the behavior of a matrix operator. For instance, a matrix in $\R^2$ represents area of the result of the transformation. 
+
+\begin{theorem}
+    For any matrix $A \in \R^{2 \times 2}$, the determinant represents the area of the parallelogram resulting from the †ransofrmation of the unit square by $T_A$. When $\det(A) = 0$, the transformation effectively compresses the transformation into a lower dimension, resulting in an operation that is not invertible. 
+\end{theorem}
+
+This also implies that when the absolute value of the determinant is equal to 1, then the matrix operation preserves the area. Extending this to $\Rn$, then the determinant captures the transformed volume of a particular hypercube in higher dimensions, with mathmatical derivations omitted for brevity. While most of our conversations has revolved around the properties of matrices in $\R^2$, these concepts are easily generalizable to $\Cn$. For instance, general scaling operators are represented by diagonal matrices:
+
+\[
+\Lambda = 
+\begin{bmatrix}
+\lambda_0 & 0 & \cdots & 0 \\
+0 & \lambda_1 & \cdots & 0 \\
+0 & 0 & \ddots & 0 \\
+0 & 0 & \cdots & \lambda_{n-1}
+\end{bmatrix},
+\]
+
+where each diagonal element $\lambda_i$ is a complex scalar, modifyign the corresponding component of a vector. This can also be expressed in Dirac notation as:
+
+\[
+\Lambda = \sum_{i} \lambda_i \ket{i} \bra{i}.
+\]
+
+Given a vector $\ketpsi = \sum_{k=0}^{n-1} \psi_k \ket{k}$, the action of $\Lambda$ on $\ketpsi$ demonstrates the individual scaling of each component:
+
+\begin{align*}
+    \Lambda \ketpsi &= \sum_{i} \lambda_i \ket{i} \bra{i} \sum_{k} \psi_k \ket{k} \\
+    &= \sum_{i, k} \lambda_i \psi_k \ket{i} \braket{i}{k} \\
+    &= \sum_{i, k} \lambda_i \psi_k \krondelta{i, k} \ket{i} \\
+    &= \sum_{i} \lambda_i \psi_k \ket{i}. \\
+\end{align*}
+
+Projections are another common operator defined by matrices. Most commonly, we denote them usign the operator $P_u$, defined for any vector $\ketu \in \Cn$, projecting a vector orthogonally onto the one-dimensional subspace spanned by $\ketu$. It is given by:
+\[
+P_u = \ketu \brau,
+\]
+
+acting on $\ketu$ as:
+
+\[
+P_u \ketpsi = \braket{u}{\psi} \ketu,
+\]
+
+consistent with the unit vector projection formula from previous examples. If we are projecting to an $r$-dimensional subspace spanned by an orthonormal set $\{\ket{u_1}, \ket{u_2}, \ldots, \ket{u_r}\}$, the projection operator is:
+
+\[
+P = \sum_{i=1}^{r} \ket{u_i} \bra{u_i},
+\]
+
+which can be applied as:
+
+\[
+P_u \ketpsi = \sum_{i=1}^{r} \braket{u_i}{\psi} \ket{u_i},
+\]
+
+effectively reproducing a previous equation in Dirac notation. Rotation and reflection operations share similar properties despite their distinct geometrical implications. In lower dimensions, a reflection matrix about $\theta$ is equivalent to first reflecting a vector about the $x$-axis, then rotating it counterclockwise by $2\theta$. In higher dimensions ($\Cn$), rotation and reflection fall under the category of unitary operators, satisfying the condition that $UU^\dagger = I$. These operators essentially function as basis-change matrices and are expressed in Dirac notation as:
+
+\[
+U = \sum_{i=1}^{n} \ket{u_i} \bra{v_i},
+\]
+
+where $\{u_i\}$ and $\{v_i\}$ are orthonormal basis of $\Cn$. They play a pivotal role in quantum computing as they preserve the norm of quantum states, which will be the focus of the coming two subsections. 
+
+\subsection{Unitary Operators}
+
+
 
 
 
