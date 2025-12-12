@@ -3919,6 +3919,237 @@ The application of determinants will be explored further in subsequent chapters.
 
 \section{Matrices as Linear Operators}
 
+Matrices are much more than just sudoku squares; they capture profound mathmatical structures and play a central role in a myriad of applications. It's esssential to understand matrices as linear transformations or operators between vector spaces. Since this is a quantum computing course, much of our attention will be given to unitary matrices, as they play a fundamental role in representing quantum gates. Hermitian matrices ($A = A^\dagger$) will be explored in further detail in the next chapter. 
+
+\subsection{Introduction to Matrix Transformations}
+
+Linear algebra, is, well, linear. One of the key aspects we've explored is the linear combination, playing a crucial role in defining a vector space, its basis, coordinates, and dimensions. In terms of matrices, its linearity is tightly knit to its role as a linear transformation. 
+
+\begin{definition}[Linear Transformation]
+    Let $V, W$ be vector spaces over the field $F$. A function $T: V \rightarrow W$ is defined as a linear combintation if $\forall \uvec, \vvec \in V \land k \in F$:
+    $$T(\uvec + \vvec) = T(\uvec) + T(\vvec),$$
+    $$T(k \vvec) = k T(\vvec).$$
+\end{definition}
+
+This definition implies that a transformation $T$ is linear if it commutes with any linear combintation of vectors in the vector space. In one line: 
+
+\[
+T(\alpha u + \beta v) = \alpha T(u) + \beta T(v), \quad \forall \alpha, \beta \in F \land  u, v \in V.
+\]
+
+Now, adjacent to the linear transformation would be the affine operation in the family of functions defined as $f(x) = ax + b | a, b \in \C$ where $\forall b \neq 0$, $f: \C \rightarrow \C$ is not a linear transformation. We refer to such functions as affine since they preserve geometric structure, yet the inclusion of translations excludes them from the family of linear transformations. 
+
+\begin{example}[Affine Transformation]
+Demonstrate that the function \(f : \C \to \C\) defined by \(f(x) = ax + b\), where \(a, b \in \C\), is not a linear transformation if \(b \ne 0\).
+\end{example}
+
+
+\begin{solution}
+To verify that \(f\) is not a linear transformation, consider the two properties required for linearity:
+
+\begin{itemize}
+  \item \textbf{Additivity:} For any \(u, v \in \C\),
+  \[
+    f(u + v) = a(u + v) + b = au + av + b.
+  \]
+  Compare this to \(f(u) + f(v)\):
+  \[
+    f(u) + f(v) = (au + b) + (av + b) = au + av + 2b.
+  \]
+  Since \(f(u + v) \ne f(u) + f(v)\) when \(b \ne 0\), additivity is not satisfied.
+
+  \item \textbf{Homogeneity:} For any scalar \(k \in \C\) and any \(u \in \C\),
+  \[
+    f(ku) = a(ku) + b = k(au) + b.
+  \]
+  Compare this to \(k f(u)\):
+  \[
+    k f(u) = k(au + b) = k(au) + kb.
+  \]
+  Since \(f(ku) \ne k f(u)\) when \(b \ne 0\) and \(k \ne 1\), homogeneity is not satisfied.
+\end{itemize}
+
+Therefore, \(f(x) = ax + b\) is not a linear transformation if \(b \ne 0\).
+\end{solution}
+
+Matrices can be understood as functions that map vectors from one vector space to another, oftentimes changing the dimension as well. For instance, the matrix multiplcation:
+
+\[
+A_{m \times n} \ket{\uvec}_{n \times 1} = \ket{\vvec}_{m \times 1}
+\]
+
+can also be expressed as the mapping $f: \Cn \rightarrow \C^m$, where $f$ is a matrix transformation governed by $A$. 
+
+\begin{definition}[Matrix Transformation]
+    A matrix transformation is governed by $A_{\mn} \in \Cmn$, where $A$ is denoted by $T_A$ via the formula $A \ketu = \ketv$. It is formally expressed as:
+    \[
+    T_A: \Cn \rightarrow \Cm, \qquad \lor \qquad \ketu \rightarrow^{T_A} \ketv.
+    \]
+    When $m = n$, $A$ is also known as a matrix operator. 
+\end{definition}
+
+
+A fundamental property of all matrix transformations are that they are linear. 
+
+\begin{theorem}
+    Every matrix transformation from $\Cn \rightarrow \Cm$ is a linear transformation. 
+\end{theorem}
+
+\begin{proof}
+    Consider a matrix $A \in \Cmn, \ketu, \ketv \in \Cn, k \in \C$. Let the matrix transformation represented by $A$ be denoted as $T_A$, defined by $T_A(\ketv) = A \ketv$. The linearity of $T_A$ can be shown using basic matrix operations:
+    \[
+    T_A(\ket{u} + \ket{v}) = A(\ket{u} + \ket{v}) = A\ket{u} + A\ket{v} = T_A(\ket{u}) + T_A(\ket{v}), 
+    \]
+    \[
+    T_A(k \ket{v}) = A(k \ket{v}) = k (A \ket{v}) = k T_A(\ket{v}).
+    \]
+    These satisfy both additivity and geneity, confirming that $T_A$ is a linear transformation. 
+\end{proof}
+
+Since matrix transformations are inherently linear, their behavior can be effectively understood by analyzing how they transform basis vectors, especially the standard basis. 
+
+\begin{theorem}
+    For any linear operator represented by $A_\nn$, the columns of $A$ represent the standard basis vectors under the transformation induced by $A$:
+    \[
+    A = \begin{bmatrix}
+    A \mathbf{e}_1 & A \mathbf{e}_2 & \cdots & A \mathbf{e}_n
+    \end{bmatrix},
+    \]
+    where $\{\mathbf{e}_1, \mathbf{e}_2, \ldots, \mathbf{e}_n\}$ denotes the standard basis of $\Cn$. 
+\end{theorem}
+
+\begin{proof}
+    The identity matrix $I_n$ is naturally represented by its column vectors, which forms the standard basis:
+    \[I_n = \begin{bmatrix}
+        \mathbf{e}_1 & \mathbf{e}_2 & \cdots & \mathbf{e}_n
+    \end{bmatrix}.
+    \]
+    Multiplying $A$ by $I_n$ effectively evaluates the action of $A$ onto each of these basis vectors, where each column $A \mathbf{e}_i$ is the image of the basis vector $\mathbf{e}_i$ under the transformation $A$, confirming the theorem's statement. 
+\end{proof}
+
+In essence, a matrix is entirely defined by its column vectors. These column vectors dictate how the transformation goes nothing more, nothing less. This insight unveils that a matrix is \textit{fundamentally} a linear transformation. 
+
+\begin{theorem}
+    Any linear transformation $T_A: \Cn \rightarrow \Cm$ can be represented by a matrix $A \in \Cmn$.
+\end{theorem}
+
+\begin{proof}
+By definition, any linear transformation \(T : \C^{n} \to \C^{m}\) must satisfy both additivity and homogeneity. Consider a vector \(\mathbf{v} = [\,v_{1}\ v_{2}\ \cdots\ v_{n}\,]^{T}\). The action of \(T\) on \(\mathbf{v}\) is expressed as:
+\[
+T(\mathbf{v}) = T(v_{1} e_{1} + v_{2} e_{2} + \cdots + v_{n} e_{n}) = v_{1} T(e_{1}) + v_{2} T(e_{2}) + \cdots + v_{n} T(e_{n}).
+\]
+
+Construct the matrix
+\[
+A = [\,T(e_{1}) \ T(e_{2}) \ \cdots \ T(e_{n})\,].
+\]
+
+The matrix transformation \(T_{A}(\mathbf{v}) = A \mathbf{v}\) then results in:
+\[
+T_{A}(\mathbf{v}) = A \mathbf{v} = 
+\begin{bmatrix}
+T(e_{1}) & T(e_{2}) & \cdots & T(e_{n})
+\end{bmatrix}
+\begin{bmatrix}
+v_{1} \\
+v_{2} \\
+\vdots \\
+v_{n}
+\end{bmatrix}
+\]
+\[
+= v_{1} T(e_{1}) + v_{2} T(e_{2}) + \cdots + v_{n} T(e_{n}),
+\]
+using the column–row expansion of matrix multiplication. This shows that \(T_{A}\) and \(T\) define the same transformation, hence \(T = T_{A}\), completing the proof.
+\end{proof}
+
+
+Now note that while the mapping is formerly defined as from $\Cn \rightarrow \Cm$, we see that matrix $A$ is $\mn$. In this matrix, there are $m$ rows and $n$ columns, meaning that the linear combination of all $n$ columns results in a vector that is size $m$. 
+
+\[
+\overbrace{
+\left[
+\begin{array}{ccc}
+  &   &   \\
+  & A &   \\
+  &   &  
+\end{array}
+\right]
+}^{n}
+\left.\vphantom{\begin{array}{c} \\ \\ \\ \end{array}}\right\} m
+\quad
+\begin{bmatrix}
+x_1 \\ \vdots \\ x_n
+\end{bmatrix}
+\left.\vphantom{\begin{array}{c} \\ \\ \\ \end{array}}\right\} \mathbb{C}^n
+\;\longmapsto\;
+\begin{bmatrix}
+y_1 \\ \vdots \\ y_m
+\end{bmatrix}
+\left.\vphantom{\begin{array}{c} \\ \\ \\ \end{array}}\right\} \mathbb{C}^m
+\]
+
+
+This is because when you expand \(A\mathbf{x}\), the result is a linear combination of the \(n\) column vectors of \(A\), weighted by the components of \(\mathbf{x}\). Each column vector has \(m\) entries, so the output \(\mathbf{y} = A\mathbf{x}\) is a vector with \(m\) entries and therefore resides in the column space of \(A\).
+
+The input vector \(\mathbf{x}\) is a member of the domain \(\mathbb{C}^n\), which decomposes orthogonally into the row space and the null space of \(A\). Similarly, the codomain \(\mathbb{C}^m\) decomposes orthogonally into the column space and the left null space (the null space of \(A^T\)).
+
+Under the transformation, the null space component of \(\mathbf{x}\) is annihilated, while the row space component maps onto the column space. Thus, the matrix \(A\) is formally a map from the domain \(\mathbb{C}^n\) to the codomain \(\mathbb{C}^m\), but its essential action is an isomorphism from the row space onto the column space.
+
+
+
+\begin{tabular}{|l|l|c|}
+\hline
+\textbf{Space} & \textbf{Lives in} & \textbf{Dimension} \\
+\hline
+Row space & $\C^n$ (domain) & $r$ \\
+\hline
+Null space & $\C^n$ (domain) & $n - r$ \\
+\hline
+Column space & $\C^m$ (codomain) & $r$ \\
+\hline
+Left null space (null space of $A^{\dagger}$) & $\C^m$ (codomain) & $m - r$ \\
+\hline
+\end{tabular}
+
+
+However, more precisely, we are mapping from the coimage of the function to the image. The coimage is the quotient of the domain by the kernel: 
+
+\[\text{coim}(A) = \mathbb{C}^n / \ker(A).\]
+
+This quotient space collapses all vectors that differ only by an element of the null space into a single equivalence class—since such vectors produce identical outputs under \(A\), they are indistinguishable from the transformation's perspective. What remains after this identification is isomorphic to the row space, which maps bijectively onto the column space (the image). This is the content of the first isomorphism theorem: 
+
+\[\mathbb{C}^n / \ker(A) \cong \text{im}(A).\]
+
+Anyways, come back to this when you get better at math. These theorems all simplify the analysis of linear/matrix operators by reducing it to examining their effects on standard basis vectors. For example, they can be uniform scaling matrices as represented by:
+
+\includegraphics[width=\textwidth]{8_uniform_scaling}
+
+or they can also be non-uniform scaling:
+
+\includegraphics[width=\textwidth]{8_nonuniform_scaling}
+
+We can have operators that only rotate:
+
+\includegraphics[width=\textwidth]{8_rotation}
+
+Projection operators:
+
+\includegraphics[width=\textwidth]{8_proj}
+
+Reflection operators about a particular axis:
+
+\includegraphics[width=\textwidth]{8_reflection}
+
+A shear in a particular direction:
+
+\includegraphics[width=\textwidth]{8_shear}
+
+
+
+
+
+
 
 
 \end{document}
