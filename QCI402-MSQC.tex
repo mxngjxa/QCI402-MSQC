@@ -4146,6 +4146,45 @@ A shear in a particular direction:
 \includegraphics[width=\textwidth]{8_shear}
 
 
+\subsection{Properties of Matrix Operators}
+
+First, we only talked about a matrix as a standalone operation. How about when you execute such operations sequentially?
+
+\begin{definition}[Composite Transformation]
+    A composite transformation, involving a matrix transformation by $A_{p \times n}$, followed by $B_{m \times p}$, is denoted by:
+    \[
+    (T_B \circ T_A)(\vvec) = T_B(T_A(\vvec)),
+    \]
+    facilitating a mapping from $\Cn$ through an intermediate space $\C^p$ to $\Cm$. 
+\end{definition}
+
+\begin{theorem}
+    The composite transformation $T_B \circ T_A$ corresponds to the matrix transformation represented by the product $BA$:
+    \[
+    T_B \circ T_A = T_{BA}.
+    \]
+\end{theorem}
+
+\begin{proof}
+    Consider any $\vvec \in \Cn$:
+    \begin{align*}
+        (T_B \circ T_A)(\vvec) &= T_B (T_A (\vvec)) = T_B ( A \vvec) \\
+        &= B (A \vvec) = (BA) \vvec \\
+        &= T_{BA} (\vvec).
+    \end{align*}
+    In a way, you just have to combine the effect of both matrices sequentially (in the right order) in order for the matrix multiplication to resolve. 
+\end{proof}
+
+How do you combine them the right way? Well, first of all, you have to remember that matrix multiplciation generally does not commute. 
+
+\includegraphics[width=\textwidth]{8_non_commute}
+
+There are some exceptions to this rule, including the rotation matrix only in $\R^2$. Another rule that we need to be know about is that matrix are generally associative, formerlly states as $(AB)C = A (BC)$, or that it doesn't matter in which order you apply the operations, as long as you do them step by step, you're fine.
+
+Inverses are also well-defined. 
+
+
+
 
 
 
