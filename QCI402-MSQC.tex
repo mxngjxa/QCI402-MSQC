@@ -4470,6 +4470,30 @@ Orthognoal matrices exhibit several important properties, such as preserving the
 
 The reason for why we don't call orthogonal matrices orthonormal is because of a historical quirk. Taking the Hermitian of a matrix $A$ is finding $\hermitian{A}$, a matrix $A$ is Hermitian if $A = \hermitian{A}$ (self-adjoint). Unitary matrices are the complex equivalent of orthogonal matrices. This is all very confusing, and for no good reason at all, but at least we are done with the third subsection. 
 
+\subsection{Change of Basis}
+
+In quantum computing, changing the basis used to represent a particular state vector provides invaluable flexibility. Changing perspectives may very much reduce the computational time to a fraction of what it would be or reveal hidden structures. This section explores the mathmatical formalism of basis changes, starting in $\R^2$, then gradually building up to $\Cn$, finally discussing basis-independent quantities and relations. 
+
+Fundamentally, basis changes are a change in perspective. It's re-expressing the same quantity but using different basis. The vectors remain unchanged, while only their coordinates are relative to a new basis. As an example, we consider the following example that changes the basis using a simple rotation matrix:
+
+\includegraphics[width=\textwidth]{8_basis_change_r2}
+
+Which is simply represented by the matrix:
+
+\[
+T = R_{-\theta} = 
+\begin{bmatrix}
+\cos\theta & \sin\theta \\
+-\sin\theta & \cos\theta
+\end{bmatrix}.
+\]
+
+Note that the old basis vectors \(\{\ibase, \jbase\}\) are transformed into the new basis vectors \(\{\ibase', \jbase'\}\) via:
+\begin{equation}
+\ibase' = U\ibase, \quad \jbase' = U\jbase,
+\end{equation}
+
+Here, the matrix $U \equiv \inverse{T} = \R_\theta$ is then commonly referred to as the basis transformation matrix (or operator). The transition matrix is then the inverse of the basis transformation matrix. So therefore, transition matrix will convert the vector itself, while the basis transformation matrix will take update the basis.  
 
 
 
