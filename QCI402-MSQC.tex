@@ -4253,8 +4253,222 @@ where $\{u_i\}$ and $\{v_i\}$ are orthonormal basis of $\Cn$. They play a pivota
 
 \subsection{Unitary Operators}
 
+Unitary matrices or operators are fundamental elements in the theory of quantum computing. They serve as the mathmatical underpinnings for quantum gates, critical for controlling the progression of quantum systems. Unitary matrices operate within complex vector spaces and extend the concept of orthogonality and normality to complex inner product spaces. Some simple examples include rotation and reflection.
+
+\begin{definition}[Unitary Matrix]
+    A matrix $U \in \Cnn$ is defined as unitary if it poreserves the norm of any vector $\ketphi \in \Cn$, formally expressed as:
+    \[
+    \forall \ketphi \in \Cn, \qquad \norm{U \ketphi} = \norm{\ketphi}.
+    \]
+\end{definition}
 
 
+This underscores how unitary matrices preserve the norm. The following theorem illustrates that the former property is equivalent to the well-known definintion that $U^\dagger = \inverse{U}$, which ensures that unitary matrices preserve both norms and inner products. 
+
+\begin{theorem}
+    A matrix $U$ is unitary if and only if:
+    \[
+    U^\dagger U = U U^\dagger = I, 
+    \]
+    indicating that $\inverse{U} = U^\dagger$. 
+\end{theorem}
+
+\begin{proof}
+    If $U^\dagger = \inverse{U}$, then $U^\dagger U = U U^\dagger = I$. For any vector $\ketv \in \Cn$:
+    \[
+    \norm{U \ketv}^2 = (U \ketv)^\dagger U \ketv = \brav U^\dagger U \ketv = \braket{v}{v} = \norm{v}^2. 
+    \]
+    Thus, $U$ does not alter the norm, and proves that $U$ is unitary. Conversely, assume that $U$ is unitary, we see that:
+    \begin{align*}
+        \norm{U \ketv} = \norm{v} \quad &\Rightarrow \quad \norm{U \ketv}^2 = \norm{v}^2 \\
+        &\Rightarrow \quad \brav U^\dagger U \ketv = \braket{v}{v} \\
+        &\Rightarrow \quad \brav (U^\dagger U - I) \ketv  = 0 \forall \ketv \in \Cn. \\
+    \end{align*}
+    Since we have $\brav (U^\dagger U - I) \ketv  = 0 \forall \ketv \in \Cn,$ the matrix $U^\dagger U - I = 0$, thus:
+    \[
+    U^\dagger U = I = UU^\dagger.
+    \]
+\end{proof}
+
+Unitary matrices also have a few other properties. For instance, they preserve the inner product, a fundamental property ensuring the orthogonality of vectors and their consistency of probability measurements throughout quantum transformations. 
+
+\begin{theorem}[Preservation of Inner Product]
+    Take a unitary matrix $U$, then $\forall \ketpsi, \ketphi \in \Cn$:
+    \[
+    \braket{\psi}{\phi} = \braket{U \psi}{U \phi}.
+    \]
+\end{theorem}
+
+\begin{proof}
+    Since we know that $U^\dagger U = I$, we see that:
+    \[
+    \braket{U \psi}{U \phi} = \brapsi U^\dagger U \ketphi = \brapsi I \ketphi = \braket{\psi}{\phi}.
+    \]
+\end{proof}
+
+Unitary matrices are analogous to "rotation" and "reflection" operators in complex Hilbert spaces since they preserve norms and inner products. They are always reversible, making them ideal candidates for quantum gates. However, processes like quantum measurement/decoherence are inherently irreversible and modeled by non-unitary operators.
+
+\begin{theorem}
+    The conjugate-transpose of a unitary matrix $U$ is also unnitary. 
+\end{theorem}
+
+\begin{proof}
+    Since $U$ is unitary, $U^\dagger U = I$, indicating that the inverse of $U^\dagger$ is simply $U$. Mathmatically:
+    \[
+    \inverse{(U^\dagger)} = U = (U^\dagger)^\dagger.
+    \]
+\end{proof}
+
+\begin{theorem}
+    The determinant of a unitary matrix has modulus 1, or
+    \[
+    \abs{\det(U)} = 1
+    \]
+\end{theorem}
+
+Note that in this context, modulus is the absolute value, and not the operation modulus.
+
+\begin{proof}
+    We know that $U^\dagger U = I$, and using the property of the determinant, we see that:
+    \begin{align*}
+       \det(I) &= \det(U^\dagger U) \\
+       &= \det(U^\dagger) \det(U) \\
+    \end{align*}
+    Since we know that \(\det(U^\dagger) = \det(U)^*\), 
+    \[
+    \det(U)^* \det(U) = \abs{\det(U)}^2 = 1 \quad \Rightarrow \quad \abs{\det(U)} = 1.
+    \]
+\end{proof}
+
+\begin{theorem}
+    The product of unitary matrices is also unitary. 
+\end{theorem}
+
+\begin{proof}
+    This can be easily verified by taking the complex conjugate of the resulting product $W$, and by showing that the product of $\hermitian{W}$ with $W$ is the identity matrix $I$. 
+\end{proof}
+
+\begin{theorem}[Orthogonality of Column Vectors]
+    The column vectors of a unitary matrix form an orthonormal basis of $\Cn$.  
+\end{theorem}
+
+\begin{proof}
+    Consider a unitary matrix $U \in \Cn$, and partition it in column vectors:
+    \[
+    U = \begin{bmatrix}
+        \ket{u_1} & \ket{u_2} & \cdots & \ket{u_n}
+    \end{bmatrix}.
+    \]
+    Similarly, partition \(U^{\dagger}\) into its row vectors:
+    \[
+    U^{\dagger} = 
+    \begin{bmatrix}
+    \bra{u_1} \\
+    \bra{u_2} \\
+    \vdots \\
+    \bra{u_n}
+    \end{bmatrix}.
+    \]
+
+    The matrix product \(U^{\dagger}U\), using the definition of matrix multiplication, can be expanded as:
+    \[
+    U^{\dagger}U = 
+    \begin{bmatrix}
+    \braket{u_1}{u_1} & \braket{u_1}{u_2} & \cdots & \braket{u_1}{u_n} \\
+    \braket{u_2}{u_1} & \braket{u_2}{u_2} & \cdots & \braket{u_2}{u_n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    \braket{u_n}{u_1} & \braket{u_n}{u_2} & \cdots & \braket{u_n}{u_n}
+    \end{bmatrix}.
+    \]
+    Now given that $U \hermitian{U} = I$, it's easy to see how $U \hermitian{U}$ cascades down to the $\krondelta{ij}$, precisely satisfying the orthonormality condition, i.e. that $\braket{u_i}{u_j} = \krondelta{ij}$. Therefore, the column vectors of $U$ form an orthonormal basis for $\Cn$. 
+\end{proof}
+
+The purpose of this theorem is the bridge the geometric (vector behavior) aspect of unitary matrices with the algebraic perspective on unitary matrices, showing what the implication is of $U \hermitian{U} = I$ in geometric space. Seemingly redundant, yes, but not really. There are also a few special types of unitary operators, usually represented using the sums of outer products. There are two essential unitary operators: those that are unitary and Hermetian (Pauli matrices in $\C^{2 \times 2}$) and those forming general basis transformations. 
+
+\begin{theorem}
+    Given an orthonormal basis $\{\ket{\phi_i}\}$ for $\Cn$ and $\lambda_i \in \{1, -1\}$, the following matrix is both unitary and Hermitian:
+    \[
+    S = \sum_{i} \lambda_i \ket{\phi_i} \bra{\phi_i}.
+    \]
+\end{theorem}
+
+\begin{proof}
+    In order to prove that $S = \hermitian{S}$ to prove that the result is Hermitian, observe that:
+    \[
+    \hermitian{S} = \sum_{i} \conj{\lambda_i} \ket{\phi_i} \bra{\phi_i}.
+    \]
+    since $\lambda_i$ will not change despite conjugacy. Next, in order to prove that $S$ is unitary, consider transforming the vector $\ketpsi \in \Cn$ by $S$:
+    \begin{align*}
+        \ket{\psi^\prime} = S \ketpsi &= \sum_{i} \lambda_i \ket{\phi_i} \bra{\phi_i}\ketpsi \\
+        &= \sum_{i} (\lambda_i \braket{\phi_i}{\psi}) \ket{\phi_i}.
+    \end{align*}
+    Now if we denote $\psi_i^\prime = \lambda_i \braket{\phi_i}{\psi}$, the squared norm of $\ket{\psi^\prime}$ is:
+    \[
+    \norm{\psi^\prime}^2 = \sum_{i} \abs{\psi_i^\prime}^2 = \sum_{i} \abs{\lambda_i}^2 \abs{\braket{\phi_i}{\psi}}^2 = \sum_{i} \abs{\braket{\phi_i}{\psi}}^2,
+    \]
+    since $\abs{\lambda_i}^2 = 1$. Using the basis change decomposition that $\ketpsi = \sum_{i} \braket{\phi_i}{\psi} \ket{\phi_i}$, we can see that:
+    \[
+    \norm{\psi}^2 = \sum_{i} \abs{\braket{\phi_i}{\psi}}^2.
+    \]
+    Therefore, $\norm{\psi^\prime}^2 = \norm{\psi}^2$, confirming that $S$ preserves norms and is therefore unitary. Another way to do this is just to verify directly that $S \hermitian{S} = I$. 
+\end{proof}
+
+Examples of such matrices include the Pauli matrices, which play essential roles in quantum computing applications and will be explored further in section 12. 
+
+\begin{align*}
+X &= \ketplus\bra{+} - \ketminus\bra{-}, \\
+Y &= \ket{+i}\bra{+i} - \ket{-i}\bra{-i}, \\
+Z &= \ketzero\bra{0} - \ketone\bra{1}.
+\end{align*}
+
+\begin{theorem}
+    Given two sets of orthonormal bases $\ketbasis{u}, \ketbasis{v}$ of $\Cn$, and the set of complex numbers $\{c_i\}$ with $\abs{c_i} = 1$, the matrix
+    \[
+    U = \sum_{i} c_i \ket{u_i} = \bra{v_i}
+    \]
+    is unitary. 
+\end{theorem}
+
+The proof of this is quite similar to the previous proof. This matrix $U$ is essentially a basis transformation matrix, but with a twist. It adds an additional rotation/phase factors with the $c_i$ indices. However, it is not guaranteed that the matrix would be Hermitian. On the other hand, orthogonal matrices are the real counterparts of unitary matrices in $\Rn$, sharing many similar properties compared with unitary matrices and playing a signifncant role in real matrix analysis. They are, by definition, also rotation and reflection operators, preserving the norm of any vector subject to its transformations in $\Rn$. 
+
+\begin{definition}[Orthogonal Matrix]
+    Any real $\nn$ matrix $Q$ is termed an orthogonal matrix if it preserves the norm of any vector in $\Rn$, formulated as:
+    \[
+    \norm{Q \vvec} = \norm{\vvec} \forall \vvec \in \Rn.
+    \] 
+\end{definition}
+
+This aligns with the algebraic definition of orthogonal matrices, stating that $\transpose{Q} Q = I$. 
+
+\begin{theorem}
+    A matrix $Q$ is orthogonal if and only if:
+    \[
+    \transpose{Q} = \inverse{Q}
+    \]
+\end{theorem}
+
+Orthognoal matrices exhibit several important properties, such as preserving the dot product between real vectors and having a determinant of modulo 1. 
+
+\begin{theorem}[Preservation of Dot Products]
+   If $Q \in \Rnn$ is orthogonal, then the following identity holds:
+   \[
+    \uvec \cdot \vvec = (Q \uvec) \cdot (Q \vvec) \qquad \forall \uvec, \vvec \in \Rnn.
+   \] 
+\end{theorem}
+
+\begin{theorem}[Determinant of Orthogonal Matrices]
+    Given an orthogonal matrix $Q$, $\det(Q) = \pm 1$.
+\end{theorem}
+
+\begin{theorem}[Product of Orthogonal Matrices]
+    Products of orthogonal matrices are also orthogonal. 
+\end{theorem}
+
+\begin{theorem}[Orthonormality of Orthogonal Matrices]
+    The column and row vectors of orthogonal matrices both form an orthonormal basis of $\Rn$. 
+\end{theorem}
+
+The reason for why we don't call orthogonal matrices orthonormal is because of a historical quirk. Taking the Hermitian of a matrix $A$ is finding $\hermitian{A}$, a matrix $A$ is Hermitian if $A = \hermitian{A}$ (self-adjoint). Unitary matrices are the complex equivalent of orthogonal matrices. This is all very confusing, and for no good reason at all, but at least we are done with the third subsection. 
 
 
 
