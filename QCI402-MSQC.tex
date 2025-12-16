@@ -546,7 +546,7 @@ Complex numbers not motivated by quantum computing. In the numbers system, we ha
 
 \subsection{Exponential Form}
 
-Now it is worth noting that while we commonly write $z = x + iy$ to represent a complex numnber, we like to use the following definitions of the complex number in polar form to represent a complex number itself, defined as $z = r (\cos \theta + i \sin \theta)$. However, multiplication and its inverse operation, division, becomes unnecessarily difficult givne the presence of another notation, namely \textbf{exponential form}. 
+Now it is worth noting that while we commonly write $z = x + iy$ to represent a complex number, we like to use the following definitions of the complex number in polar form to represent a complex number itself, defined as $z = r (\cos \theta + i \sin \theta)$. However, multiplication and its inverse operation, division, becomes unnecessarily difficult givne the presence of another notation, namely \textbf{exponential form}. 
 
 
 \begin{definition}
@@ -836,9 +836,13 @@ For the set $A = \{2, 4, 6, 8\}$, the cardinality is $|A| = 4$ since there are 4
 We can categorize sets based on their cardinality into finite, countably infinite, or uncountably infinite. A set is said to be countably infinite if it can be bijectively mapped to the set of natural numbers $\mathbb{N}$ such as the set of integers $\mathbb{Z}$, while the set is said to be uncountably infinite if there is no one-to-one to the set of natural numbers, such as the set of real numbers $\mathbb{R}$.
 
 \begin{example}
-    Finite set: $A = \{1, 2, 3, 4, 5\}$ has $|A| = 5$.
-    Countably infinite set: The set of integers $\mathbb{Z} = \{\ldots, -2, -1, 0, 1, 2, \ldots\}$ can be put in one-to-one correspondence with the natural numbers $\mathbb{N}$, so $|\mathbb{Z}| = |\mathbb{N}| = \aleph_0$.
-    Uncountably infinite set: The set of real numbers $\mathbb{R}$ cannot be put in one-to-one correspondence with $\mathbb{N}$, so $|\mathbb{R}| > \aleph_0$.
+
+    \begin{itemize}
+        There are three examples of sets commonly used in mathmatics:
+        \item Finite set: $A = \{1, 2, 3, 4, 5\}$ has $|A| = 5$.
+        \item Countably infinite set: The set of integers $\mathbb{Z} = \{\ldots, -2, -1, 0, 1, 2, \ldots\}$ can be put in one-to-one correspondence with the natural numbers $\mathbb{N}$, so $|\mathbb{Z}| = |\mathbb{N}| = \aleph_0$.
+        \item Uncountably infinite set: The set of real numbers $\mathbb{R}$ cannot be put in one-to-one correspondence with $\mathbb{N}$, so $|\mathbb{R}| > \aleph_0$.
+    \end{itemize}
 \end{example}
 
 
@@ -1245,7 +1249,9 @@ Only with bijectivity established can we define the inverse of a function.
     If we take the function $f: A \rightarrow B$, it's domain $A$ and codomain $B$, we can define an inverse function $f^{-1}: B \rightarrow A$ such that $\forall b \in B, \quad f^{-1}(b) = a$ if and only if $f(a) = b$. 
 \end{definition}
  
-Put plainly, $\forall a \in A, \quad f^{-1}(f(a)) = a$ and $\forall b \in B, \quad f(f^{-1}(b)) = b$.
+Put plainly, 
+
+$$\forall a \in A, \quad f^{-1}(f(a)) = a, \quad \forall b \in B, \quad f(f^{-1}(b)) = b.$$
 
 
 \subsection{Common Functions and Asymptotic Behavior}
@@ -1776,7 +1782,7 @@ There are a few general and commmon methods of representing a state vector ket, 
     \item $\ket{j}, \ket{k}$ with $j, k \in \{0, 1, 2, \ldots, n - 1 \}$ to denote the computational basis vectors in $\Cn$.
 \end{itemize}
 
-Therea realso certain symbols reserved for specific vectors of significance, much like how we reserve $\pi$ and $e$ in common arithmatic. These include
+There are also certain symbols reserved for specific vectors of significance, much like how we reserve $\pi$ and $e$ in common arithmatic. These include
 
 \begin{itemize}
     \item $\ketzero, \ketone$ for the computational basis vectors in single qubit systems;
@@ -1792,7 +1798,7 @@ For a single-qubit system in $\C^2$, the standard basis vectors, commonly referr
 \ketzero \equiv \begin{bmatrix} 1 \\ 0 \end{bmatrix}, \quad \ketone \equiv \begin{bmatrix} 0 \\ 1 \end{bmatrix}
 \]
 
-For a one-qudit system (with $d$ distinct levels) in $\C^d$, the computational basis includes vectors:
+For a one-qubit system (with $d$ distinct levels) in $\C^d$, the computational basis includes vectors:
 \[
 \ketzero \equiv \begin{bmatrix} 1 \\ 0 \\ \vdots \\ 0 \end{bmatrix}, \quad \ketone \equiv \begin{bmatrix} 0 \\ 1 \\ \vdots \\ 0 \end{bmatrix}, \quad \cdots, \quad \ket{d-1} \equiv \begin{bmatrix} 0 \\ 0 \\ \vdots \\ 1 \end{bmatrix}
 \]
@@ -3741,7 +3747,7 @@ Generally speaking, however, $\trop(ABC) \neq \trop(CAB)$ as this is not cyclic.
 
 \begin{theorem}
     For matrices $A \in \Rmn, B \in \C_{nm}$ it holds that:
-    $$\trop(AB) = \trop{BA}.$$
+    $$\trop(AB) = \trop(BA).$$
 \end{theorem}
 
 This theorem leads to several quite unique and useful results in quantum computing. 
@@ -4493,7 +4499,77 @@ Note that the old basis vectors \(\{\ibase, \jbase\}\) are transformed into the 
 \ibase' = U\ibase, \quad \jbase' = U\jbase,
 \end{equation}
 
-Here, the matrix $U \equiv \inverse{T} = \R_\theta$ is then commonly referred to as the basis transformation matrix (or operator). The transition matrix is then the inverse of the basis transformation matrix. So therefore, transition matrix will convert the vector itself, while the basis transformation matrix will take update the basis.  
+Here, the matrix $U \equiv \inverse{T} = \R_\theta$ is then commonly referred to as the basis transformation matrix (or operator). The transition matrix is then the inverse of the basis transformation matrix. So therefore, transition matrix will convert the vector itself, while the basis transformation matrix will take update the basis. This is particularly useful in quantum computing when you represent qubit vectors in different bases, applying the Quantum Fourier Transform (QFT), and the unitary evolution of individual quantum states, which can be described as:
+
+\[
+U(t) = e^{- \frac{i}{\hbar} H t}, 
+\]
+
+where $\hbar$ is the reduced Planck constant and $H$ is the Hamiltonian of the system. For an initial state $\ket{\psi 0}$, the state at time $t$ is:
+
+\[
+\ket{\psi(t)} = U(t)\ket{\psi(0)},
+\]
+
+which exemplifies a basis transformation in quantum mechanics. Since a basis is a minimal set of vectors that spans a vector space. 
+
+\begin{definition}
+    A basis $S$, defined as
+    \[
+    S = \ketbasis{b_i} \equiv \{\ket{b_1}, \ket{b_2}, \ldots\} \in \Cn,
+    \]
+    is orthonormal if it satisfies the Kronecker delta function, mathmatically expressed as:
+    \[
+    \braket{b_i}{b_j} = \krondelta{ij} = \begin{cases}
+        1 & i = j,  \\
+        0 & i \neq j. \\
+    \end{cases}
+    \]
+    We call this basis as complete if:
+    \[
+    \sum_{i=1}^{n} \ket{b_i} \bra{b_i} = I.
+    \]
+\end{definition}
+
+\begin{theorem}
+    An orthonormal basis $V \in \Cn$ with $n$ basis vectors is complete. 
+\end{theorem}
+
+\begin{proof}
+    An intuitive way of proving this is by seeing that the $n$ basis vectors are all linearly independent with each othere, and that they by definition must complete the space of $\Cn$. Well, then any vector $\ketv \in \Cn$ can be expressed as:
+    \[
+    \ketv = \sum_{i=1}^{n} c_i \ket{b_i},
+    \] 
+    with the coefficients given by the inner product:
+    \[
+    c_i = \braket{b_i}{v}.
+    \]
+    Consider the operator:
+    \[
+    A = \sum_{j=1}^{n} \ket{b_j} \bra{b_j}.
+    \]
+    If we apply this operator to any $\ketv \in \Cn$, we get:
+    \begin{align*}
+      A \ketv &= \left(\sum_{j=1}^{n} \ket{b_j} \bra{b_j}\right)\left(\sum_{i=1}^{n} c_i \ket{b_i}\right) \\
+      &= \sum_{j=1}^{n} \sum_{i=1}^{n} c_i \ket{b_j} \bra{b_j} \ket{b_i}. \\
+    \end{align*}
+    Using the orthonormal condition, this reduces down to:
+    \begin{align*}
+      A \ketv &= \sum_{j=1}^{n} \sum_{i=1}^{n} c_i \ket{b_j} \krondelta{ij} \\
+      &= \sum_{i=1}^{n} c_i \ket{b_i} \\
+      &^= \ketv.\\
+    \end{align*}
+    This shows that $A$ acts as the identity operator $I$ on $\Cn$, showing that:
+    \[
+        \sum_{i=1}^{n} \ket{b_i} \bra{b_i} = I,
+    \]  
+    satisfying the completeness condition. 
+\end{proof}
+
+
+
+
+
 
 
 
